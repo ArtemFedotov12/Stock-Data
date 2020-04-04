@@ -1,4 +1,4 @@
-package com.example.stockdata;
+package com.start.stockdata;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.example.stockdata;
+package com.start.stockdata;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.example.stockdata.model;
+package com.start.stockdata.identity.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
