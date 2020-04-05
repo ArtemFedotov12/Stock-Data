@@ -1,5 +1,6 @@
 package com.start.stockdata.config;
 
+import com.start.stockdata.util.constants.GlobalConstants;
 import io.jsonwebtoken.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -8,20 +9,21 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static com.start.stockdata.util.constants.UriPath.*;
-
+import static com.start.stockdata.util.constants.GlobalConstants.*;
 
 @Component
 public class JwtTokekUtil {
 
     public String getUsernameFromToken(String token) {
         // Function Interface --- getString("sub");
+        Claims allClaimsFromToken = getAllClaimsFromToken(token);
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -39,7 +41,8 @@ public class JwtTokekUtil {
     //Evaluate: {sub=user2, scopes=ROLE_USER, iat=1584700835, exp=1584718835}
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(SIGNING_KEY)
+                // Very important to specify encoding
+                .setSigningKey(SIGNING_KEY.getBytes(StandardCharsets.UTF_8))
                 .parseClaimsJws(token)
                 .getBody();
     }
@@ -57,13 +60,13 @@ public class JwtTokekUtil {
                 // key - "sub"
                 .setSubject(authentication.getName())
                 //Sets a custom JWT Claims parameter value
-                .claim(AUTHORITIES_KEY, authorities)
-                .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)
+                .claim(GlobalConstants.AUTHORITIES_KEY, authorities)
+                .signWith(SignatureAlgorithm.forName(SIGNATURE_ALGORITHM), SIGNING_KEY)
                 // key - 'iat'
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 // 18000 seconds = 5 hours
                 // key - 'exp'
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_ACCESS_TOKEN_VALIDITY_MILLISECONDS))
+                .setExpiration(new Date(System.currentTimeMillis() + GlobalConstants.JWT_ACCESS_TOKEN_VALIDITY_MILLISECONDS))
                 .compact();
     }
 
@@ -74,7 +77,7 @@ public class JwtTokekUtil {
                     && !isTokenExpired(token));
     }*/
 
-    UsernamePasswordAuthenticationToken getAuthentication(final String token, final Authentication existingAuth, final UserDetails userDetails) {
+    UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
 
         final JwtParser jwtParser = Jwts.parser().setSigningKey(SIGNING_KEY);
 
@@ -83,7 +86,7 @@ public class JwtTokekUtil {
         final Claims claims = claimsJws.getBody();
 
         final Collection<GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                Arrays.stream(claims.get(GlobalConstants.AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
@@ -96,7 +99,7 @@ public class JwtTokekUtil {
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
         final Claims claims = claimsJws.getBody();
 
-        return Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+        return Arrays.stream(claims.get(GlobalConstants.AUTHORITIES_KEY).toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

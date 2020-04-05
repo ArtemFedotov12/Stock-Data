@@ -1,5 +1,6 @@
 package com.start.stockdata.config;
 
+import com.start.stockdata.util.constants.GlobalConstants;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -7,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
-import static com.start.stockdata.util.constants.UriPath.HEADER_STRING;
-import static com.start.stockdata.util.constants.UriPath.TOKEN_PREFIX_WITH_SPACE;
+import static com.start.stockdata.util.constants.GlobalConstants.*;
+
 
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -63,7 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails = this.getUserByToken(authToken);
 
             if (jwtTokenUtil.isTokenNotExpired(authToken)) {
-                UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthentication(authToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
+                UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthentication(authToken,  userDetails);
                 /**
                  * Stores additional details about the authentication request. These might be an IP
                  * address, certificate serial number etc.
@@ -81,9 +81,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private User getUserByToken(String authToken) {
-        String userName = jwtTokenUtil.getUsernameFromToken(authToken);
+        //String userName = jwtTokenUtil.getUsernameFromToken(authToken);
         Collection<GrantedAuthority> authorities = jwtTokenUtil.getAuthoritiesFromToken(authToken);
-
-       return new org.springframework.security.core.userdetails.User(userName, "", authorities);
+       return new org.springframework.security.core.userdetails.User("", "", authorities);
     }
 }
