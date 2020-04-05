@@ -2,11 +2,11 @@ package com.start.stockdata.controller;
 
 import com.start.stockdata.identity.dto.CompanyDto;
 import com.start.stockdata.service.CompanyService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,13 +19,21 @@ import static com.start.stockdata.util.constants.UriPath.COMPANIES_PATH;
 @RequiredArgsConstructor
 @RequestMapping(COMPANIES_PATH)
 @Api("Company Management System")
+@SwaggerDefinition(securityDefinition = @SecurityDefinition(
+        apiKeyAuthDefinitions = {
+                @ApiKeyAuthDefinition(key = "custom",
+                        name = "authorization",
+                        in = ApiKeyAuthDefinition.ApiKeyLocation.HEADER,
+                        description = "Bearer Authentication")}))
 public class CompanyController {
 
     private final CompanyService companyService;
 
     // Get companies by user id. Id will be taken from token
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    @ApiOperation("Get all user's companies")
+    @ApiOperation(authorizations = @Authorization("custom"),
+            value ="Get all user's companies")
     public String getUserCompanies() {
 
         return "All companies";

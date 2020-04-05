@@ -19,8 +19,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   /*  @Qualifier("userDetailsService")
-    private final UserDetailsService userDetailsService;
-    private final   JwtTokekUtil jwtTokenUtil;*/
+    private final UserDetailsService userDetailsService;*/
+    private final   JwtTokekUtil jwtTokenUtil;
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
 /*    public WebSecurityConfig(UserDetailsService userDetailsService, JwtTokekUtil jwtTokenUtil, JwtAuthenticationEntryPoint unauthorizedHandler) {
@@ -29,11 +29,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.unauthorizedHandler = unauthorizedHandler;
     }*/
 
-    public WebSecurityConfig(JwtAuthenticationEntryPoint unauthorizedHandler) {
+    public WebSecurityConfig(JwtTokekUtil jwtTokenUtil, JwtAuthenticationEntryPoint unauthorizedHandler) {
+        this.jwtTokenUtil = jwtTokenUtil;
         this.unauthorizedHandler = unauthorizedHandler;
     }
 
-/*    @Override
+  /*    @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
@@ -62,15 +63,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/*").permitAll()
-                .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**","/hello").permitAll()
+                .antMatchers("/hello").permitAll()
+                //swagger configuration
+                .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .anyRequest()
                 .authenticated()
 
                     .and()
-                /*.apply(securityConfigurerAdapter())
+                .apply(securityConfigurerAdapter())
 
-                    .and()*/
+                    .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler)
 
@@ -88,9 +90,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-/*    private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(userDetailsService,jwtTokenUtil);
-    }*/
+    private JWTConfigurer securityConfigurerAdapter() {
+        return new JWTConfigurer(/*userDetailsService,*/jwtTokenUtil);
+    }
 
 
 }
