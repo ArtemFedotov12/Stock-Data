@@ -9,11 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import static com.start.stockdata.util.constants.GlobalConstants.*;
@@ -21,10 +18,13 @@ import static com.start.stockdata.util.constants.GlobalConstants.*;
 @Component
 public class JwtTokekUtil {
 
-    public String getUsernameFromToken(String token) {
-        // Function Interface --- getString("sub");
-        Claims allClaimsFromToken = getAllClaimsFromToken(token);
-        return getClaimFromToken(token, Claims::getSubject);
+    public Long getUserIdFromToken(String token) {
+        Optional<Long> optionalUserId = Optional.ofNullable(getClaimFromToken(token, x->x.get(USER_ID,Long.class)));
+        if(!optionalUserId.isPresent()){
+            throw new IllegalArgumentException(USER_ID + " doesn't present in the token");
+        } else {
+            return optionalUserId.get();
+        }
     }
 
     public Date getExpirationDateFromToken(String token) {
@@ -42,9 +42,13 @@ public class JwtTokekUtil {
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
                 // Very important to specify encoding
-                .setSigningKey(SIGNING_KEY.getBytes(StandardCharsets.UTF_8))
+                .setSigningKey(getSigningKey())
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    private byte[] getSigningKey() {
+        return SIGNING_KEY.getBytes(StandardCharsets.UTF_8);
     }
 
     public boolean isTokenNotExpired(String token) {
@@ -60,13 +64,13 @@ public class JwtTokekUtil {
                 // key - "sub"
                 .setSubject(authentication.getName())
                 //Sets a custom JWT Claims parameter value
-                .claim(GlobalConstants.AUTHORITIES_KEY, authorities)
-                .signWith(SignatureAlgorithm.forName(SIGNATURE_ALGORITHM), SIGNING_KEY)
+                .claim(GlobalConstants.ROLES, authorities)
+                .signWith(SignatureAlgorithm.forName(SIGNATURE_ALGORITHM), getSigningKey())
                 // key - 'iat'
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 // 18000 seconds = 5 hours
                 // key - 'exp'
-                .setExpiration(new Date(System.currentTimeMillis() + GlobalConstants.JWT_ACCESS_TOKEN_VALIDITY_MILLISECONDS))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_ACCESS_TOKEN_VALIDITY_MILLISECONDS))
                 .compact();
     }
 
@@ -79,15 +83,14 @@ public class JwtTokekUtil {
 
     UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
 
-        final JwtParser jwtParser = Jwts.parser().setSigningKey(SIGNING_KEY);
+        final JwtParser jwtParser = Jwts.parser().setSigningKey(getSigningKey());
 
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
 
         final Claims claims = claimsJws.getBody();
-
-        final Collection<GrantedAuthority> authorities =
-                Arrays.stream(claims.get(GlobalConstants.AUTHORITIES_KEY).toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
+        List<String> roles = (ArrayList)claims.get(ROLES);
+        final Collection<GrantedAuthority> authorities = roles.stream()
+                        .map(x->new SimpleGrantedAuthority("ROLE_" + x))
                         .collect(Collectors.toList());
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
@@ -95,13 +98,21 @@ public class JwtTokekUtil {
 
     public Collection<GrantedAuthority> getAuthoritiesFromToken(String token) {
 
-        final JwtParser jwtParser = Jwts.parser().setSigningKey(SIGNING_KEY);
+        final JwtParser jwtParser = Jwts.parser().setSigningKey(getSigningKey());
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
         final Claims claims = claimsJws.getBody();
 
-        return Arrays.stream(claims.get(GlobalConstants.AUTHORITIES_KEY).toString().split(","))
+        return Arrays.stream(claims.get(ROLES).toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
 
+    public String getUserEmailFromToken(String token) {
+        Optional<String> optionalUserId = Optional.ofNullable(getClaimFromToken(token, x->x.get(EMAIL,String.class)));
+        if(!optionalUserId.isPresent()){
+            throw new IllegalArgumentException(EMAIL + " doesn't present in the token");
+        } else {
+            return optionalUserId.get();
+        }
+    }
 }

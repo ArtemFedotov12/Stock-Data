@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CompanyRepo extends AbstractRemovableEntityRepository<Company>, JpaSpecificationExecutor<Company> {
-    List<Company> findAllById(Long id);
+    //@Query(value = "select * from company where user_id = :userId",nativeQuery = true)
+    List<Company> findAllByUserId(/*@Param("userId")*/ Long userId);
 }

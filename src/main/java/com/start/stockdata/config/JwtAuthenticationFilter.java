@@ -1,6 +1,6 @@
 package com.start.stockdata.config;
 
-import com.start.stockdata.util.constants.GlobalConstants;
+import com.start.stockdata.config.userDetails.StockUserInfo;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,25 +39,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         String header = req.getHeader(HEADER_STRING);
-        String username = null;
+        Long userId = null;
         String authToken = null;
         if (header != null && header.startsWith(TOKEN_PREFIX_WITH_SPACE)) {
             authToken = header.replace(TOKEN_PREFIX_WITH_SPACE,"");
             try {
               /*   first it will be getAllClaimsFromToken() and check sign!!!!
                  then claims.getString("sub");*/
-                username = jwtTokenUtil.getUsernameFromToken(authToken);
+                userId = jwtTokenUtil.getUserIdFromToken(authToken);
             } catch (IllegalArgumentException e) {
-                logger.error("an error occured during getting username from token", e);
+                logger.error("an error occurred during getting userId from token", e);
             } catch (ExpiredJwtException e) {
                 logger.warn("the token is expired and not valid anymore", e);
             } catch(SignatureException e){
-                logger.error("Authentication Failed. Username or Password not valid.");
+                logger.error("JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.", e);
             }
         } else {
             logger.warn("couldn't find bearer string, will ignore the header");
         }
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             // load user from db(bad approach)
             UserDetails userDetails = this.getUserByToken(authToken);
@@ -72,7 +72,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                  * if not used
                  */
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
-                logger.info("authenticated user " + username + ", setting security context");
+                logger.info("authenticated user " + userId + ", setting security context");
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
@@ -81,8 +81,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private User getUserByToken(String authToken) {
-        //String userName = jwtTokenUtil.getUsernameFromToken(authToken);
+        Long userIdFromToken = jwtTokenUtil.getUserIdFromToken(authToken);
+        String userEmailFromToken = jwtTokenUtil.getUserEmailFromToken(authToken);
         Collection<GrantedAuthority> authorities = jwtTokenUtil.getAuthoritiesFromToken(authToken);
-       return new org.springframework.security.core.userdetails.User("", "", authorities);
+       return new StockUserInfo(userIdFromToken, userEmailFromToken, authorities);
     }
 }

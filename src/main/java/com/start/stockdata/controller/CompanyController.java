@@ -30,13 +30,12 @@ public class CompanyController {
     private final CompanyService companyService;
 
     // Get companies by user id. Id will be taken from token
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('admin')")
     @GetMapping
     @ApiOperation(authorizations = @Authorization("custom"),
-            value ="Get all user's companies")
-    public String getUserCompanies() {
-
-        return "All companies";
+            value = "Get all user's companies")
+    public ResponseEntity<List<CompanyDto>> getUserCompanies() {
+        return new ResponseEntity<>(companyService.findAllByUserId(), HttpStatus.OK);
     }
 
     @GetMapping({"id"})

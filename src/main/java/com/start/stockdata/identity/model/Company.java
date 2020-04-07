@@ -17,16 +17,16 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
-public class Company extends AbstractRemovableEntity{
+public class Company extends AbstractRemovableEntity {
 
     @NotBlank(message = "Please provide a name")
     @Column(name = "name")
     private String name;
 
     @NotNull(message = "Please provide company's type")
-    @Convert(converter = CompanyTypeAttributeConverter.class)
+    //@Convert(converter = CompanyTypeAttributeConverter.class)
     @Column(name = "company_type")
-    private CompanyType companyType;
+    private String companyType;
 
     @NotNull(message = "Please specify 'id' of the company's owner")
     @Column(name = "user_id")

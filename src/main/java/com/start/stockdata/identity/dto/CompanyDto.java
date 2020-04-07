@@ -1,7 +1,6 @@
 package com.start.stockdata.identity.dto;
 
 import com.start.stockdata.util.constraints.Company;
-import com.start.stockdata.util.enums.CompanyType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -11,13 +10,14 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ApiModel("Model, contains information about company")
-public class CompanyDto implements Serializable {
+public class CompanyDto extends AbstractEntityDto {
+
+    private static final long serialVersionUID = 2435885082115582596L;
 
     @NotBlank
     @Size(max = 255)

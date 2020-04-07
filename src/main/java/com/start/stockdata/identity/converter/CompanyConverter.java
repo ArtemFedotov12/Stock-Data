@@ -16,7 +16,7 @@ public class CompanyConverter implements IConverter<Company, CompanyDto> {
                 .map(companyDto -> {
                     Company company = new Company();
                     company.setName(companyDto.getName());
-                    company.setCompanyType(CompanyType.getCompanyTypeByValue(companyDto.getCompanyType()));
+                    company.setCompanyType(companyDto.getCompanyType());
                     company.setUserId(companyDto.getUserId());
                     return company;
                 })
@@ -30,7 +30,7 @@ public class CompanyConverter implements IConverter<Company, CompanyDto> {
                 .map(companyEntity -> {
                     CompanyDto companyDto = new CompanyDto();
                     companyDto.setName(companyEntity.getName());
-                    companyDto.setCompanyType(companyEntity.getCompanyType().getValue());
+                    companyDto.setCompanyType(companyEntity.getCompanyType());
                     companyDto.setUserId(companyEntity.getUserId());
                     return companyDto;
                 })

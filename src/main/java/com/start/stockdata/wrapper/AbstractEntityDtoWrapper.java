@@ -1,6 +1,7 @@
 package com.start.stockdata.wrapper;
 
 import com.start.stockdata.identity.converter.IConverter;
+import com.start.stockdata.identity.dto.AbstractEntityDto;
 import com.start.stockdata.identity.model.AbstractEntity;
 import com.start.stockdata.repository.AbstractEntityRepository;
 import org.springframework.data.domain.Page;
@@ -9,12 +10,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class AbstractEntityDtoWrapper<E extends AbstractEntity, D> {
+public abstract class AbstractEntityDtoWrapper<E extends AbstractEntity, D extends AbstractEntityDto, R extends AbstractEntityRepository<E>> {
 
     protected final IConverter<E, D> converter;
-    protected final AbstractEntityRepository<E> repository;
+    protected final R repository;
 
-    public AbstractEntityDtoWrapper(IConverter<E, D> converter, AbstractEntityRepository<E> repository) {
+    public AbstractEntityDtoWrapper(IConverter<E, D> converter, R repository) {
         this.converter = converter;
         this.repository = repository;
     }
