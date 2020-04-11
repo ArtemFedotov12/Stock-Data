@@ -1,4 +1,4 @@
-package com.start.stockdata.controller;
+package com.start.stockdata.rest.controller;
 
 import com.google.gson.Gson;
 import com.start.stockdata.StockDataApplication;

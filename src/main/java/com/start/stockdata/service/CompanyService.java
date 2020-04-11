@@ -1,6 +1,7 @@
 package com.start.stockdata.service;
 
 import com.start.stockdata.config.userDetails.StockUserInfo;
+import com.start.stockdata.exception.exception.UserByIdNotFoundException;
 import com.start.stockdata.identity.dto.CompanyDto;
 import com.start.stockdata.wrapper.CompanyWrapper;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class CompanyService {
     public List<CompanyDto> findAllByUserId() {
         Optional<Long> optionalUserId = getUserIdFromSecurityContext();
         if (!optionalUserId.isPresent()) {
-            throw  new RuntimeException("ss");
+            throw  new UserByIdNotFoundException();
         } else {
             return  companyWrapper.findAllByUserId(optionalUserId.get());
         }

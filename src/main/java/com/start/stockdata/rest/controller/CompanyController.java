@@ -1,4 +1,4 @@
-package com.start.stockdata.controller;
+package com.start.stockdata.rest.controller;
 
 import com.start.stockdata.identity.dto.CompanyDto;
 import com.start.stockdata.service.CompanyService;
@@ -30,7 +30,7 @@ public class CompanyController {
     private final CompanyService companyService;
 
     // Get companies by user id. Id will be taken from token
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     @ApiOperation(authorizations = @Authorization("custom"),
             value = "Get all user's companies")

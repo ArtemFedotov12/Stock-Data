@@ -83,15 +83,7 @@ public class JwtTokekUtil {
 
     UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
 
-        final JwtParser jwtParser = Jwts.parser().setSigningKey(getSigningKey());
-
-        final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
-
-        final Claims claims = claimsJws.getBody();
-        List<String> roles = (ArrayList)claims.get(ROLES);
-        final Collection<GrantedAuthority> authorities = roles.stream()
-                        .map(x->new SimpleGrantedAuthority("ROLE_" + x))
-                        .collect(Collectors.toList());
+        Collection<GrantedAuthority> authorities = getAuthoritiesFromToken(token);
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
@@ -102,7 +94,9 @@ public class JwtTokekUtil {
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
         final Claims claims = claimsJws.getBody();
 
-        return Arrays.stream(claims.get(ROLES).toString().split(","))
+        List<String> authorities = (ArrayList<String>)claims.get(ROLES);
+
+        return authorities.stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
