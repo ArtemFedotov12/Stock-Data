@@ -6,5 +6,6 @@ import lombok.experimental.UtilityClass;
 public class UriPath {
 
     public static final String COMPANIES_PATH = "/companies";
+    public static final String ADMIN_PATH = "/admin";
 
 }

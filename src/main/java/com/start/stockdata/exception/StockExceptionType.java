@@ -13,7 +13,6 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 @Getter
 public enum  StockExceptionType {
 
-
     USER_BY_ID_NOT_FOUND("STOCK-001", BAD_REQUEST),
     UNDEFINED_EXCEPTION("STOCK-500", INTERNAL_SERVER_ERROR);
 

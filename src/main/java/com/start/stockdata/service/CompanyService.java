@@ -30,6 +30,10 @@ public class CompanyService {
 
     }
 
+    public List<CompanyDto> findAll() {
+        return companyWrapper.findAll();
+    }
+
     private Optional<Long> getUserIdFromSecurityContext() {
         return Optional.ofNullable(
                     ((StockUserInfo) SecurityContextHolder

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,11 +27,12 @@ public class CompanyDto extends AbstractEntityDto {
 
     @NotBlank(message = "company's type is empty or null")
     @Size(max = 255)
+    @Min(2)
     @Company(message = "company's type must be from specified range of values")
-    @ApiModelProperty(value = "Company's type. Constraints: @NotEmpty, @Size(max = 255)", required = true)
+    @ApiModelProperty(value = "Company's type. Constraints: @NotBlank, @Size(max = 255)", required = true)
     private String companyType;
 
     @NotNull
-    @ApiModelProperty(value = "User's id. Constraints: @NotEmpty", required = true)
+    @ApiModelProperty(value = "User's id. Constraints: @NotNull", required = true)
     private Long userId;
 }
