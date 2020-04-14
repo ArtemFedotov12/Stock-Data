@@ -12,11 +12,12 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = "id")
-public abstract class AbstractEntityDto implements Serializable {
+@EqualsAndHashCode(exclude = "id", callSuper = false)
+public abstract class AbstractEntityDto extends AbstractSerializableDto {
 
     private static final long serialVersionUID = 1196865354332323549L;
 
     @ApiModelProperty("Unique identifier of the object")
     private Long id;
+
 }

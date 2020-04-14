@@ -1,5 +1,6 @@
 package com.start.stockdata.rest.controller;
 
+import com.start.stockdata.identity.dto.CompanyCreationDto;
 import com.start.stockdata.identity.dto.CompanyDto;
 import com.start.stockdata.service.CompanyService;
 import io.swagger.annotations.*;
@@ -9,7 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 import static com.start.stockdata.util.constants.UriPath.COMPANIES_PATH;
@@ -48,8 +48,8 @@ public class CompanyController {
 
     @PostMapping
     @ApiOperation("Group creation")
-    public ResponseEntity<CompanyDto> create(@Valid @RequestBody CompanyDto companyDto) {
-        CompanyDto result = companyService.save(companyDto);
+    public ResponseEntity<CompanyDto> create(@Valid @RequestBody CompanyCreationDto companyCreationDto) {
+        CompanyDto result = companyService.save(companyCreationDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

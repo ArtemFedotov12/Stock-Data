@@ -1,6 +1,6 @@
 package com.start.stockdata.wrapper;
 
-import com.start.stockdata.identity.converter.IConverter;
+import com.start.stockdata.identity.converter.entity_to_dto.EntityDtoConverter;
 import com.start.stockdata.identity.dto.AbstractEntityDto;
 import com.start.stockdata.identity.model.AbstractEntity;
 import com.start.stockdata.repository.AbstractEntityRepository;
@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractEntityDtoWrapper<E extends AbstractEntity, D extends AbstractEntityDto, R extends AbstractEntityRepository<E>> {
 
-    protected final IConverter<E, D> converter;
+    protected final EntityDtoConverter<E, D> converter;
     protected final R repository;
 
-    public AbstractEntityDtoWrapper(IConverter<E, D> converter, R repository) {
+    public AbstractEntityDtoWrapper(EntityDtoConverter<E, D> converter, R repository) {
         this.converter = converter;
         this.repository = repository;
     }

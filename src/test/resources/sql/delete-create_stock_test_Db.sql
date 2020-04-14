@@ -1,0 +1,1 @@
+drop DATABASE if exists stock_test; create DATABASE stock_test;

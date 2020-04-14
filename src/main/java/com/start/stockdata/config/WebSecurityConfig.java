@@ -15,7 +15,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 //@EnableGlobalMethodSecurity(securedEnabled = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   /*  @Qualifier("userDetailsService")
@@ -28,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.jwtTokenUtil = jwtTokenUtil;
         this.unauthorizedHandler = unauthorizedHandler;
     }*/
+
 
     public WebSecurityConfig(JwtTokekUtil jwtTokenUtil, JwtAuthenticationEntryPoint unauthorizedHandler) {
         this.jwtTokenUtil = jwtTokenUtil;
@@ -53,6 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public JwtAuthenticationFilter authenticationTokenFilterBean() {
         return new JwtAuthenticationFilter(userDetailsService,jwtTokenUtil);
     }*/
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

@@ -17,7 +17,7 @@ public class StockApplicationExceptionHandler implements ApplicationExceptionHan
         return new ResponseEntity<>(StockExceptionWrapper.wrap(localizedMessage, ex.getCode()), ex.getStatus());*/
     @Override
     public ResponseEntity<StockExceptionWrapper> handleException(StockException ex, HttpServletRequest request) {
-        log.warn(ex.getMessage(),ex);
+        log.error(ex.getMessage(),ex);
         return new ResponseEntity<>(StockExceptionWrapper.wrap(ex.getMessage(), ex.getCode()), ex.getStatus());
     }
 

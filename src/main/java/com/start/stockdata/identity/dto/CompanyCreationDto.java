@@ -1,25 +1,27 @@
 package com.start.stockdata.identity.dto;
 
-import com.start.stockdata.util.constraints.Company;
-import com.start.stockdata.util.enums.CompanyType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-@ApiModel("Model, contains information about company")
-public class CompanyDto extends AbstractEntityDto {
+@ApiModel("Model, contains information about company for creation")
+@Valid
+public class CompanyCreationDto extends AbstractSerializableDto{
 
-    private static final long serialVersionUID = 2435885082115582596L;
+    private static final long serialVersionUID = 6771378425908092730L;
 
     @NotBlank
     @Size(max = 255)
@@ -28,18 +30,18 @@ public class CompanyDto extends AbstractEntityDto {
 
     @NotEmpty
     @ApiModelProperty(value = "Company's types. Constraints: @NotEmpty", required = true)
-    private Set<CompanyTypeDto> types;
+    @Valid
+    private Set<CompanyTypeCreationDto> types;
 
     @NotEmpty
     @ApiModelProperty(value = "Company's fields. Constraints: @NotEmpty", required = true)
-    private Set<CompanyFieldDto> fields;
+    @Valid
+    private Set<CompanyFieldCreationDto> fields;
 
     @NotEmpty
     @ApiModelProperty(value = "Company's factors. Constraints: @NotEmpty", required = true)
-    private Set<CompanyFactorDto> factors;
+    @Valid
+    private Set<CompanyFactorCreationDto> factors;
 
-    @NotNull
-    @ApiModelProperty(value = "User's id. Company belongs to this user. Constraints: @NotNull", required = true)
-    private Long userId;
 
 }
