@@ -1,7 +1,5 @@
-package com.start.stockdata.identity.dto;
+package com.start.stockdata.identity.dto.response;
 
-import com.start.stockdata.util.constraints.Company;
-import com.start.stockdata.util.enums.CompanyType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
@@ -17,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @ApiModel("Model, contains information about company")
-public class CompanyDto extends AbstractEntityDto {
+public class CompanyDto extends AbstractResponseDto {
 
     private static final long serialVersionUID = 2435885082115582596L;
 

@@ -1,6 +1,6 @@
 package com.start.stockdata.rest.controller;
 
-import com.start.stockdata.identity.dto.CompanyDto;
+import com.start.stockdata.identity.dto.response.CompanyDto;
 import com.start.stockdata.service.CompanyService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;

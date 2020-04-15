@@ -1,6 +1,6 @@
 package com.start.stockdata.identity.converter.entity_to_dto;
 
-import com.start.stockdata.identity.dto.CompanyFactorDto;
+import com.start.stockdata.identity.dto.response.CompanyFactorDto;
 import com.start.stockdata.identity.model.CompanyFactor;
 import org.springframework.stereotype.Component;
 

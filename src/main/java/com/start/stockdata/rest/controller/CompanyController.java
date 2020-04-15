@@ -1,7 +1,7 @@
 package com.start.stockdata.rest.controller;
 
-import com.start.stockdata.identity.dto.CompanyCreationDto;
-import com.start.stockdata.identity.dto.CompanyDto;
+import com.start.stockdata.identity.dto.request.CompanyRequestDto;
+import com.start.stockdata.identity.dto.response.CompanyDto;
 import com.start.stockdata.service.CompanyService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -48,7 +48,7 @@ public class CompanyController {
 
     @PostMapping
     @ApiOperation("Group creation")
-    public ResponseEntity<CompanyDto> create(@Valid @RequestBody CompanyCreationDto companyCreationDto) {
+    public ResponseEntity<CompanyDto> create(@Valid @RequestBody CompanyRequestDto companyCreationDto) {
         CompanyDto result = companyService.save(companyCreationDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

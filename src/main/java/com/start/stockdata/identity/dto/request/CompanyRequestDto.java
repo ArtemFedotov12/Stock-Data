@@ -1,16 +1,14 @@
-package com.start.stockdata.identity.dto;
+package com.start.stockdata.identity.dto.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -19,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ApiModel("Model, contains information about company for creation")
 @Valid
-public class CompanyCreationDto extends AbstractSerializableDto{
+public class CompanyRequestDto extends AbstractRequestDto {
 
     private static final long serialVersionUID = 6771378425908092730L;
 
@@ -31,17 +29,17 @@ public class CompanyCreationDto extends AbstractSerializableDto{
     @NotEmpty
     @ApiModelProperty(value = "Company's types. Constraints: @NotEmpty", required = true)
     @Valid
-    private Set<CompanyTypeCreationDto> types;
+    private Set<CompanyTypeRequestDto> types;
 
     @NotEmpty
     @ApiModelProperty(value = "Company's fields. Constraints: @NotEmpty", required = true)
     @Valid
-    private Set<CompanyFieldCreationDto> fields;
+    private Set<CompanyFieldRequestDto> fields;
 
     @NotEmpty
     @ApiModelProperty(value = "Company's factors. Constraints: @NotEmpty", required = true)
     @Valid
-    private Set<CompanyFactorCreationDto> factors;
+    private Set<CompanyFactorRequestDto> factors;
 
 
 }

@@ -6,7 +6,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.query.Param;
 
 @NoRepositoryBean
-public interface AbstractRemovableEntityRepository<T extends AbstractRemovableEntity> extends AbstractEntityRepository<T> {
+public interface AbstractRemovableEntityRepo<T extends AbstractRemovableEntity> extends AbstractEntityRepo<T> {
     @Query("select count(m) from #{#entityName} m where :includeDeleted = true or m.removalDate is null ")
     Long count(@Param("includeDeleted") boolean includeDeleted);
 }

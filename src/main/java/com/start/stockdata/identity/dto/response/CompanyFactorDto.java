@@ -1,4 +1,4 @@
-package com.start.stockdata.identity.dto;
+package com.start.stockdata.identity.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import lombok.EqualsAndHashCode;
@@ -13,10 +13,10 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@ApiModel("Model, contains information for creation company's fields")
-public class CompanyFieldCreationDto extends AbstractSerializableDto {
+@ApiModel("Model, contains information about company's field")
+public class CompanyFactorDto extends AbstractResponseDto {
 
-    private static final long serialVersionUID = 7856897212698563490L;
+    private static final long serialVersionUID = 8002179021299884086L;
 
     @Size(max = 255)
     @NotBlank

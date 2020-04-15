@@ -1,38 +1,42 @@
 package com.start.stockdata.wrapper;
 
 import com.start.stockdata.identity.converter.entity_to_dto.EntityDtoConverter;
-import com.start.stockdata.identity.dto.AbstractEntityDto;
+import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.identity.model.AbstractEntity;
-import com.start.stockdata.repository.AbstractEntityRepository;
+import com.start.stockdata.repository.AbstractEntityRepo;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class AbstractEntityDtoWrapper<E extends AbstractEntity, D extends AbstractEntityDto, R extends AbstractEntityRepository<E>> {
+public abstract class AbstractEntityDtoWrapper<
+        E extends AbstractEntity,
+        RS extends AbstractResponseDto,
+        R extends AbstractEntityRepo<E>
+        > {
 
-    protected final EntityDtoConverter<E, D> converter;
+    protected final EntityDtoConverter<E, RS> converter;
     protected final R repository;
 
-    public AbstractEntityDtoWrapper(EntityDtoConverter<E, D> converter, R repository) {
+    public AbstractEntityDtoWrapper(EntityDtoConverter<E, RS> converter, R repository) {
         this.converter = converter;
         this.repository = repository;
     }
 
-    public D save(D dto) {
+    public RS save(RS dto) {
         return converter.toDto(repository.save(converter.toEntity(dto)));
     }
 
-    public void update(D dto) {
+    public void update(RS dto) {
         repository.save(converter.toEntity(dto));
     }
 
-    public D findById(Long id) {
+    public RS findById(Long id) {
         return repository.findById(id).map(converter::toDto).orElse(null);
     }
 
-    public List<D> findAll() {
+    public List<RS> findAll() {
         return convert(repository.findAll());
     }
 
@@ -44,18 +48,18 @@ public abstract class AbstractEntityDtoWrapper<E extends AbstractEntity, D exten
         return repository.count();
     }
 
-    protected Set<D> convert(Set<E> entitySet) {
+    protected Set<RS> convert(Set<E> entitySet) {
         return entitySet.stream()
                 .map(converter::toDto)
                 .collect(Collectors.toSet());
     }
 
-    protected Page<D> convert(Page<E> entitySet) {
+    protected Page<RS> convert(Page<E> entitySet) {
         return entitySet
                 .map(converter::toDto);
     }
 
-    protected List<D> convert(List<E> entityList) {
+    protected List<RS> convert(List<E> entityList) {
         return entityList.stream()
                 .map(converter::toDto)
                 .collect(Collectors.toList());

@@ -1,15 +1,11 @@
 package com.start.stockdata.service;
 
-import com.start.stockdata.config.userDetails.StockUserInfo;
 import com.start.stockdata.exception.exception.UserByIdNotFoundException;
-import com.start.stockdata.identity.converter.creation_dto_to_simple_dto.CompanyCreationDtoConverter;
-import com.start.stockdata.identity.dto.CompanyCreationDto;
-import com.start.stockdata.identity.dto.CompanyDto;
+import com.start.stockdata.identity.converter.creation_dto_to_simple_dto.CompanyRequestConverter;
+import com.start.stockdata.identity.dto.request.CompanyRequestDto;
+import com.start.stockdata.identity.dto.response.CompanyDto;
 import com.start.stockdata.wrapper.CompanyWrapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,16 +15,16 @@ import static com.start.stockdata.util.SecurityContextUtil.getUserIdFromSecurity
 @Service
 public class CompanyService {
     private final CompanyWrapper companyWrapper;
-    private final CompanyCreationDtoConverter companyCreationDtoConverter;
+    private final CompanyRequestConverter companyRequestConverter;
 
-    public CompanyService(CompanyWrapper companyWrapper, CompanyCreationDtoConverter companyCreationDtoConverter) {
+    public CompanyService(CompanyWrapper companyWrapper, CompanyRequestConverter companyRequestConverter) {
         this.companyWrapper = companyWrapper;
-        this.companyCreationDtoConverter = companyCreationDtoConverter;
+        this.companyRequestConverter = companyRequestConverter;
     }
 
 
-    public CompanyDto save(CompanyCreationDto companyCreationDto) {
-        CompanyDto companyDto = companyCreationDtoConverter.convert(companyCreationDto);
+    public CompanyDto save(CompanyRequestDto companyCreationDto) {
+        CompanyDto companyDto = companyRequestConverter.convert(companyCreationDto);
 
         Optional<Long> optionalUserId = getUserIdFromSecurityContext();
 
