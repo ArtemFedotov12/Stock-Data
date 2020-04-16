@@ -30,9 +30,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         this.applicationExceptionHandler = applicationExceptionHandler;
     }
 
-   /*  error handle for @Valid
-    If the bean validation is failed, it will trigger a MethodArgumentNotValidException.
-    By default, Spring will send back an HTTP status 400 Bad Request, but no error detail.*/
+    /*  error handle for @Valid
+     If the bean validation is failed, it will trigger a MethodArgumentNotValidException.
+     By default, Spring will send back an HTTP status 400 Bad Request, but no error detail.*/
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   WebRequest request) {
 
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        body.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         body.put("status", status.value());
         body.put("reasonPhrase", status.getReasonPhrase());
         //Get all errors
@@ -74,12 +74,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<StockExceptionWrapper> handleError(Throwable ex, HttpServletRequest request) {
-        return applicationExceptionHandler.handleException(new UndefinedException(ex),request);
+        return applicationExceptionHandler.handleException(new UndefinedException(ex), request);
+    }
+
+    @ExceptionHandler(StockException.class)
+    public ResponseEntity<StockExceptionWrapper> handleError(StockException ex, HttpServletRequest request) {
+        return applicationExceptionHandler.handleException(ex, request);
     }
 
     @ExceptionHandler(UserByIdNotFoundException.class)
     public ResponseEntity<StockExceptionWrapper> handleError(UserByIdNotFoundException ex, HttpServletRequest request) {
-        return applicationExceptionHandler.handleException(ex,request);
+        return applicationExceptionHandler.handleException(ex, request);
     }
 
 

@@ -5,35 +5,37 @@ import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.rest.response.LongResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
-@Validated
 public interface StockGlobalApi<RQ extends AbstractRequestDto, RS extends AbstractResponseDto> {
 
     ResponseEntity<RS> add(
-            final RQ requestDto
+            @Valid @RequestBody RQ requestDto
     );
 
     ResponseEntity<RS> saveOrUpdate(
-             Long id,
-             RQ requestDto
+             @PathVariable("id") Long id,
+             @Valid @RequestBody RQ requestDto
     );
 
     ResponseEntity<RS> update(
-             Long id,
-             RQ requestDto
+            @PathVariable("id") Long id,
+            @Valid @RequestBody RQ requestDto
     );
 
     ResponseEntity<RS> delete(
-            final Long id
+            @PathVariable("id") final Long id
     );
 
     ResponseEntity<RS> getById(
-            final Long id
+            @PathVariable("id") final Long id
     );
 
-    List<RS> findAll(
+/*    List<RS> findAll(
             final int page,
             final int limit
     );
@@ -43,7 +45,7 @@ public interface StockGlobalApi<RQ extends AbstractRequestDto, RS extends Abstra
             final String attribute,
             final int page,
             final int limit
-    );
+    );*/
 
     ResponseEntity<List<RS>> findAll();
 

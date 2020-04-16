@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class StockApplicationExceptionHandler implements ApplicationExceptionHandler<StockExceptionWrapper, StockException> {
 
-   /* final String localizedMessage = localizedMessageResolver.getLocalizedMessage(ex, request);
-        log.warn(localizedMessage, ex);
-        return new ResponseEntity<>(StockExceptionWrapper.wrap(localizedMessage, ex.getCode()), ex.getStatus());*/
+    /* final String localizedMessage = localizedMessageResolver.getLocalizedMessage(ex, request);
+         log.warn(localizedMessage, ex);
+         return new ResponseEntity<>(StockExceptionWrapper.wrap(localizedMessage, ex.getCode()), ex.getStatus());*/
     @Override
     public ResponseEntity<StockExceptionWrapper> handleException(StockException ex, HttpServletRequest request) {
-        log.error(ex.getMessage(),ex);
+        log.error(ex.getMessage(), ex);
         return new ResponseEntity<>(StockExceptionWrapper.wrap(ex.getMessage(), ex.getCode()), ex.getStatus());
     }
 

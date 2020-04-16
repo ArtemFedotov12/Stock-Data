@@ -41,5 +41,4 @@ public class CompanyRequestDto extends AbstractRequestDto {
     @Valid
     private Set<CompanyFactorRequestDto> factors;
 
-
 }

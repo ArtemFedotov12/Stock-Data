@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -18,6 +19,7 @@ public class CompanyTypeRequestDto extends AbstractRequestDto {
     private static final long serialVersionUID = 5385003206151795200L;
 
     @Size(max = 255)
+    @NotBlank
     private String type;
 
 }

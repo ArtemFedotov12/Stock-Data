@@ -5,11 +5,9 @@ import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.rest.response.LongResponse;
 import com.start.stockdata.service.AbstractService;
-import com.sun.istack.NotNull;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -39,7 +37,7 @@ public class AbstractController<
             notes = "Method allow to add entity"
     )
     @PostMapping
-    public ResponseEntity<RS> add(@Valid @RequestBody final RQ requestDto) {
+    public ResponseEntity<RS> add(final RQ requestDto) {
         return new ResponseEntity<>(service.save(requestDto), HttpStatus.OK);
     }
 
@@ -52,7 +50,6 @@ public class AbstractController<
     public ResponseEntity<RS> saveOrUpdate(@PathVariable("id") final Long id,
                                            @Valid @RequestBody final RQ requestDto) {
         return new ResponseEntity<>(null, HttpStatus.OK);
-
     }
 
     @ApiOperation(
@@ -70,7 +67,7 @@ public class AbstractController<
             notes = "Removing an entity by a given unique identifier"
     )
     @DeleteMapping("{id}")
-    public ResponseEntity<RS> delete(@PathVariable("id") @NotNull final Long id) {
+    public ResponseEntity<RS> delete(@PathVariable("id") final Long id) {
         return new ResponseEntity<>(service.delete(id), HttpStatus.OK);
     }
 
@@ -84,15 +81,6 @@ public class AbstractController<
         return null;
     }
 
-    @Override
-    public List<RS> findAll(int page, int limit) {
-        return null;
-    }
-
-    @Override
-    public List<RS> findAll(String order, String attribute, int page, int limit) {
-        return null;
-    }
 
     @ApiOperation(
             value = "Find all entities",
@@ -105,7 +93,8 @@ public class AbstractController<
 
 
     @Override
-    public ResponseEntity<LongResponse> count(boolean includeDeleted) {
+    public ResponseEntity<LongResponse> count(
+            @RequestParam(value = "includeDeleted", defaultValue = "false") final boolean includeDeleted) {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
