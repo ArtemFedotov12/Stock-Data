@@ -1,7 +1,7 @@
 package com.start.stockdata.smoke;
 
 import com.start.stockdata.StockDataApplication;
-import com.start.stockdata.rest.controller.AdminController;
+import com.start.stockdata.rest.controller.admin.AdminController;
 import com.start.stockdata.rest.controller.CompanyController;
 import org.junit.Test;
 import org.junit.runner.RunWith;

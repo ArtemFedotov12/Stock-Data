@@ -4,6 +4,7 @@ import com.start.stockdata.exception.StockExceptionType;
 import org.springframework.http.HttpStatus;
 
 public abstract class StockException extends RuntimeException {
+
     private static final long serialVersionUID = 782506404968583262L;
 
     public StockException(String message) {

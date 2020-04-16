@@ -20,7 +20,7 @@ import static com.start.stockdata.util.constants.UriPath.COMPANIES_PATH;
 @SwaggerDefinition(securityDefinition = @SecurityDefinition(
         apiKeyAuthDefinitions = {
                 @ApiKeyAuthDefinition(key = "custom",
-                        name = "authorization",
+                        name = "Authorization",
                         in = ApiKeyAuthDefinition.ApiKeyLocation.HEADER,
                         description = "Bearer Authentication")}))
 public class CompanyController {

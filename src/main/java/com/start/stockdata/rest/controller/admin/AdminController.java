@@ -1,4 +1,4 @@
-package com.start.stockdata.rest.controller;
+package com.start.stockdata.rest.controller.admin;
 
 import com.start.stockdata.identity.dto.response.CompanyDto;
 import com.start.stockdata.service.CompanyService;

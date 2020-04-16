@@ -19,4 +19,5 @@ public class CompanyTypeRequestDto extends AbstractRequestDto {
 
     @Size(max = 255)
     private String type;
+
 }

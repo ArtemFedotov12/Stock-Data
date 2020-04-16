@@ -45,9 +45,9 @@ public class Swagger2Config implements WebMvcConfigurer {
 				null,
 				null, // realm Needed for authenticate button to work
 				null, // appName Needed for authenticate button to work
-				"BEARER ",// apiKeyValue
+				"Bearer ",// apiKeyValue
 				ApiKeyVehicle.HEADER,
-				"AUTHORIZATION", //apiKeyName
+				"Authorization", //apiKeyName
 				null);
 	}
 

@@ -13,4 +13,8 @@ public class CompanyTypeService extends AbstractService<CompanyTypeRequestDto, C
         super(wrapper, converter);
     }
 
+    @Override
+    protected boolean entityAlreadyExists(CompanyTypeDto responseDto) {
+        return wrapper.isSameCompanyTypeAlreadyExist(responseDto);
+    }
 }

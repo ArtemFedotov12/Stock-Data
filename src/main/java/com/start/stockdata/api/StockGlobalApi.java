@@ -1,42 +1,54 @@
 package com.start.stockdata.api;
 
+import com.start.stockdata.identity.dto.request.AbstractRequestDto;
+import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.rest.response.LongResponse;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
-public interface StockGlobalApi<RQ,RS> {
+@Validated
+public interface StockGlobalApi<RQ extends AbstractRequestDto, RS extends AbstractResponseDto> {
 
-    RS add(
-            final RQ entity
+    ResponseEntity<RS> add(
+            final RQ requestDto
     );
 
-    void update(
-            final RQ entity
+    ResponseEntity<RS> saveOrUpdate(
+             Long id,
+             RQ requestDto
     );
 
-    RS getById(
+    ResponseEntity<RS> update(
+             Long id,
+             RQ requestDto
+    );
+
+    ResponseEntity<RS> delete(
             final Long id
     );
 
-    List<RS> getAll(
+    ResponseEntity<RS> getById(
+            final Long id
+    );
+
+    List<RS> findAll(
             final int page,
             final int limit
     );
 
-    List<RS> getAll(
+    List<RS> findAll(
             final String order, // todo: String -> Sort.RSirection
             final String attribute,
             final int page,
             final int limit
     );
 
-    List<RS> getAll();
+    ResponseEntity<List<RS>> findAll();
 
-    void delete(
-            final Long id
-    );
 
-    LongResponse count(
+    ResponseEntity<LongResponse> count(
             final boolean includeDeleted
     );
 
