@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Setter
 public class CompanyType extends AbstractRemovableEntity {
 
-    @Column(name = "type")
+    @Column(name = "type", unique = true)
     private String type;
 
 }

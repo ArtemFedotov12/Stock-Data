@@ -4,12 +4,11 @@ import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.rest.response.LongResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import javax.validation.Valid;
 import java.util.List;
+
 
 public interface StockGlobalApi<RQ extends AbstractRequestDto, RS extends AbstractResponseDto> {
 

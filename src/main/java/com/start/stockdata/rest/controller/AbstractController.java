@@ -37,7 +37,7 @@ public class AbstractController<
             notes = "Method allow to add entity"
     )
     @PostMapping
-    public ResponseEntity<RS> add(final RQ requestDto) {
+    public ResponseEntity<RS> add(@Valid @RequestBody final RQ requestDto) {
         return new ResponseEntity<>(service.save(requestDto), HttpStatus.OK);
     }
 
