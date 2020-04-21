@@ -88,7 +88,7 @@ public class Swagger2Config implements WebMvcConfigurer {
 
 		responseMessages.add(new ResponseMessageBuilder()
 				.code(500).message("Internal Server Error.")
-				.responseModel(new ModelRef("Error"))
+				.responseModel(new ModelRef("StockExceptionWrapper"))
 				.build());
 		return responseMessages;
 	}

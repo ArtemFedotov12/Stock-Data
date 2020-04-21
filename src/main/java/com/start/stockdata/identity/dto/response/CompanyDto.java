@@ -18,7 +18,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@ApiModel("Model, contains information about company")
 public class CompanyDto extends AbstractResponseDto {
 
     private static final long serialVersionUID = 2435885082115582596L;

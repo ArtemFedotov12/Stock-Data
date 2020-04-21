@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@ApiModel("Model, contains information about company's type")
 public class CompanyTypeDto extends AbstractResponseDto {
 
     private static final long serialVersionUID = 5481306025689592009L;

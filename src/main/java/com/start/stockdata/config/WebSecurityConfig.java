@@ -3,6 +3,7 @@ package com.start.stockdata.config;
 import com.start.stockdata.config.jwt.JWTConfigurer;
 import com.start.stockdata.config.jwt.JwtAuthenticationEntryPoint;
 import com.start.stockdata.config.jwt.JwtTokekUtil;
+import com.start.stockdata.config.notWork.MyAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -25,12 +26,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;*/
     private final JwtTokekUtil jwtTokenUtil;
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
-
-/*    public WebSecurityConfig(UserDetailsService userDetailsService, JwtTokekUtil jwtTokenUtil, JwtAuthenticationEntryPoint unauthorizedHandler) {
-        this.userDetailsService = userDetailsService;
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.unauthorizedHandler = unauthorizedHandler;
-    }*/
 
 
     public WebSecurityConfig(JwtTokekUtil jwtTokenUtil, JwtAuthenticationEntryPoint unauthorizedHandler) {
@@ -82,12 +77,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler)
+                //.accessDeniedHandler(accessDeniedHandler())
 
                     .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
+        //JWTConfigurer used instead
        /* http
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);*/
     }
@@ -109,6 +106,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
+
+    // Not Work
+  /*  @Bean
+    public MyAccessDeniedHandler accessDeniedHandler(){
+        return new MyAccessDeniedHandler();
+    }*/
 
     private JWTConfigurer securityConfigurerAdapter() {
         return new JWTConfigurer(/*userDetailsService,*/jwtTokenUtil);
