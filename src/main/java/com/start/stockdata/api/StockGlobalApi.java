@@ -21,10 +21,10 @@ public interface StockGlobalApi<RQ extends AbstractRequestDto, RS extends Abstra
              @Valid @RequestBody RQ requestDto
     );
 
-    ResponseEntity<RS> update(
+/*    ResponseEntity<RS> update(
             @PathVariable("id") Long id,
             @Valid @RequestBody RQ requestDto
-    );
+    );*/
 
     ResponseEntity<RS> delete(
             @PathVariable("id") final Long id

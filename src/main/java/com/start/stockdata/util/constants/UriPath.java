@@ -7,7 +7,7 @@ public class UriPath {
 
     public static final String ADMIN_PATH = "/admin";
     public static final String COMPANIES_PATH = "/companies";
-    public static final String COMPANY_TYPE_PATH = "/company/type";
+    public static final String COMPANY_TYPE_PATH = "/admin/company/type";
 
 
 

@@ -7,6 +7,7 @@ import com.start.stockdata.rest.response.LongResponse;
 import com.start.stockdata.service.AbstractService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class AbstractController<
             value = "Add entity",
             notes = "Method allow to add entity"
     )
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RS> add(@Valid @RequestBody final RQ requestDto) {
         return new ResponseEntity<>(service.save(requestDto), HttpStatus.OK);
     }
@@ -46,27 +47,18 @@ public class AbstractController<
             value = "Change entity",
             notes = "Method allows only changing the entity"
     )
-    @PutMapping
+    @PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RS> saveOrUpdate(@PathVariable("id") final Long id,
                                            @Valid @RequestBody final RQ requestDto) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(service.update(id, requestDto), HttpStatus.OK);
     }
 
-    @ApiOperation(
-            value = "Change entity",
-            notes = "Method allow only to change entity."
-    )
-    @PatchMapping
-    public ResponseEntity<RS> update(@PathVariable("id") final Long id,
-                                     @Valid @RequestBody final RQ requestDto) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
-    }
 
     @ApiOperation(
             value = "Delete entity",
             notes = "Removing an entity by a given unique identifier"
     )
-    @DeleteMapping("{id}")
+    @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RS> delete(@PathVariable("id") final Long id) {
         return new ResponseEntity<>(service.delete(id), HttpStatus.OK);
     }
@@ -76,26 +68,40 @@ public class AbstractController<
             value = "Find entity by id",
             notes = "The method allows to search for an entity by a unique identifier"
     )
-    @GetMapping("{id}")
+    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RS> getById(@PathVariable("id") Long id) {
-        return null;
+        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
 
 
     @ApiOperation(
             value = "Find all entities",
-            notes = "Find all entities, specified type"
+            notes = "Find all entities of the specified type"
     )
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RS>> findAll() {
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
-
-    @Override
+    @ApiOperation(
+            value = "Amount of entities",
+            notes = "Count amount of entities of the specified type"
+    )
+    @GetMapping(value = "count", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LongResponse> count(
             @RequestParam(value = "includeDeleted", defaultValue = "false") final boolean includeDeleted) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(LongResponse.of(service.count(includeDeleted)), HttpStatus.OK);
     }
+
+
+    /*    @ApiOperation(
+            value = "Change entity",
+            notes = "Method allow only to change entity."
+    )
+    @PatchMapping
+    public ResponseEntity<RS> update(@PathVariable("id") final Long id,
+                                     @Valid @RequestBody final RQ requestDto) {
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }*/
 
 }

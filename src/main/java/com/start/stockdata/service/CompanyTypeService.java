@@ -4,6 +4,7 @@ import com.start.stockdata.identity.converter.creation_dto_to_simple_dto.Request
 import com.start.stockdata.identity.dto.request.CompanyTypeRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyTypeDto;
 import com.start.stockdata.wrapper.CompanyTypeWrapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 @Component

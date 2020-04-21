@@ -1,4 +1,4 @@
-package com.start.stockdata.config;
+package com.start.stockdata.config.jwt;
 
 import com.start.stockdata.util.constants.GlobalConstants;
 import io.jsonwebtoken.*;

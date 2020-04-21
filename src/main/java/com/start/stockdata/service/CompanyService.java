@@ -2,6 +2,7 @@ package com.start.stockdata.service;
 
 import com.start.stockdata.exception.exception.UserByIdNotFoundException;
 import com.start.stockdata.identity.converter.creation_dto_to_simple_dto.CompanyRequestConverter;
+import com.start.stockdata.identity.converter.creation_dto_to_simple_dto.RequestConverter;
 import com.start.stockdata.identity.dto.request.CompanyRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyDto;
 import com.start.stockdata.wrapper.CompanyWrapper;
@@ -13,45 +14,42 @@ import java.util.Optional;
 import static com.start.stockdata.util.SecurityContextUtil.getUserIdFromSecurityContext;
 
 @Service
-public class CompanyService {
-    private final CompanyWrapper companyWrapper;
-    private final CompanyRequestConverter companyRequestConverter;
+public class CompanyService extends AbstractService<CompanyRequestDto, CompanyDto, CompanyWrapper> {
 
-    public CompanyService(CompanyWrapper companyWrapper, CompanyRequestConverter companyRequestConverter) {
-        this.companyWrapper = companyWrapper;
-        this.companyRequestConverter = companyRequestConverter;
+    public CompanyService(CompanyWrapper wrapper, RequestConverter<CompanyRequestDto, CompanyDto> converter) {
+        super(wrapper, converter);
     }
 
-
+    @Override
     public CompanyDto save(CompanyRequestDto companyCreationDto) {
-        CompanyDto companyDto = companyRequestConverter.convert(companyCreationDto);
+        CompanyDto companyDto = converter.convert(companyCreationDto);
 
         Optional<Long> optionalUserId = getUserIdFromSecurityContext();
 
         if (!optionalUserId.isPresent()) {
-            throw  new UserByIdNotFoundException();
+            throw new UserByIdNotFoundException();
         } else {
             companyDto.setUserId(optionalUserId.get());
         }
 
-       return companyWrapper.save(companyDto);
+        return wrapper.save(companyDto);
     }
 
     public List<CompanyDto> findAllByUserId() {
         Optional<Long> optionalUserId = getUserIdFromSecurityContext();
         if (!optionalUserId.isPresent()) {
-            throw  new UserByIdNotFoundException();
+            throw new UserByIdNotFoundException();
         } else {
-            return  companyWrapper.findAllByUserId(optionalUserId.get());
+            return wrapper.findAllByUserId(optionalUserId.get());
         }
 
     }
 
-    public List<CompanyDto> findAll() {
-        return companyWrapper.findAll();
+
+    @Override
+    protected boolean entityAlreadyExists(CompanyDto responseDto) {
+        return false;
     }
-
-
 
 
 }

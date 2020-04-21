@@ -32,6 +32,16 @@ public abstract class AbstractService<
         return wrapper.save(this.convert(requestDto));
     }
 
+    public RS update(Long id, RQ requestDto) {
+        if (entityAlreadyExists(this.converter.convert(requestDto))) {
+            throw new EntityAlreadyExistsException(requestDto);
+        }
+        RS responseDto = this.convert(requestDto);
+        responseDto.setId(id);
+
+        return wrapper.save(responseDto);
+    }
+
     public RS delete(Long id) {
         Optional<RS> optional = Optional.ofNullable(findById(id));
         if (optional.isPresent()) {
@@ -50,9 +60,14 @@ public abstract class AbstractService<
         return wrapper.findById(id);
     }
 
+    public Long count(boolean includeDeleted) {
+        return wrapper.count(includeDeleted);
+    }
+
     private RS convert(RQ requestBody) {
         return converter.convert(requestBody);
     }
+
 
     protected abstract boolean entityAlreadyExists(RS responseDto);
 

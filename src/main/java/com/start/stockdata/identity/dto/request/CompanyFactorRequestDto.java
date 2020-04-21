@@ -1,6 +1,7 @@
 package com.start.stockdata.identity.dto.request;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +21,12 @@ public class CompanyFactorRequestDto extends AbstractRequestDto {
 
     @Size(max = 255)
     @NotBlank
+    @ApiModelProperty(value = "Description. Constraints: @Size(max = 255),  @NotBlank", example = "Bad weather")
     String asset;
 
     @NotBlank
     @Size(max = 255)
+    @ApiModelProperty(value = "Description. Constraints: @Size(max = 255),  @NotBlank", example = "Weather in the local country")
     String displayName;
 
 }

@@ -6,6 +6,8 @@ public class UndefinedException extends StockException {
 
     private static final long serialVersionUID = -495400688164886246L;
 
+
+
     public UndefinedException(Throwable ex) {
         super(ex);
     }

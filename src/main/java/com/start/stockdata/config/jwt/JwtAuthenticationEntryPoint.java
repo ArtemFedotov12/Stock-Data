@@ -1,4 +1,4 @@
-package com.start.stockdata.config;
+package com.start.stockdata.config.jwt;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

@@ -1,4 +1,4 @@
-package com.start.stockdata.config;
+package com.start.stockdata.config.cors;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;

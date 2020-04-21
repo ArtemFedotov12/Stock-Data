@@ -1,5 +1,6 @@
 package com.start.stockdata.identity.dto.response;
 
+import com.start.stockdata.identity.dto.different.CompanyTypeIdDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
@@ -7,7 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Getter
@@ -26,7 +30,7 @@ public class CompanyDto extends AbstractResponseDto {
 
     @NotEmpty
     @ApiModelProperty(value = "Company's types. Constraints: @NotEmpty", required = true)
-    private Set<CompanyTypeDto> types;
+    private Set<CompanyTypeIdDto> types;
 
     @NotEmpty
     @ApiModelProperty(value = "Company's fields. Constraints: @NotEmpty", required = true)

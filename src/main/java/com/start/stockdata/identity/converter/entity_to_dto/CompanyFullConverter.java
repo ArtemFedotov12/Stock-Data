@@ -2,7 +2,7 @@ package com.start.stockdata.identity.converter.entity_to_dto;
 
 import com.start.stockdata.identity.dto.different.CompanyTypeIdDto;
 import com.start.stockdata.identity.dto.response.CompanyDto;
-import com.start.stockdata.identity.dto.response.CompanyTypeDto;
+import com.start.stockdata.identity.dto.response.CompanyFullDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.identity.model.CompanyType;
 import org.springframework.stereotype.Component;
@@ -12,22 +12,23 @@ import java.util.stream.Collectors;
 import static java.util.Optional.ofNullable;
 
 @Component
-public class CompanyConverter implements EntityDtoConverter<Company, CompanyDto> {
+public class CompanyFullConverter implements EntityDtoConverter<Company, CompanyFullDto> {
+
 
     private final CompanyTypeConverter companyTypeConverter;
     private final CompanyFieldConverter companyFieldConverter;
     private final CompanyFactorConverter companyFactorConverter;
 
-    public CompanyConverter(CompanyTypeConverter companyTypeConverter,
-                            CompanyFieldConverter companyFieldConverter,
-                            CompanyFactorConverter companyFactorConverter) {
+    public CompanyFullConverter(CompanyTypeConverter companyTypeConverter,
+                                CompanyFieldConverter companyFieldConverter,
+                                CompanyFactorConverter companyFactorConverter) {
         this.companyTypeConverter = companyTypeConverter;
         this.companyFieldConverter = companyFieldConverter;
         this.companyFactorConverter = companyFactorConverter;
     }
 
     @Override
-    public Company toEntity(CompanyDto dto) {
+    public Company toEntity(CompanyFullDto dto) {
         return ofNullable(dto)
                 .map(item -> {
                     Company company = new Company();
@@ -36,11 +37,7 @@ public class CompanyConverter implements EntityDtoConverter<Company, CompanyDto>
                     company.setCompanyTypes(item
                             .getTypes()
                             .stream()
-                            .map(companyTypeIdDto -> {
-                                CompanyType companyType = new CompanyType();
-                                companyType.setId(companyTypeIdDto.getId());
-                                return companyType;
-                            })
+                            .map(companyTypeConverter::toEntity)
                             .collect(Collectors.toSet()));
                     company.setCompanyFields(item
                             .getFields()
@@ -59,35 +56,31 @@ public class CompanyConverter implements EntityDtoConverter<Company, CompanyDto>
     }
 
     @Override
-    public CompanyDto toDto(Company entity) {
+    public CompanyFullDto toDto(Company entity) {
         return ofNullable(entity)
                 .map(item -> {
-                    CompanyDto companyDto = new CompanyDto();
-                    companyDto.setId(item.getId());
-                    companyDto.setName(item.getName());
-                    companyDto.setTypes(item
+                    CompanyFullDto companyFullDto = new CompanyFullDto();
+                    companyFullDto.setId(item.getId());
+                    companyFullDto.setName(item.getName());
+                    companyFullDto.setTypes(item
                             .getCompanyTypes()
                             .stream()
-                            .map(companyType -> {
-                                CompanyTypeIdDto companyTypeIdDto = new CompanyTypeIdDto();
-                                companyTypeIdDto.setId(companyType.getId());
-                                return companyTypeIdDto;
-                            })
+                            .map(companyTypeConverter::toDto)
                             .collect(Collectors.toSet()));
-                    companyDto.setFields(item
+                    companyFullDto.setFields(item
                             .getCompanyFields()
                             .stream()
                             .map(companyFieldConverter::toDto)
                             .collect(Collectors.toSet()));
-                    companyDto.setFactors(item
+                    companyFullDto.setFactors(item
                             .getCompanyFactors()
                             .stream()
                             .map(companyFactorConverter::toDto)
                             .collect(Collectors.toSet()));
-                    companyDto.setUserId(item.getUserId());
-                    return companyDto;
+                    companyFullDto.setUserId(item.getUserId());
+                    return companyFullDto;
                 })
                 .orElse(null);
     }
-
+    
 }

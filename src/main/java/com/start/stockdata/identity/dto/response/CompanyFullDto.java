@@ -1,26 +1,26 @@
-package com.start.stockdata.identity.dto.request;
+package com.start.stockdata.identity.dto.response;
 
-import com.start.stockdata.identity.dto.different.CompanyTypeIdDto;
-import com.start.stockdata.identity.dto.response.CompanyTypeDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@Valid
-public class CompanyRequestDto extends AbstractRequestDto {
+@EqualsAndHashCode(callSuper = false)
+@ApiModel("Model, contains information about company")
+public class CompanyFullDto extends AbstractResponseDto {
 
-    private static final long serialVersionUID = 6771378425908092730L;
+    private static final long serialVersionUID = 5629919499406396022L;
 
     @NotBlank
     @Size(max = 255)
@@ -29,17 +29,18 @@ public class CompanyRequestDto extends AbstractRequestDto {
 
     @NotEmpty
     @ApiModelProperty(value = "Company's types. Constraints: @NotEmpty", required = true)
-    @Valid
-    private Set<CompanyTypeIdDto> types;
+    private Set<CompanyTypeDto> types;
 
     @NotEmpty
     @ApiModelProperty(value = "Company's fields. Constraints: @NotEmpty", required = true)
-    @Valid
-    private Set<CompanyFieldRequestDto> fields;
+    private Set<CompanyFieldDto> fields;
 
     @NotEmpty
     @ApiModelProperty(value = "Company's factors. Constraints: @NotEmpty", required = true)
-    @Valid
-    private Set<CompanyFactorRequestDto> factors;
+    private Set<CompanyFactorDto> factors;
+
+    @NotNull
+    @ApiModelProperty(value = "User's id. Company belongs to this user. Constraints: @NotNull", required = true)
+    private Long userId;
 
 }

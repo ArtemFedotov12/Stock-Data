@@ -1,5 +1,8 @@
 package com.start.stockdata.config;
 
+import com.start.stockdata.config.jwt.JWTConfigurer;
+import com.start.stockdata.config.jwt.JwtAuthenticationEntryPoint;
+import com.start.stockdata.config.jwt.JwtTokekUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -20,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   /*  @Qualifier("userDetailsService")
     private final UserDetailsService userDetailsService;*/
-    private final   JwtTokekUtil jwtTokenUtil;
+    private final JwtTokekUtil jwtTokenUtil;
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
 /*    public WebSecurityConfig(UserDetailsService userDetailsService, JwtTokekUtil jwtTokenUtil, JwtAuthenticationEntryPoint unauthorizedHandler) {
@@ -67,6 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/hello").permitAll()
+                .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 //swagger configuration
                 //.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .anyRequest()

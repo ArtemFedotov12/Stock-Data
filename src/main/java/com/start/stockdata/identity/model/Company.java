@@ -1,14 +1,11 @@
 package com.start.stockdata.identity.model;
 
-import com.start.stockdata.util.enums.CompanyTypeAttributeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity(name = "Company")
@@ -23,17 +20,17 @@ public class Company extends AbstractRemovableEntity {
     private String name;
 
     //@Convert(converter = CompanyTypeAttributeConverter.class)
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "company_company_type",
             joinColumns = { @JoinColumn(name = "company_id") },
             inverseJoinColumns = { @JoinColumn(name = "company_type_id") })
     private Set<CompanyType> companyTypes;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="company_id")
     private Set<CompanyField> companyFields;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="company_id")
     private Set<CompanyFactor> companyFactors;
 

@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data(staticConstructor = "of")
 public class LongResponse {
-    private final Long response;
+    private final Long number;
 }

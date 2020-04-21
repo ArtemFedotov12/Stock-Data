@@ -6,7 +6,6 @@ import com.start.stockdata.service.CompanyService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,7 +32,6 @@ public class CompanyController {
 
     // Get companies by user id. Id will be taken from token
     @GetMapping
-    @PreAuthorize("hasRole('DEFAULT')")
     @ApiOperation(authorizations = @Authorization("custom"),
             value = "Get all user's companies")
     public ResponseEntity<List<CompanyDto>> getUserCompanies() {
@@ -42,7 +40,7 @@ public class CompanyController {
 
 
     @GetMapping({"id"})
-    public List<CompanyDto> getAll(@PathVariable String id) {
+    public List<CompanyDto> getAll(@PathVariable("id") String id) {
         return null;
     }
 

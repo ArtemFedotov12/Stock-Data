@@ -15,4 +15,5 @@ public class UserByIdNotFoundException extends StockException {
     public StockExceptionType getType() {
         return StockExceptionType.USER_BY_ID_NOT_FOUND;
     }
+
 }
