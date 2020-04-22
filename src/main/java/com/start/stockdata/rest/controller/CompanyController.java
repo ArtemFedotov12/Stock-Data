@@ -15,13 +15,13 @@ import static com.start.stockdata.util.constants.UriPath.COMPANIES_PATH;
 
 @RestController
 @RequestMapping(COMPANIES_PATH)
-@Api("Company Management System")
-@SwaggerDefinition(securityDefinition = @SecurityDefinition(
+@Api
+/*@SwaggerDefinition(securityDefinition = @SecurityDefinition(
         apiKeyAuthDefinitions = {
                 @ApiKeyAuthDefinition(key = "custom",
                         name = "Authorization",
                         in = ApiKeyAuthDefinition.ApiKeyLocation.HEADER,
-                        description = "Bearer Authentication")}))
+                        description = "Bearer Authentication")}))*/
 public class CompanyController {
 
     private final CompanyService companyService;
@@ -32,8 +32,7 @@ public class CompanyController {
 
     // Get companies by user id. Id will be taken from token
     @GetMapping
-    @ApiOperation(authorizations = @Authorization("custom"),
-            value = "Get all user's companies")
+    @ApiOperation(value = "Get all user's companies")
     public ResponseEntity<List<CompanyResponseDto>> getUserCompanies() {
         return new ResponseEntity<>(companyService.findAllByUserId(), HttpStatus.OK);
     }

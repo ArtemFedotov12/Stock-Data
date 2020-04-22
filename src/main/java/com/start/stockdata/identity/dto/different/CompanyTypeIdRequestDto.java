@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @EqualsAndHashCode(exclude = "id", callSuper = false)
 @ApiModel("Model, contains information about company")
 @Valid
-public class CompanyTypeIRequestdDto extends AbstractRequestDto {
+public class CompanyTypeIdRequestDto extends AbstractRequestDto {
 
     private static final long serialVersionUID = -4128328055692316346L;
 

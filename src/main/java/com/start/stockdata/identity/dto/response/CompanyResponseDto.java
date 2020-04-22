@@ -1,6 +1,6 @@
 package com.start.stockdata.identity.dto.response;
 
-import com.start.stockdata.identity.dto.different.CompanyTypeIRequestdDto;
+import com.start.stockdata.identity.dto.different.CompanyTypeIdRequestDto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ public class CompanyResponseDto extends AbstractResponseDto {
     private static final long serialVersionUID = 2435885082115582596L;
 
     private String name;
-    private Set<CompanyTypeIRequestdDto> types;
+    private Set<CompanyTypeIdRequestDto> types;
     private Set<CompanyFieldDto> fields;
     private Set<CompanyFactorDto> factors;
     private Long userId;

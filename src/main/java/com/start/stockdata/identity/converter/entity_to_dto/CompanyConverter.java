@@ -1,6 +1,6 @@
 package com.start.stockdata.identity.converter.entity_to_dto;
 
-import com.start.stockdata.identity.dto.different.CompanyTypeIRequestdDto;
+import com.start.stockdata.identity.dto.different.CompanyTypeIdRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyResponseDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.identity.model.CompanyType;
@@ -33,9 +33,9 @@ public class CompanyConverter implements ResponseConverter<Company, CompanyRespo
                     company.setCompanyTypes(item
                             .getTypes()
                             .stream()
-                            .map(companyTypeIRequestdDto -> {
+                            .map(companyTypeIdRequestDto -> {
                                 CompanyType companyType = new CompanyType();
-                                companyType.setId(companyTypeIRequestdDto.getId());
+                                companyType.setId(companyTypeIdRequestDto.getId());
                                 return companyType;
                             })
                             .collect(Collectors.toSet()));
@@ -66,9 +66,9 @@ public class CompanyConverter implements ResponseConverter<Company, CompanyRespo
                             .getCompanyTypes()
                             .stream()
                             .map(companyType -> {
-                                CompanyTypeIRequestdDto companyTypeIRequestdDto = new CompanyTypeIRequestdDto();
-                                companyTypeIRequestdDto.setId(companyType.getId());
-                                return companyTypeIRequestdDto;
+                                CompanyTypeIdRequestDto companyTypeIdRequestDto = new CompanyTypeIdRequestDto();
+                                companyTypeIdRequestDto.setId(companyType.getId());
+                                return companyTypeIdRequestDto;
                             })
                             .collect(Collectors.toSet()));
                     companyResponseDto.setFields(item

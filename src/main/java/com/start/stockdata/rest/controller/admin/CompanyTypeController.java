@@ -12,7 +12,7 @@ import static com.start.stockdata.util.constants.UriPath.COMPANY_TYPE_PATH;
 
 @RestController
 @RequestMapping(COMPANY_TYPE_PATH)
-@Api(value = "CompanyTypeController")
+@Api
 public class CompanyTypeController extends AbstractController<CompanyTypeRequestDto, CompanyTypeResponseDto, CompanyTypeService> {
 
     public CompanyTypeController(CompanyTypeService service) {
