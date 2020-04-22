@@ -1,8 +1,7 @@
 package com.start.stockdata.service;
 
-import com.start.stockdata.identity.converter.entity_to_dto.CompanyFullConverter;
-import com.start.stockdata.identity.converter.entity_to_dto.EntityDtoConverter;
-import com.start.stockdata.identity.dto.response.CompanyFullDto;
+import com.start.stockdata.identity.converter.entity_to_dto.ResponseConverter;
+import com.start.stockdata.identity.dto.response.CompanyFullResponseDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.repository.CompanyRepo;
 import org.springframework.stereotype.Service;
@@ -14,19 +13,19 @@ import java.util.stream.Collectors;
 public class AdminService {
 
     private final CompanyRepo companyRepo;
-    private final EntityDtoConverter<Company, CompanyFullDto> converter;
+    private final ResponseConverter<Company, CompanyFullResponseDto> converter;
 
     public AdminService(CompanyRepo companyRepo,
-                        EntityDtoConverter<Company, CompanyFullDto> converter) {
+                        ResponseConverter<Company, CompanyFullResponseDto> converter) {
         this.companyRepo = companyRepo;
         this.converter = converter;
     }
 
-    public List<CompanyFullDto> findAll() {
+    public List<CompanyFullResponseDto> findAll() {
         return convert(companyRepo.findAll());
     }
 
-    protected List<CompanyFullDto> convert(List<Company> entityList) {
+    protected List<CompanyFullResponseDto> convert(List<Company> entityList) {
         return entityList.stream()
                 .map(converter::toDto)
                 .collect(Collectors.toList());

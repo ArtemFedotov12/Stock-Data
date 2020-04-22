@@ -1,8 +1,6 @@
 package com.start.stockdata.identity.dto.request;
 
-import com.start.stockdata.identity.dto.different.CompanyTypeIdDto;
-import com.start.stockdata.identity.dto.response.CompanyTypeDto;
-import io.swagger.annotations.ApiModel;
+import com.start.stockdata.identity.dto.different.CompanyTypeIRequestdDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +28,7 @@ public class CompanyRequestDto extends AbstractRequestDto {
     @NotEmpty
     @ApiModelProperty(value = "Company's types. Constraints: @NotEmpty", required = true)
     @Valid
-    private Set<CompanyTypeIdDto> types;
+    private Set<CompanyTypeIRequestdDto> types;
 
     @NotEmpty
     @ApiModelProperty(value = "Company's fields. Constraints: @NotEmpty", required = true)

@@ -4,7 +4,7 @@ import com.start.stockdata.config.notWork.StockAccessDeniedException;
 import com.start.stockdata.exception.exception.UndefinedException;
 import com.start.stockdata.exception.handler.ApplicationExceptionHandler;
 import com.start.stockdata.exception.exception.StockException;
-import com.start.stockdata.exception.exception.UserByIdNotFoundException;
+import com.start.stockdata.exception.exception.EntityByIdNotFoundException;
 import com.start.stockdata.exception.wrapper.StockExceptionWrapper;
 import com.start.stockdata.exception.wrapper.ValidationExceptionWrapper;
 import org.springframework.http.HttpStatus;
@@ -52,8 +52,8 @@ public class GlobalExceptionHandler  {
         return applicationExceptionHandler.handleException(ex, request);
     }
 
-    @ExceptionHandler(UserByIdNotFoundException.class)
-    public ResponseEntity<StockExceptionWrapper> handleError(UserByIdNotFoundException ex, HttpServletRequest request) {
+    @ExceptionHandler(EntityByIdNotFoundException.class)
+    public ResponseEntity<StockExceptionWrapper> handleError(EntityByIdNotFoundException ex, HttpServletRequest request) {
         return applicationExceptionHandler.handleException(ex, request);
     }
 

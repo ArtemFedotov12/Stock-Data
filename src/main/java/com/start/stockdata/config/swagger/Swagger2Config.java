@@ -2,7 +2,6 @@ package com.start.stockdata.config.swagger;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Lists;
-import com.start.stockdata.exception.exception.UserByIdNotFoundException;
 import com.start.stockdata.exception.wrapper.StockExceptionWrapper;
 import com.start.stockdata.exception.wrapper.ValidationExceptionWrapper;
 import org.springframework.beans.factory.annotation.Autowired;

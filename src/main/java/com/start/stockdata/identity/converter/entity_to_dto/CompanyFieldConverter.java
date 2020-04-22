@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import static java.util.Optional.ofNullable;
 
 @Component
-public class CompanyFieldConverter implements EntityDtoConverter<CompanyField, CompanyFieldDto> {
+public class CompanyFieldConverter implements ResponseConverter<CompanyField, CompanyFieldDto> {
 
     @Override
     public CompanyField toEntity(CompanyFieldDto dto) {

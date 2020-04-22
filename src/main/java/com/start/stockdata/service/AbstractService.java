@@ -2,7 +2,6 @@ package com.start.stockdata.service;
 
 import com.start.stockdata.exception.exception.DeletionEntityByIdNotFoundException;
 import com.start.stockdata.exception.exception.EntityAlreadyExistsException;
-import com.start.stockdata.identity.converter.creation_dto_to_simple_dto.RequestConverter;
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.wrapper.AbstractEntityDtoWrapper;
@@ -15,31 +14,26 @@ import java.util.Optional;
 public abstract class AbstractService<
         RQ extends AbstractRequestDto,
         RS extends AbstractResponseDto,
-        WR extends AbstractEntityDtoWrapper<?, RS, ?>> {
+        WR extends AbstractEntityDtoWrapper<?, RS, RQ, ?>> {
 
     protected final WR wrapper;
-    protected final RequestConverter<RQ, RS> converter;
 
-    public AbstractService(WR wrapper, RequestConverter<RQ, RS> converter) {
+    public AbstractService(WR wrapper) {
         this.wrapper = wrapper;
-        this.converter = converter;
     }
 
     public RS save(RQ requestDto) {
-        if (entityAlreadyExists(this.converter.convert(requestDto))) {
+        if (entityAlreadyExistsSave(requestDto)) {
             throw new EntityAlreadyExistsException(requestDto);
         }
-        return wrapper.save(this.convert(requestDto));
+        return wrapper.save(requestDto);
     }
 
-    public RS update(Long id, RQ requestDto) {
-        if (entityAlreadyExists(this.converter.convert(requestDto))) {
+    public RS update(final Long id, RQ requestDto) {
+        if (entityAlreadyExistsUpdate(id,requestDto)) {
             throw new EntityAlreadyExistsException(requestDto);
         }
-        RS responseDto = this.convert(requestDto);
-        responseDto.setId(id);
-
-        return wrapper.save(responseDto);
+        return wrapper.update(id, requestDto);
     }
 
     public RS delete(Long id) {
@@ -64,12 +58,20 @@ public abstract class AbstractService<
         return wrapper.count(includeDeleted);
     }
 
-    private RS convert(RQ requestBody) {
-        return converter.convert(requestBody);
+    /**
+     *
+     * @param id id entity to be fount
+     * @throws com.start.stockdata.exception.exception.EntityByIdNotFoundException if such entity doesn't exist
+     */
+    private void checkIfEntityByIdExists(Long id) {
+        Optional<RS> optional = Optional.ofNullable(findById(id));
+
     }
 
+    protected abstract boolean entityAlreadyExistsSave(RQ requestDto);
 
-    protected abstract boolean entityAlreadyExists(RS responseDto);
+    //Entity that must be updated, must be excluded from check
+    protected abstract boolean entityAlreadyExistsUpdate(final Long id, RQ requestDto);
 
 
 }

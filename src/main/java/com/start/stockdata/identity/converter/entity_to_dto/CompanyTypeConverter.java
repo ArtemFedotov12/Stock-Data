@@ -1,16 +1,16 @@
 package com.start.stockdata.identity.converter.entity_to_dto;
 
-import com.start.stockdata.identity.dto.response.CompanyTypeDto;
+import com.start.stockdata.identity.dto.response.CompanyTypeResponseDto;
 import com.start.stockdata.identity.model.CompanyType;
 import org.springframework.stereotype.Component;
 
 import static java.util.Optional.ofNullable;
 
 @Component
-public class CompanyTypeConverter implements EntityDtoConverter<CompanyType, CompanyTypeDto> {
+public class CompanyTypeConverter implements ResponseConverter<CompanyType, CompanyTypeResponseDto> {
 
     @Override
-    public CompanyType toEntity(CompanyTypeDto dto) {
+    public CompanyType toEntity(CompanyTypeResponseDto dto) {
         return ofNullable(dto)
                 .map(item -> {
                     CompanyType companyType = new CompanyType();
@@ -22,13 +22,13 @@ public class CompanyTypeConverter implements EntityDtoConverter<CompanyType, Com
     }
 
     @Override
-    public CompanyTypeDto toDto(CompanyType entity) {
+    public CompanyTypeResponseDto toDto(CompanyType entity) {
         return ofNullable(entity)
                 .map(item -> {
-                    CompanyTypeDto companyTypeDto = new CompanyTypeDto();
-                    companyTypeDto.setId(item.getId());
-                    companyTypeDto.setType(item.getType());
-                    return companyTypeDto;
+                    CompanyTypeResponseDto companyTypeResponseDto = new CompanyTypeResponseDto();
+                    companyTypeResponseDto.setId(item.getId());
+                    companyTypeResponseDto.setType(item.getType());
+                    return companyTypeResponseDto;
                 })
                 .orElse(null);
     }

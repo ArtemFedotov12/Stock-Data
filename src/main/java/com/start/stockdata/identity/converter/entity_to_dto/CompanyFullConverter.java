@@ -1,10 +1,7 @@
 package com.start.stockdata.identity.converter.entity_to_dto;
 
-import com.start.stockdata.identity.dto.different.CompanyTypeIdDto;
-import com.start.stockdata.identity.dto.response.CompanyDto;
-import com.start.stockdata.identity.dto.response.CompanyFullDto;
+import com.start.stockdata.identity.dto.response.CompanyFullResponseDto;
 import com.start.stockdata.identity.model.Company;
-import com.start.stockdata.identity.model.CompanyType;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -12,7 +9,7 @@ import java.util.stream.Collectors;
 import static java.util.Optional.ofNullable;
 
 @Component
-public class CompanyFullConverter implements EntityDtoConverter<Company, CompanyFullDto> {
+public class CompanyFullConverter implements ResponseConverter<Company, CompanyFullResponseDto> {
 
 
     private final CompanyTypeConverter companyTypeConverter;
@@ -28,7 +25,7 @@ public class CompanyFullConverter implements EntityDtoConverter<Company, Company
     }
 
     @Override
-    public Company toEntity(CompanyFullDto dto) {
+    public Company toEntity(CompanyFullResponseDto dto) {
         return ofNullable(dto)
                 .map(item -> {
                     Company company = new Company();
@@ -56,29 +53,29 @@ public class CompanyFullConverter implements EntityDtoConverter<Company, Company
     }
 
     @Override
-    public CompanyFullDto toDto(Company entity) {
+    public CompanyFullResponseDto toDto(Company entity) {
         return ofNullable(entity)
                 .map(item -> {
-                    CompanyFullDto companyFullDto = new CompanyFullDto();
-                    companyFullDto.setId(item.getId());
-                    companyFullDto.setName(item.getName());
-                    companyFullDto.setTypes(item
+                    CompanyFullResponseDto companyFullResponseDto = new CompanyFullResponseDto();
+                    companyFullResponseDto.setId(item.getId());
+                    companyFullResponseDto.setName(item.getName());
+                    companyFullResponseDto.setTypes(item
                             .getCompanyTypes()
                             .stream()
                             .map(companyTypeConverter::toDto)
                             .collect(Collectors.toSet()));
-                    companyFullDto.setFields(item
+                    companyFullResponseDto.setFields(item
                             .getCompanyFields()
                             .stream()
                             .map(companyFieldConverter::toDto)
                             .collect(Collectors.toSet()));
-                    companyFullDto.setFactors(item
+                    companyFullResponseDto.setFactors(item
                             .getCompanyFactors()
                             .stream()
                             .map(companyFactorConverter::toDto)
                             .collect(Collectors.toSet()));
-                    companyFullDto.setUserId(item.getUserId());
-                    return companyFullDto;
+                    companyFullResponseDto.setUserId(item.getUserId());
+                    return companyFullResponseDto;
                 })
                 .orElse(null);
     }

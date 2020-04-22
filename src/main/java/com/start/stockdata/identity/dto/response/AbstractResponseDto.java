@@ -18,7 +18,6 @@ public abstract class AbstractResponseDto extends AbstractSerializableDto {
 
     private static final long serialVersionUID = 1196865354332323549L;
 
-    @ApiModelProperty("Unique identifier of the object")
     private Long id;
 
 }

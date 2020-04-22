@@ -33,7 +33,6 @@ public class AbstractController<
     }
 
     @ApiOperation(
-            authorizations = @Authorization("custom"),
             value = "Add entity",
             notes = "Method allow to add entity"
     )

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import static java.util.Optional.ofNullable;
 
 @Component
-public class CompanyFieldRequestConverter implements RequestConverter<CompanyFieldRequestDto, CompanyFieldDto> {
+public class CompanyFieldDeprecatedRequestConverter implements DeprecatedRequestConverter<CompanyFieldRequestDto, CompanyFieldDto> {
 
     @Override
     public CompanyFieldDto convert(CompanyFieldRequestDto creationDto) {

@@ -1,6 +1,6 @@
 package com.start.stockdata.rest.controller.admin;
 
-import com.start.stockdata.identity.dto.response.CompanyFullDto;
+import com.start.stockdata.identity.dto.response.CompanyFullResponseDto;
 import com.start.stockdata.service.AdminService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -35,7 +35,7 @@ public class AdminController  {
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(authorizations = @Authorization("custom"),
             value = "Get all companies")
-    public ResponseEntity<List<CompanyFullDto>> getAllCompanies() {
+    public ResponseEntity<List<CompanyFullResponseDto>> getAllCompanies() {
         return new ResponseEntity<>(adminService.findAll(), HttpStatus.OK);
     }
 

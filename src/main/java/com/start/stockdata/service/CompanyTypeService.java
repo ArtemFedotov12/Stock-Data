@@ -1,21 +1,32 @@
 package com.start.stockdata.service;
 
-import com.start.stockdata.identity.converter.creation_dto_to_simple_dto.RequestConverter;
 import com.start.stockdata.identity.dto.request.CompanyTypeRequestDto;
-import com.start.stockdata.identity.dto.response.CompanyTypeDto;
+import com.start.stockdata.identity.dto.response.CompanyTypeResponseDto;
+import com.start.stockdata.identity.model.CompanyType;
 import com.start.stockdata.wrapper.CompanyTypeWrapper;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
-@Component
-public class CompanyTypeService extends AbstractService<CompanyTypeRequestDto, CompanyTypeDto, CompanyTypeWrapper> {
+import java.util.Optional;
 
-    public CompanyTypeService(CompanyTypeWrapper wrapper, RequestConverter<CompanyTypeRequestDto, CompanyTypeDto> converter) {
-        super(wrapper, converter);
+@Component
+public class CompanyTypeService extends AbstractService<
+        CompanyTypeRequestDto,
+        CompanyTypeResponseDto,
+        CompanyTypeWrapper> {
+
+    public CompanyTypeService(CompanyTypeWrapper wrapper) {
+        super(wrapper);
     }
 
     @Override
-    protected boolean entityAlreadyExists(CompanyTypeDto responseDto) {
-        return wrapper.isSameCompanyTypeAlreadyExist(responseDto);
+    protected boolean entityAlreadyExistsSave(CompanyTypeRequestDto requestDto) {
+        Optional<CompanyType> companyTypeOptional = wrapper.findByType(requestDto.getType());
+        return companyTypeOptional.isPresent();
+    }
+
+    @Override
+    protected boolean entityAlreadyExistsUpdate(final Long id, CompanyTypeRequestDto requestDto) {
+        Optional<CompanyType> companyTypeOptional = wrapper.findByType(requestDto.getType());
+        return false;
     }
 }
