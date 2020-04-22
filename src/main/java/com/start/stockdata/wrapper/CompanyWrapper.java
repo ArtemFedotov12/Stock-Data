@@ -22,20 +22,16 @@ import static com.start.stockdata.util.SecurityContextUtil.getUserIdFromSecurity
 @Component
 public class CompanyWrapper extends AbstractEntityDtoWrapper<
         Company,
-        CompanyResponseDto,
         CompanyRequestDto,
         CompanyRepo
         > {
 
-    public CompanyWrapper(ResponseConverter<Company, CompanyResponseDto> responseConverter,
-                          RequestConverter<Company, CompanyRequestDto> requestConverter,
-                          CompanyRepo repository) {
-
-        super(responseConverter, requestConverter, repository);
+    public CompanyWrapper(RequestConverter<Company, CompanyRequestDto> requestConverter, CompanyRepo repository) {
+        super(requestConverter, repository);
     }
 
-    public List<CompanyResponseDto> findAllByUserId() {
-        Optional<Long> optionalUserId = getUserIdFromSecurityContext();
+    public List<Company> findAllByUserId() {
+  /*      Optional<Long> optionalUserId = getUserIdFromSecurityContext();
 
         if (!optionalUserId.isPresent()) {
             throw new EntityByIdNotFoundException();
@@ -44,14 +40,14 @@ public class CompanyWrapper extends AbstractEntityDtoWrapper<
                     .stream()
                     .map(responseConverter::toDto)
                     .collect(Collectors.toList());
-        }
-
+        }*/
+return null;
     }
 
     @Override
-    public CompanyResponseDto save(CompanyRequestDto companyRequestDto) {
+    public Company save(CompanyRequestDto companyRequestDto) {
 
-        Optional<Long> optionalUserId = getUserIdFromSecurityContext();
+  /*      Optional<Long> optionalUserId = getUserIdFromSecurityContext();
 
         if (!optionalUserId.isPresent()) {
             throw new EntityByIdNotFoundException();
@@ -59,8 +55,8 @@ public class CompanyWrapper extends AbstractEntityDtoWrapper<
             Company company = requestConverter.toEntity(companyRequestDto);
             company.setUserId(optionalUserId.get());
             return responseConverter.toDto(repository.save(company));
-        }
-
+        }*/
+return  null;
 
     }
 }

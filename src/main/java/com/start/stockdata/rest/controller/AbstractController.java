@@ -23,7 +23,7 @@ import java.util.List;
 public class AbstractController<
         RQ extends AbstractRequestDto,
         RS extends AbstractResponseDto,
-        S extends AbstractService<RQ, RS, ?>
+        S extends AbstractService<?, RQ, RS, ?>
         > implements StockGlobalApi<RQ, RS> {
 
     protected final S service;

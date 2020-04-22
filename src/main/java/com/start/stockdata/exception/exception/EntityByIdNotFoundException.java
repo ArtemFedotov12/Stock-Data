@@ -4,11 +4,11 @@ import com.start.stockdata.exception.StockExceptionType;
 
 public class EntityByIdNotFoundException extends StockException {
 
-    private static final String DEFAULT_MESSAGE = "User with such id doesn't exist";
+    private static final String DEFAULT_MESSAGE = "Entity with id=%d doesn't exist";
     private static final long serialVersionUID = -4920264305760157619L;
 
-    public EntityByIdNotFoundException() {
-        super(DEFAULT_MESSAGE);
+    public EntityByIdNotFoundException(Long entityId) {
+        super(String.format(DEFAULT_MESSAGE, entityId));
     }
 
     @Override

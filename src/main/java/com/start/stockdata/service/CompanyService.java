@@ -1,18 +1,20 @@
 package com.start.stockdata.service;
 
 import com.start.stockdata.exception.exception.EntityAlreadyExistsException;
+import com.start.stockdata.identity.converter.entity_to_dto.ResponseConverter;
 import com.start.stockdata.identity.dto.request.CompanyRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyResponseDto;
+import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.wrapper.CompanyWrapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CompanyService extends AbstractService<CompanyRequestDto, CompanyResponseDto, CompanyWrapper> {
+public class CompanyService extends AbstractService<Company, CompanyRequestDto, CompanyResponseDto, CompanyWrapper> {
 
-    public CompanyService(CompanyWrapper wrapper) {
-        super(wrapper);
+    public CompanyService(CompanyWrapper wrapper, ResponseConverter<Company, CompanyResponseDto> converter) {
+        super(wrapper, converter);
     }
 
     @Override
@@ -21,11 +23,11 @@ public class CompanyService extends AbstractService<CompanyRequestDto, CompanyRe
             throw new EntityAlreadyExistsException(companyRequestDto);
         }
 
-        return wrapper.save(companyRequestDto);
+        return converter.toDto(wrapper.save(companyRequestDto));
     }
 
     public List<CompanyResponseDto> findAllByUserId() {
-        return wrapper.findAllByUserId();
+        return convert(wrapper.findAllByUserId());
     }
 
     @Override
@@ -34,7 +36,7 @@ public class CompanyService extends AbstractService<CompanyRequestDto, CompanyRe
     }
 
     @Override
-    protected boolean entityAlreadyExistsUpdate(final Long id,CompanyRequestDto requestDto) {
+    protected boolean entityAlreadyExistsUpdate(final Long id, CompanyRequestDto requestDto) {
         return false;
     }
 }

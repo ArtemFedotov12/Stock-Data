@@ -9,11 +9,10 @@ import com.start.stockdata.repository.CompanyRepo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CompanyFullWrapper extends AbstractEntityDtoWrapper<Company, CompanyFullResponseDto, CompanyRequestDto,CompanyRepo>{
+public class CompanyFullWrapper extends AbstractEntityDtoWrapper<Company, CompanyRequestDto,CompanyRepo>{
 
-    public CompanyFullWrapper(ResponseConverter<Company, CompanyFullResponseDto> responseConverter,
-                              RequestConverter<Company, CompanyRequestDto> requestConverter,
-                              CompanyRepo repository) {
-        super(responseConverter, requestConverter, repository);
+
+    public CompanyFullWrapper(RequestConverter<Company, CompanyRequestDto> requestConverter, CompanyRepo repository) {
+        super(requestConverter, repository);
     }
 }
