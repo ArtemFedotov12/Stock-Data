@@ -32,7 +32,7 @@ public class GlobalExceptionHandler  {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationExceptionWrapper> handleValidationErrors(MethodArgumentNotValidException ex, HttpServletRequest request) {
         Map<String, List<String>> errors = getErrors(ex);
-        return new ResponseEntity<>(ValidationExceptionWrapper.wrap("Val",422,errors), HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(ValidationExceptionWrapper.wrap("Validation failed",422,errors), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(StockAccessDeniedException.class)

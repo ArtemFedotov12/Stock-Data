@@ -1,10 +1,12 @@
 package com.start.stockdata.service;
 
 import com.start.stockdata.exception.exception.EntityByIdNotFoundException;
+import com.start.stockdata.exception.exception.UnsupportedFieldException;
 import com.start.stockdata.identity.converter.entity_to_dto.ResponseConverter;
 import com.start.stockdata.identity.dto.request.CompanyTypeRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyTypeResponseDto;
 import com.start.stockdata.identity.model.CompanyType;
+import com.start.stockdata.validations.FieldValueExists;
 import com.start.stockdata.wrapper.CompanyTypeWrapper;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,7 @@ public class CompanyTypeService extends AbstractService<
         CompanyType,
         CompanyTypeRequestDto,
         CompanyTypeResponseDto,
-        CompanyTypeWrapper> {
+        CompanyTypeWrapper>  implements FieldValueExists {
 
     public CompanyTypeService(
             CompanyTypeWrapper wrapper,
@@ -45,4 +47,19 @@ public class CompanyTypeService extends AbstractService<
         Optional<CompanyType> companyTypeOptional = wrapper.findByType(requestDto.getType());
         return companyTypeOptional.filter(companyType -> !id.equals(companyType.getId())).isPresent();
     }
+
+    @Override
+    public boolean isFieldValueExist(Object value, String fieldName) throws UnsupportedOperationException {
+
+        if (!fieldName.equals("type")) {
+            throw new UnsupportedFieldException(value.toString());
+        }
+
+        if (value == null) {
+            return false;
+        }
+
+        return wrapper.findByType(value.toString()).isPresent();
+    }
+
 }

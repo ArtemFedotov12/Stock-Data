@@ -26,10 +26,12 @@ public class Company extends AbstractRemovableEntity {
             inverseJoinColumns = { @JoinColumn(name = "company_type_id") })
     private Set<CompanyType> companyTypes;
 
+    // Nothing must be deleted from db. Just set removal_date
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="company_id")
     private Set<CompanyField> companyFields;
 
+    // Nothing must be deleted from db. Just set removal_date
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="company_id")
     private Set<CompanyFactor> companyFactors;

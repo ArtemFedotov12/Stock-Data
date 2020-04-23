@@ -1,6 +1,8 @@
 package com.start.stockdata.identity.dto.request;
 
 import com.start.stockdata.identity.dto.different.CompanyTypeIdRequestDto;
+import com.start.stockdata.service.CompanyService;
+import com.start.stockdata.validations.Unique;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +25,7 @@ public class CompanyRequestDto extends AbstractRequestDto {
     @NotBlank
     @Size(max = 255)
     @ApiModelProperty(value = "Company's name. Constraints: @NotBlank, @Size(max = 255)", required = true)
+    @Unique(service = CompanyService.class, fieldName = "name", message = "Such company name already exists")
     private String name;
 
     @NotEmpty

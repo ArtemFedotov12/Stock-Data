@@ -2,13 +2,13 @@ package com.start.stockdata.exception.exception;
 
 import com.start.stockdata.exception.StockExceptionType;
 
-public class EntityByIdNotFoundException extends StockException {
+public class UserByIdNotFoundException extends StockException {
 
-    private static final String DEFAULT_MESSAGE = "Entity with id=%d doesn't exist";
+    private static final String DEFAULT_MESSAGE = "User id hasn't been found in Security Context";
     private static final long serialVersionUID = -4920264305760157619L;
 
-    public EntityByIdNotFoundException(Long entityId) {
-        super(String.format(DEFAULT_MESSAGE, entityId));
+    public UserByIdNotFoundException() {
+        super(DEFAULT_MESSAGE);
     }
 
     @Override

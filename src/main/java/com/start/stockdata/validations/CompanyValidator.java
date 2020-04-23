@@ -1,7 +1,6 @@
-package com.start.stockdata.util.constraints;
+package com.start.stockdata.validations;
 
 import com.start.stockdata.service.CompanyService;
-import com.start.stockdata.util.enums.CompanyType;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;

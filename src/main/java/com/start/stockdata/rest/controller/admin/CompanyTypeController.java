@@ -19,8 +19,4 @@ public class CompanyTypeController extends AbstractController<CompanyTypeRequest
         super(service);
     }
 
-    public void m() {
-        //
-    }
-
 }

@@ -1,16 +1,19 @@
 package com.start.stockdata.wrapper;
 
 import com.start.stockdata.exception.exception.EntityByIdNotFoundException;
+import com.start.stockdata.exception.exception.UserByIdNotFoundException;
 import com.start.stockdata.identity.converter.entity_to_dto.ResponseConverter;
 import com.start.stockdata.identity.converter.request_to_entity.RequestConverter;
 import com.start.stockdata.identity.dto.request.CompanyRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyResponseDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.repository.CompanyRepo;
+import com.start.stockdata.repository.projection.CompanyName;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.start.stockdata.util.SecurityContextUtil.getUserIdFromSecurityContext;
@@ -31,32 +34,43 @@ public class CompanyWrapper extends AbstractEntityDtoWrapper<
     }
 
     public List<Company> findAllByUserId() {
-  /*      Optional<Long> optionalUserId = getUserIdFromSecurityContext();
+        Optional<Long> optionalUserId = getUserIdFromSecurityContext();
 
         if (!optionalUserId.isPresent()) {
-            throw new EntityByIdNotFoundException();
+            throw new UserByIdNotFoundException();
         } else {
-            return repository.findAllByUserId(optionalUserId.get())
+            return repository.findAllByUserId(optionalUserId.get());
+        }
+
+    }
+
+    public Set<String> findAllNameByUserId() {
+        Optional<Long> optionalUserId = getUserIdFromSecurityContext();
+
+        if (!optionalUserId.isPresent()) {
+            throw new UserByIdNotFoundException();
+        } else {
+            List<CompanyName> companyNames = repository.findByUserId(optionalUserId.get());
+            return companyNames
                     .stream()
-                    .map(responseConverter::toDto)
-                    .collect(Collectors.toList());
-        }*/
-return null;
+                    .map(CompanyName::getName)
+                    .collect(Collectors.toSet());
+        }
+
     }
 
     @Override
     public Company save(CompanyRequestDto companyRequestDto) {
 
-  /*      Optional<Long> optionalUserId = getUserIdFromSecurityContext();
-
+        Optional<Long> optionalUserId = getUserIdFromSecurityContext();
         if (!optionalUserId.isPresent()) {
-            throw new EntityByIdNotFoundException();
+            throw new UserByIdNotFoundException();
         } else {
             Company company = requestConverter.toEntity(companyRequestDto);
             company.setUserId(optionalUserId.get());
-            return responseConverter.toDto(repository.save(company));
-        }*/
-return  null;
+            return repository.save(company);
+        }
 
     }
+
 }

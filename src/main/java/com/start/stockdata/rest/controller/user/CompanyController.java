@@ -1,8 +1,12 @@
-package com.start.stockdata.rest.controller;
+package com.start.stockdata.rest.controller.user;
 
 import com.start.stockdata.identity.dto.request.CompanyRequestDto;
+import com.start.stockdata.identity.dto.request.CompanyTypeRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyResponseDto;
+import com.start.stockdata.identity.dto.response.CompanyTypeResponseDto;
+import com.start.stockdata.rest.controller.AbstractController;
 import com.start.stockdata.service.CompanyService;
+import com.start.stockdata.service.CompanyTypeService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,34 +26,26 @@ import static com.start.stockdata.util.constants.UriPath.COMPANIES_PATH;
                         name = "Authorization",
                         in = ApiKeyAuthDefinition.ApiKeyLocation.HEADER,
                         description = "Bearer Authentication")}))*/
-public class CompanyController {
+public class CompanyController extends AbstractController<CompanyRequestDto, CompanyResponseDto, CompanyService> {
 
-    private final CompanyService companyService;
 
-    public CompanyController(CompanyService companyService) {
-        this.companyService = companyService;
+    public CompanyController(CompanyService service) {
+        super(service);
     }
 
     // Get companies by user id. Id will be taken from token
     @GetMapping
     @ApiOperation(value = "Get all user's companies")
     public ResponseEntity<List<CompanyResponseDto>> getUserCompanies() {
-        return new ResponseEntity<>(companyService.findAllByUserId(), HttpStatus.OK);
+        return new ResponseEntity<>(service.findAllByUserId(), HttpStatus.OK);
     }
 
-
-    @GetMapping({"id"})
-    public List<CompanyResponseDto> getAll(@PathVariable("id") String id) {
-        return null;
-    }
 
     @PostMapping
     @ApiOperation("Group creation")
     public ResponseEntity<CompanyResponseDto> create(@Valid @RequestBody CompanyRequestDto companyCreationDto) {
-        CompanyResponseDto result = companyService.save(companyCreationDto);
+        CompanyResponseDto result = service.save(companyCreationDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-    //@DeleteMapping("/c")
 
 }

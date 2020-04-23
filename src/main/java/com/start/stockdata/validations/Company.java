@@ -1,4 +1,4 @@
-package com.start.stockdata.util.constraints;
+package com.start.stockdata.validations;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

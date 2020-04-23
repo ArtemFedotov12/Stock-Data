@@ -13,9 +13,10 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 @Getter
 public enum  StockExceptionType {
 
-    USER_BY_ID_NOT_FOUND("STOCK-001", BAD_REQUEST),
+    ENTITY_BY_ID_NOT_FOUND("STOCK-001", BAD_REQUEST),
     ENTITY_ALREADY_EXISTS("STOCK-002", BAD_REQUEST),
     ENTITY_WITH_SUCH_ID_NOT_FOUND("STOCK-003", BAD_REQUEST),
+    USER_BY_ID_NOT_FOUND("STOCK-004", INTERNAL_SERVER_ERROR),
     UNDEFINED_EXCEPTION("STOCK-500", INTERNAL_SERVER_ERROR);
 
     private static final Map<String, StockExceptionType> types = new HashMap<>();

@@ -1,4 +1,4 @@
-package com.start.stockdata.rest.controller;
+package com.start.stockdata.rest.controller.user;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

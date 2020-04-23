@@ -1,17 +1,23 @@
 package com.start.stockdata.service;
 
 import com.start.stockdata.exception.exception.EntityAlreadyExistsException;
+import com.start.stockdata.exception.exception.UnsupportedFieldException;
 import com.start.stockdata.identity.converter.entity_to_dto.ResponseConverter;
 import com.start.stockdata.identity.dto.request.CompanyRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyResponseDto;
 import com.start.stockdata.identity.model.Company;
+import com.start.stockdata.validations.FieldValueExists;
 import com.start.stockdata.wrapper.CompanyWrapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CompanyService extends AbstractService<Company, CompanyRequestDto, CompanyResponseDto, CompanyWrapper> {
+public class CompanyService extends AbstractService<
+        Company,
+        CompanyRequestDto,
+        CompanyResponseDto,
+        CompanyWrapper> implements FieldValueExists {
 
     public CompanyService(CompanyWrapper wrapper, ResponseConverter<Company, CompanyResponseDto> converter) {
         super(wrapper, converter);
@@ -22,12 +28,23 @@ public class CompanyService extends AbstractService<Company, CompanyRequestDto, 
         if (entityAlreadyExistsSave(companyRequestDto)) {
             throw new EntityAlreadyExistsException(companyRequestDto);
         }
-
         return converter.toDto(wrapper.save(companyRequestDto));
     }
 
     public List<CompanyResponseDto> findAllByUserId() {
         return convert(wrapper.findAllByUserId());
+    }
+
+    @Override
+    public boolean isFieldValueExist(Object value, String fieldName) throws UnsupportedOperationException {
+        if (!fieldName.equals("name")) {
+            throw new UnsupportedFieldException(value.toString());
+        }
+
+        if (value == null) {
+            return false;
+        }
+        return wrapper.findAllNameByUserId().contains(value.toString());
     }
 
     @Override
@@ -39,4 +56,5 @@ public class CompanyService extends AbstractService<Company, CompanyRequestDto, 
     protected boolean entityAlreadyExistsUpdate(final Long id, CompanyRequestDto requestDto) {
         return false;
     }
+
 }
