@@ -13,7 +13,7 @@ import java.util.List;
 public abstract class AbstractCompanyAttributeController<
         RQ extends AbstractRequestDto,
         RS extends AbstractResponseDto,
-        S extends CompanyAttributeService<?, RS, RQ, ?>
+        S extends CompanyAttributeService<?, RS, RQ, ?, Long>
         >
         implements CompanyAttributeController<RQ, RS, S> {
 

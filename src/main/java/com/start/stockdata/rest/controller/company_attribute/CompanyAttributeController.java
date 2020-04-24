@@ -14,7 +14,7 @@ import java.util.List;
 public interface CompanyAttributeController<
         RQ extends AbstractRequestDto,
         RS extends AbstractResponseDto,
-        S extends CompanyAttributeService<?, RS, RQ, ?>> {
+        S extends CompanyAttributeService<?, RS, RQ, ?, ?>> {
 
 
     ResponseEntity<RS> save(
