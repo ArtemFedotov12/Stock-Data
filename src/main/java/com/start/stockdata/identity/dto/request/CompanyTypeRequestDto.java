@@ -1,7 +1,6 @@
 package com.start.stockdata.identity.dto.request;
 
-import com.start.stockdata.identity.model.CompanyType;
-import com.start.stockdata.service.CompanyTypeService;
+import com.start.stockdata.service.stock_global.CompanyTypeService;
 import com.start.stockdata.validations.Unique;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;

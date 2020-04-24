@@ -1,9 +1,9 @@
-package com.start.stockdata.rest.controller.admin;
+package com.start.stockdata.rest.controller.stock_global.admin;
 
 import com.start.stockdata.identity.dto.request.CompanyTypeRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyTypeResponseDto;
-import com.start.stockdata.rest.controller.AbstractController;
-import com.start.stockdata.service.CompanyTypeService;
+import com.start.stockdata.rest.controller.stock_global.AbstractStockGlobalController;
+import com.start.stockdata.service.stock_global.CompanyTypeService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +13,7 @@ import static com.start.stockdata.util.constants.UriPath.COMPANY_TYPE_PATH;
 @RestController
 @RequestMapping(COMPANY_TYPE_PATH)
 @Api
-public class CompanyTypeController extends AbstractController<CompanyTypeRequestDto, CompanyTypeResponseDto, CompanyTypeService> {
+public class CompanyTypeController extends AbstractStockGlobalController<CompanyTypeRequestDto, CompanyTypeResponseDto, CompanyTypeService> {
 
     public CompanyTypeController(CompanyTypeService service) {
         super(service);

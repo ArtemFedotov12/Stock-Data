@@ -17,10 +17,12 @@ import javax.persistence.Table;
 @Setter
 public class CompanyField extends AbstractRemovableEntity{
 
-    @Column(name = "shortName")
+    @Column(name = "short_name")
     String shortName;
+
     @Column(name = "asset")
     String asset;
+
     @Column(name = "display_name")
     String displayName;
 

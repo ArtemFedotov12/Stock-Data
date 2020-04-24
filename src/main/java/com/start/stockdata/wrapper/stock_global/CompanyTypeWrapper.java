@@ -1,4 +1,4 @@
-package com.start.stockdata.wrapper;
+package com.start.stockdata.wrapper.stock_global;
 
 import com.start.stockdata.identity.converter.request_to_entity.RequestConverter;
 import com.start.stockdata.identity.dto.request.CompanyTypeRequestDto;

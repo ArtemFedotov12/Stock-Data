@@ -1,16 +1,16 @@
 package com.start.stockdata.identity.converter.entity_to_dto;
 
-import com.start.stockdata.identity.dto.response.CompanyFactorDto;
+import com.start.stockdata.identity.dto.response.CompanyFactorResponseDto;
 import com.start.stockdata.identity.model.CompanyFactor;
 import org.springframework.stereotype.Component;
 
 import static java.util.Optional.ofNullable;
 
 @Component
-public class CompanyFactorConverter implements ResponseConverter<CompanyFactor, CompanyFactorDto> {
+public class CompanyFactorConverter implements ResponseConverter<CompanyFactor, CompanyFactorResponseDto> {
 
     @Override
-    public CompanyFactor toEntity(CompanyFactorDto dto) {
+    public CompanyFactor toEntity(CompanyFactorResponseDto dto) {
         return ofNullable(dto)
                 .map(item -> {
                     CompanyFactor companyFactor = new CompanyFactor();
@@ -24,14 +24,14 @@ public class CompanyFactorConverter implements ResponseConverter<CompanyFactor, 
     }
 
     @Override
-    public CompanyFactorDto toDto(CompanyFactor entity) {
+    public CompanyFactorResponseDto toDto(CompanyFactor entity) {
         return ofNullable(entity)
                 .map(item -> {
-                    CompanyFactorDto companyFactorDto = new CompanyFactorDto();
-                    companyFactorDto.setId(item.getId());
-                    companyFactorDto.setDisplayName(item.getDisplayName());
-                    companyFactorDto.setAsset(item.getAsset());
-                    return companyFactorDto;
+                    CompanyFactorResponseDto companyFactorResponseDto = new CompanyFactorResponseDto();
+                    companyFactorResponseDto.setId(item.getId());
+                    companyFactorResponseDto.setDisplayName(item.getDisplayName());
+                    companyFactorResponseDto.setAsset(item.getAsset());
+                    return companyFactorResponseDto;
                 })
                 .orElse(null);
     }

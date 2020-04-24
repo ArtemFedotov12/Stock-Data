@@ -13,7 +13,7 @@ public class UserByIdNotFoundException extends StockException {
 
     @Override
     public StockExceptionType getType() {
-        return StockExceptionType.ENTITY_BY_ID_NOT_FOUND;
+        return StockExceptionType.USER_BY_ID_NOT_FOUND;
     }
 
 }

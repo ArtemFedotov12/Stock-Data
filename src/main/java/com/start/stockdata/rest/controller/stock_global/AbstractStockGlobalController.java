@@ -1,10 +1,10 @@
-package com.start.stockdata.rest.controller;
+package com.start.stockdata.rest.controller.stock_global;
 
-import com.start.stockdata.api.StockGlobalApi;
+import com.start.stockdata.api.StockGlobalController;
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.rest.response.LongResponse;
-import com.start.stockdata.service.AbstractService;
+import com.start.stockdata.service.stock_global.AbstractService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,15 +20,15 @@ import java.util.List;
                         name = "Authorization",
                         in = ApiKeyAuthDefinition.ApiKeyLocation.HEADER,
                         description = "Bearer Authentication")}))
-public class AbstractController<
+public abstract class AbstractStockGlobalController<
         RQ extends AbstractRequestDto,
         RS extends AbstractResponseDto,
         S extends AbstractService<?, RQ, RS, ?>
-        > implements StockGlobalApi<RQ, RS> {
+        > implements StockGlobalController<RQ, RS> {
 
     protected final S service;
 
-    public AbstractController(S service) {
+    public AbstractStockGlobalController(S service) {
         this.service = service;
     }
 
@@ -37,7 +37,7 @@ public class AbstractController<
             notes = "Method allow to add entity"
     )
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RS> add(@Valid @RequestBody final RQ requestDto) {
+    public ResponseEntity<RS> save(@Valid @RequestBody final RQ requestDto) {
         return new ResponseEntity<>(service.save(requestDto), HttpStatus.OK);
     }
 

@@ -15,12 +15,13 @@ public class CompanyConverter implements ResponseConverter<Company, CompanyRespo
 
     private final CompanyFieldConverter companyFieldConverter;
     private final CompanyFactorConverter companyFactorConverter;
+    private final CompanyTypeConverter companyTypeConverter;
 
 
-    public CompanyConverter(CompanyFieldConverter companyFieldConverter,
-                            CompanyFactorConverter companyFactorConverter) {
+    public CompanyConverter(CompanyFieldConverter companyFieldConverter, CompanyFactorConverter companyFactorConverter, CompanyTypeConverter companyTypeConverter) {
         this.companyFieldConverter = companyFieldConverter;
         this.companyFactorConverter = companyFactorConverter;
+        this.companyTypeConverter = companyTypeConverter;
     }
 
     @Override
@@ -65,11 +66,7 @@ public class CompanyConverter implements ResponseConverter<Company, CompanyRespo
                     companyResponseDto.setTypes(item
                             .getCompanyTypes()
                             .stream()
-                            .map(companyType -> {
-                                CompanyTypeIdRequestDto companyTypeIdRequestDto = new CompanyTypeIdRequestDto();
-                                companyTypeIdRequestDto.setId(companyType.getId());
-                                return companyTypeIdRequestDto;
-                            })
+                            .map(companyTypeConverter::toDto)
                             .collect(Collectors.toSet()));
                     companyResponseDto.setFields(item
                             .getCompanyFields()

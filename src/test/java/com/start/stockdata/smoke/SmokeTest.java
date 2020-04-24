@@ -1,8 +1,8 @@
 package com.start.stockdata.smoke;
 
 import com.start.stockdata.StockDataApplication;
-import com.start.stockdata.rest.controller.admin.AdminController;
-import com.start.stockdata.rest.controller.user.CompanyController;
+import com.start.stockdata.rest.controller.stock_global.admin.AdminController;
+import com.start.stockdata.rest.controller.stock_global.user.CompanyController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

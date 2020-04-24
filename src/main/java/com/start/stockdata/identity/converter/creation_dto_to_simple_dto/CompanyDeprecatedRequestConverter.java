@@ -26,7 +26,7 @@ public class CompanyDeprecatedRequestConverter implements DeprecatedRequestConve
                 .map(item -> {
                     CompanyResponseDto companyResponseDto = new CompanyResponseDto();
                     companyResponseDto.setName(item.getName());
-                    companyResponseDto.setTypes(item.getTypes());
+                    //companyResponseDto.setTypes(item.getTypes());
                     companyResponseDto.setFields(item
                             .getFields()
                             .stream()

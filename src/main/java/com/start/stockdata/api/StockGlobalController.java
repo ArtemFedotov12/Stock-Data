@@ -10,9 +10,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 
-public interface StockGlobalApi<RQ extends AbstractRequestDto, RS extends AbstractResponseDto> {
+public interface StockGlobalController<
+        RQ extends AbstractRequestDto,
+        RS extends AbstractResponseDto
+        > {
 
-    ResponseEntity<RS> add(
+    ResponseEntity<RS> save(
             @Valid @RequestBody RQ requestDto
     );
 

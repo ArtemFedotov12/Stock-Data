@@ -1,6 +1,6 @@
 package com.start.stockdata.validations;
 
-import com.start.stockdata.service.CompanyService;
+import com.start.stockdata.service.stock_global.CompanyService;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;

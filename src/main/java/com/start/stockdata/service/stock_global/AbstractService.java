@@ -1,4 +1,4 @@
-package com.start.stockdata.service;
+package com.start.stockdata.service.stock_global;
 
 import com.start.stockdata.exception.exception.DeletionEntityByIdNotFoundException;
 import com.start.stockdata.exception.exception.EntityAlreadyExistsException;
@@ -7,7 +7,7 @@ import com.start.stockdata.identity.converter.entity_to_dto.ResponseConverter;
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.identity.model.AbstractEntity;
-import com.start.stockdata.wrapper.AbstractEntityDtoWrapper;
+import com.start.stockdata.wrapper.stock_global.AbstractEntityDtoWrapper;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 

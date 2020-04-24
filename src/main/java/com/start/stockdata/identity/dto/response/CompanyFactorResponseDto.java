@@ -9,10 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class CompanyFieldDto extends AbstractResponseDto {
+public class CompanyFactorResponseDto extends AbstractResponseDto {
 
-    private static final long serialVersionUID = 854976592269661261L;
+    private static final long serialVersionUID = 8002179021299884086L;
 
     String asset;
     String displayName;
+
 }

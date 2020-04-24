@@ -1,11 +1,8 @@
-package com.start.stockdata.wrapper;
+package com.start.stockdata.wrapper.stock_global;
 
-import com.start.stockdata.exception.exception.EntityByIdNotFoundException;
 import com.start.stockdata.exception.exception.UserByIdNotFoundException;
-import com.start.stockdata.identity.converter.entity_to_dto.ResponseConverter;
 import com.start.stockdata.identity.converter.request_to_entity.RequestConverter;
 import com.start.stockdata.identity.dto.request.CompanyRequestDto;
-import com.start.stockdata.identity.dto.response.CompanyResponseDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.repository.CompanyRepo;
 import com.start.stockdata.repository.projection.CompanyName;
@@ -44,6 +41,21 @@ public class CompanyWrapper extends AbstractEntityDtoWrapper<
 
     }
 
+    public List<Company> deleteAllCompanies() {
+        Optional<Long> optionalUserId = getUserIdFromSecurityContext();
+
+        if (!optionalUserId.isPresent()) {
+            throw new UserByIdNotFoundException();
+        } else {
+            return repository.deleteByUserId(optionalUserId.get());
+        }
+
+    }
+
+    /**
+     *
+     * @return set of company's names for specific user(user's id will be taken from token)
+     */
     public Set<String> findAllNameByUserId() {
         Optional<Long> optionalUserId = getUserIdFromSecurityContext();
 

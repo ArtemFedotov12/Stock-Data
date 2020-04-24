@@ -1,9 +1,7 @@
-package com.start.stockdata.wrapper;
+package com.start.stockdata.wrapper.stock_global;
 
-import com.start.stockdata.identity.converter.entity_to_dto.ResponseConverter;
 import com.start.stockdata.identity.converter.request_to_entity.RequestConverter;
 import com.start.stockdata.identity.dto.request.CompanyRequestDto;
-import com.start.stockdata.identity.dto.response.CompanyFullResponseDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.repository.CompanyRepo;
 import org.springframework.stereotype.Component;

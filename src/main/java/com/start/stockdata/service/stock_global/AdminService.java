@@ -1,4 +1,4 @@
-package com.start.stockdata.service;
+package com.start.stockdata.service.stock_global;
 
 import com.start.stockdata.identity.converter.entity_to_dto.ResponseConverter;
 import com.start.stockdata.identity.dto.response.CompanyFullResponseDto;
