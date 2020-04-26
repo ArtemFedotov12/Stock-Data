@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity(name = "Company")
 @Table(name = "company")
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 public class Company extends AbstractRemovableEntity {
@@ -27,8 +27,7 @@ public class Company extends AbstractRemovableEntity {
     private Set<CompanyType> companyTypes;
 
     // Nothing must be deleted from db. Just set removal_date
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name="company_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "company")
     private Set<CompanyField> companyFields;
 
     // Nothing must be deleted from db. Just set removal_date

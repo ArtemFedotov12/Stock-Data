@@ -2,12 +2,12 @@ package com.start.stockdata.service.stock_global;
 
 import com.start.stockdata.exception.exception.EntityByIdNotFoundException;
 import com.start.stockdata.exception.exception.UnsupportedFieldException;
-import com.start.stockdata.identity.converter.entity_to_dto.ResponseConverter;
+import com.start.stockdata.identity.converter.response.ResponseConverter;
 import com.start.stockdata.identity.dto.request.CompanyTypeRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyTypeResponseDto;
 import com.start.stockdata.identity.model.CompanyType;
 import com.start.stockdata.validations.FieldValueExists;
-import com.start.stockdata.wrapper.stock_global.CompanyTypeWrapper;
+import com.start.stockdata.wrapper.global.CompanyTypeWrapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

@@ -3,11 +3,11 @@ package com.start.stockdata.service.stock_global;
 import com.start.stockdata.exception.exception.DeletionEntityByIdNotFoundException;
 import com.start.stockdata.exception.exception.EntityAlreadyExistsException;
 import com.start.stockdata.exception.exception.EntityByIdNotFoundException;
-import com.start.stockdata.identity.converter.entity_to_dto.ResponseConverter;
+import com.start.stockdata.identity.converter.response.ResponseConverter;
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.identity.model.AbstractEntity;
-import com.start.stockdata.wrapper.stock_global.AbstractEntityDtoWrapper;
+import com.start.stockdata.wrapper.global.AbstractEntityDtoWrapper;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,9 +40,15 @@ public abstract class AbstractService<
     }
 
     public RS update(final Long id, RQ requestDto) {
+        Optional<E> companyTypeByIdOptional = wrapper.findById(id);
+        if (!companyTypeByIdOptional.isPresent()) {
+            throw new EntityByIdNotFoundException(id);
+        }
+
         if (entityAlreadyExistsUpdate(id, requestDto)) {
             throw new EntityAlreadyExistsException(requestDto);
         }
+
         E entity = wrapper.update(id, requestDto);
         return converter.toDto(entity);
     }

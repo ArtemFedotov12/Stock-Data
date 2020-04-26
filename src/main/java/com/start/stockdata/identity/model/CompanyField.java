@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity(name = "CompanyField")
 @Table(name = "company_field")
@@ -17,13 +15,21 @@ import javax.persistence.Table;
 @Setter
 public class CompanyField extends AbstractRemovableEntity{
 
+    @EqualsAndHashCode.Exclude
     @Column(name = "short_name")
-    String shortName;
+    private String shortName;
 
+    @EqualsAndHashCode.Exclude
     @Column(name = "asset")
-    String asset;
+    private String asset;
 
     @Column(name = "display_name")
-    String displayName;
+    private String displayName;
+
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="company_id")
+    private Company company;
+
 
 }

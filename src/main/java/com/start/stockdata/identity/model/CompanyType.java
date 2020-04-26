@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Entity(name = "CompanyType")
 @Table(name = "company_type")
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 public class CompanyType extends AbstractRemovableEntity {

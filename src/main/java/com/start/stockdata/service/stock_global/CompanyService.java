@@ -3,12 +3,12 @@ package com.start.stockdata.service.stock_global;
 import com.start.stockdata.exception.exception.CompanyNotFoundException;
 import com.start.stockdata.exception.exception.EntityAlreadyExistsException;
 import com.start.stockdata.exception.exception.UnsupportedFieldException;
-import com.start.stockdata.identity.converter.entity_to_dto.ResponseConverter;
+import com.start.stockdata.identity.converter.response.ResponseConverter;
 import com.start.stockdata.identity.dto.request.CompanyRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyResponseDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.validations.FieldValueExists;
-import com.start.stockdata.wrapper.stock_global.CompanyWrapper;
+import com.start.stockdata.wrapper.global.CompanyWrapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
