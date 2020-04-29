@@ -59,7 +59,7 @@ public abstract class AbstractService<
             wrapper.delete(id);
             return converter.toDto(optional.get());
         } else {
-            throw new DeletionEntityByIdNotFoundException();
+            throw new DeletionEntityByIdNotFoundException(String.valueOf(id));
         }
     }
 

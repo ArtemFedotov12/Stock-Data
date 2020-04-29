@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
-public class CompanyFactor extends AbstractRemovableEntity {
+public class CompanyFactor extends AbstractAttributeEntity {
 
     @Column(name = "short_name")
     String shortName;

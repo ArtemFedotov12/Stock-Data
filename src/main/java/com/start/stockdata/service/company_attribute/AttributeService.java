@@ -5,21 +5,21 @@ import java.util.List;
 public interface AttributeService<
         RQ,
         RS,
-        T  // Long or UUID(String)
+        ID  // Long or UUID(String)
         > {
 
-    RS save(final T mainEntityId, RQ requestDto);
+    RS save(final ID mainEntityId, RQ requestDto);
 
-    RS update(final T mainEntityId, final T id, RQ requestDto);
+    RS update(final ID mainEntityId, final ID id, RQ requestDto);
 
-    RS delete(final T mainEntityId, final T id);
+    RS delete(final ID mainEntityId, final ID id);
 
-    List<RS> deleteAllByCompanyId(final T mainEntityId);
+    List<RS> deleteAllByCompanyId(final ID mainEntityId);
 
-    RS findById(final T mainEntityId, final T fieldId);
+    RS findById(final ID mainEntityId, final ID id);
 
-    List<RS> findAllByCompanyId(final T mainEntityId);
+    List<RS> findAllByCompanyId(final ID mainEntityId);
 
-    T count(final T companyId, boolean includeDeleted);
+    ID count(final ID mainEntityId, boolean includeDeleted);
 
 }

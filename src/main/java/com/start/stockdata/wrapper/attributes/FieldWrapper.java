@@ -6,6 +6,8 @@ import com.start.stockdata.identity.model.CompanyField;
 import com.start.stockdata.repository.CompanyFieldRepo;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class FieldWrapper extends AbstractAttributeWrapper<
         CompanyField,
@@ -17,4 +19,18 @@ public class FieldWrapper extends AbstractAttributeWrapper<
         super(serviceConverter, repository);
     }
 
+    @Override
+    public void deleteAllByCompanyId(Long mainEntityId) {
+        repository.deleteAll();
+    }
+
+    @Override
+    public List<CompanyField> findAllByCompanyId(Long mainEntityId) {
+        return repository.findAllByCompanyId(mainEntityId);
+    }
+
+    @Override
+    public Long count(Long mainEntityId, boolean includeDeleted) {
+        return repository.count(mainEntityId);
+    }
 }

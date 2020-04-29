@@ -6,12 +6,13 @@ import com.start.stockdata.identity.model.AbstractEntity;
 import com.start.stockdata.repository.AbstractEntityRepo;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class AbstractAttributeWrapper<
         E extends AbstractEntity,
         A extends AbstractActiveDto,
         R extends AbstractEntityRepo<E>
-        > implements AttributeWrapper<E, A, R, Long> {
+        > implements AttributeWrapper<E, A, Long> {
 
 
     protected final ServiceConverter<A, E, ?, ?> serviceConverter;
@@ -29,32 +30,28 @@ public abstract class AbstractAttributeWrapper<
 
     @Override
     public E update(Long id, A requestDto) {
-        return null;
+        E entity = serviceConverter.toEntity(requestDto);
+        entity.setId(id);
+        return repository.save(entity);
     }
 
     @Override
-    public E delete(Long id) {
-        return null;
+    public void delete(Long id) {
+         repository.deleteById(id);
     }
 
-    @Override
-    public List<E> deleteAllByCompanyId(Long mainEntityId) {
-        return null;
-    }
+
+    public abstract void deleteAllByCompanyId(Long mainEntityId);
 
     @Override
-    public E findById(Long fieldId) {
-        return null;
+    public Optional<E> findById(Long fieldId) {
+        return repository.findById(fieldId);
     }
 
-    @Override
-    public List<E> findAllByCompanyId(Long mainEntityId) {
-        return null;
-    }
+
+    public abstract List<E> findAllByCompanyId(Long mainEntityId);
 
     @Override
-    public Long count(boolean includeDeleted) {
-        return null;
-    }
+    public abstract Long count(Long mainEntityId, boolean includeDeleted);
 
 }

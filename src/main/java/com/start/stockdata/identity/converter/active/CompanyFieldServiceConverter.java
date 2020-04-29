@@ -60,6 +60,7 @@ public class CompanyFieldServiceConverter implements ServiceConverter<
         return ofNullable(entity)
                 .map(item -> {
                     CompanyFieldResponseDto responseDto = new CompanyFieldResponseDto();
+                    responseDto.setId(entity.getId());
                     responseDto.setDisplayName(item.getDisplayName());
                     responseDto.setAsset(item.getAsset());
                     return responseDto;

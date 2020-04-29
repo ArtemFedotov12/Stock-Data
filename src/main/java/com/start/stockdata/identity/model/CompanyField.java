@@ -13,7 +13,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
-public class CompanyField extends AbstractRemovableEntity{
+public class CompanyField extends AbstractAttributeEntity{
 
     @EqualsAndHashCode.Exclude
     @Column(name = "short_name")

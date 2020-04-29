@@ -1,11 +1,9 @@
 package com.start.stockdata.rest.controller.company_attribute;
 
-import com.start.stockdata.identity.dto.request.AbstractRequestDto;
-import com.start.stockdata.identity.dto.response.AbstractResponseDto;
-import com.start.stockdata.service.company_attribute.AttributeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -13,42 +11,42 @@ import java.util.List;
 public interface CompanyAttributeController<
         RQ ,
         RS ,
-        T
+        ID
         > {
 
 
     ResponseEntity<RS> save(
-            @PathVariable("companyId") T companyId,
+            @PathVariable("mainEntityId") ID mainEntityId,
             @Valid @RequestBody RQ requestDto
     );
 
     ResponseEntity<RS> update(
-            @PathVariable("companyId") T companyId,
-            @PathVariable("id") T id,
+            @PathVariable("mainEntityId") ID mainEntityId,
+            @PathVariable("id") ID id,
             @Valid @RequestBody RQ requestDto
     );
 
     ResponseEntity<RS> delete(
-            @PathVariable("companyId") T companyId,
-            @PathVariable("id") final T id
+            @PathVariable("mainEntityId") ID mainEntityId,
+            @PathVariable("id") final ID id
     );
 
     ResponseEntity<List<RS>> deleteAllByCompanyId(
-            @PathVariable("id") final T companyId
+            @PathVariable("id") final ID mainEntityId
     );
 
     ResponseEntity<RS> findById(
-            @PathVariable("companyId") T companyId,
-            @PathVariable("id") final T id
+            @PathVariable("mainEntityId") ID mainEntityId,
+            @PathVariable("id") final ID id
     );
 
     ResponseEntity<List<RS>> findAllByCompanyId(
-            @PathVariable("id") final T companyId
+            @PathVariable("mainEntityId") final ID mainEntityId
     );
 
-    ResponseEntity<T> count(
-            @PathVariable("id") final T companyId,
-            final boolean includeDeleted
+    ResponseEntity<ID> count(
+            @PathVariable("mainEntityId") final ID mainEntityId,
+            @RequestParam(value = "deleted", defaultValue = "false") final boolean includeDeleted
     );
 
 
