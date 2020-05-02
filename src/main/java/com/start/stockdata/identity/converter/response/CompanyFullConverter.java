@@ -36,12 +36,12 @@ public class CompanyFullConverter implements ResponseConverter<Company, CompanyF
                             .stream()
                             .map(companyTypeConverter::toEntity)
                             .collect(Collectors.toSet()));
-                    company.setCompanyFields(item
+                    company.setFields(item
                             .getFields()
                             .stream()
                             .map(companyFieldConverter::toEntity)
                             .collect(Collectors.toSet()));
-                    company.setCompanyFactors(item
+                    company.setFactors(item
                             .getFactors()
                             .stream()
                             .map(companyFactorConverter::toEntity)
@@ -65,12 +65,12 @@ public class CompanyFullConverter implements ResponseConverter<Company, CompanyF
                             .map(companyTypeConverter::toDto)
                             .collect(Collectors.toSet()));
                     companyFullResponseDto.setFields(item
-                            .getCompanyFields()
+                            .getFields()
                             .stream()
                             .map(companyFieldConverter::toDto)
                             .collect(Collectors.toSet()));
                     companyFullResponseDto.setFactors(item
-                            .getCompanyFactors()
+                            .getFactors()
                             .stream()
                             .map(companyFactorConverter::toDto)
                             .collect(Collectors.toSet()));

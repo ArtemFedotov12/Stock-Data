@@ -2,6 +2,7 @@ package com.start.stockdata.service.stock_global;
 
 import com.start.stockdata.exception.exception.EntityByIdNotFoundException;
 import com.start.stockdata.exception.exception.UnsupportedFieldException;
+import com.start.stockdata.identity.converter.request.RequestConverter;
 import com.start.stockdata.identity.converter.response.ResponseConverter;
 import com.start.stockdata.identity.dto.request.CompanyTypeRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyTypeResponseDto;
@@ -13,16 +14,14 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class CompanyTypeService extends AbstractService<
+public class CompanyTypeService extends AbstractGlobalService<
         CompanyType,
         CompanyTypeRequestDto,
         CompanyTypeResponseDto,
-        CompanyTypeWrapper>  implements FieldValueExists {
+        CompanyTypeWrapper> implements FieldValueExists {
 
-    public CompanyTypeService(
-            CompanyTypeWrapper wrapper,
-            ResponseConverter<CompanyType, CompanyTypeResponseDto> converter) {
-        super(wrapper, converter);
+    public CompanyTypeService(CompanyTypeWrapper wrapper, ResponseConverter<CompanyType, CompanyTypeResponseDto> responseConverter, RequestConverter<CompanyType, CompanyTypeRequestDto> requestConverter) {
+        super(wrapper, responseConverter, requestConverter);
     }
 
     @Override

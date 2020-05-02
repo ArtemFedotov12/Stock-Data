@@ -1,4 +1,4 @@
-package com.start.stockdata.rest.controller.company_attribute;
+package com.start.stockdata.rest.controller.attribute;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import java.util.List;
 
-public interface CompanyAttributeController<
+public interface AttributeController<
         RQ ,
         RS ,
         ID

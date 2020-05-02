@@ -1,28 +1,24 @@
 package com.start.stockdata.wrapper.attributes;
 
-import com.start.stockdata.identity.dto.active.AbstractActiveDto;
-import com.start.stockdata.identity.model.AbstractEntity;
-
 import java.util.List;
 import java.util.Optional;
 
 public interface AttributeWrapper<
-        E extends AbstractEntity,
-        A extends AbstractActiveDto,
+        E,
         ID // Long or UUID(String)
         > {
 
-    E save(A activeDto);
+    E save(ID mainEntity, E entity);
 
-    E update(final ID id, A activeDto);
+    E update(ID mainEntity, final ID id, E entity);
 
-    void delete(final ID id);
+    void delete(ID mainEntity, final E entity);
 
-    void deleteAllByCompanyId(final ID mainEntityId);
+    void deleteAllByMainEntityId(final ID mainEntityId);
 
     Optional<E> findById(final ID id);
 
-    List<E> findAllByCompanyId(final ID mainEntityId);
+    List<E> findAllByMainEntityId(final ID mainEntityId);
 
     ID count(ID mainEntityId, boolean includeDeleted);
 

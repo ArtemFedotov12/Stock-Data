@@ -1,19 +1,16 @@
 package com.start.stockdata.identity.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Entity(name = "CompanyField")
-@Table(name = "company_field")
+@Entity
+@Table
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
-public class CompanyField extends AbstractAttributeEntity{
+public class Field extends AbstractAttributeEntity{
 
     @EqualsAndHashCode.Exclude
     @Column(name = "short_name")
@@ -28,7 +25,7 @@ public class CompanyField extends AbstractAttributeEntity{
 
     @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="company_id")
+    @NonNull
     private Company company;
 
 

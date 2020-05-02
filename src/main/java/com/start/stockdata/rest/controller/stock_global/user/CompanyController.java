@@ -1,6 +1,6 @@
 package com.start.stockdata.rest.controller.stock_global.user;
 
-import com.start.stockdata.identity.dto.request.CompanyRequestDto;
+import com.start.stockdata.identity.dto.request.company.CompanyRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyResponseDto;
 import com.start.stockdata.rest.controller.stock_global.AbstractStockGlobalController;
 import com.start.stockdata.service.stock_global.CompanyService;
@@ -39,7 +39,7 @@ public class CompanyController extends AbstractStockGlobalController<CompanyRequ
     )
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CompanyResponseDto>> deleteAll() {
-        return new ResponseEntity<>(service.deleteAllCompanies(), HttpStatus.OK);
+        return new ResponseEntity<>(service.deleteAll(), HttpStatus.OK);
     }
 
 }

@@ -3,33 +3,36 @@ package com.start.stockdata.service.company_attribute;
 import com.start.stockdata.exception.exception.*;
 import com.start.stockdata.identity.converter.active.ServiceConverter;
 import com.start.stockdata.identity.converter.response.ResponseConverter;
-import com.start.stockdata.identity.dto.active.AbstractActiveDto;
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.identity.model.AbstractEntity;
 import com.start.stockdata.wrapper.attributes.AttributeWrapper;
-import com.start.stockdata.wrapper.global.StockWrapper;
+import com.start.stockdata.wrapper.global.GlobalWrapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Transactional
 public abstract class AbstractAttributeService<
         E extends AbstractEntity,
-        A extends AbstractActiveDto,
         RQ extends AbstractRequestDto,
         RS extends AbstractResponseDto,
-        WR extends AttributeWrapper<E, A, Long>,
-        M extends StockWrapper<?, ?, ?, Long>
+        WR extends AttributeWrapper<E, Long>,
+        M extends GlobalWrapper<?, Long>
         >
         implements AttributeService<RQ, RS, Long> {
 
     protected final WR attributeWrapper;
     protected final M mainEntityWrapper;
     protected final ResponseConverter<E, RS> responseConverter;
-    protected final ServiceConverter<A, E, RQ, RS> serviceConverter;
+    protected final ServiceConverter<E, RQ, RS> serviceConverter;
 
-    public AbstractAttributeService(WR attributeWrapper, M mainEntityWrapper, ResponseConverter<E, RS> responseConverter, ServiceConverter<A, E, RQ, RS> serviceConverter) {
+    public AbstractAttributeService(WR attributeWrapper,
+                                    M mainEntityWrapper,
+                                    ResponseConverter<E, RS> responseConverter,
+                                    ServiceConverter<E, RQ, RS> serviceConverter) {
         this.attributeWrapper = attributeWrapper;
         this.mainEntityWrapper = mainEntityWrapper;
         this.responseConverter = responseConverter;
@@ -49,8 +52,11 @@ public abstract class AbstractAttributeService<
             throw new EntityWithinMainEntityAlreadyExistException(String.valueOf(mainEntityId), requestDto);
         }
 
-        E entity = attributeWrapper.save(convertToActiveDto(mainEntityId, requestDto));
-        return serviceConverter.toDto(entity);
+        E entity = attributeWrapper.save(mainEntityId, serviceConverter.toEntity(requestDto));
+
+      /*  E entity = attributeWrapper.save(convertToActiveDto(mainEntityId, requestDto));
+        return serviceConverter.toDto(entity);*/
+      return serviceConverter.toDto(entity);
     }
 
 
@@ -66,9 +72,11 @@ public abstract class AbstractAttributeService<
             throw new EntityWithinMainEntityAlreadyExistException(String.valueOf(mainEntityId), requestDto);
         }
 
-        E entity = attributeWrapper.update(id, convertToActiveDto(mainEntityId, requestDto));
-        return serviceConverter.toDto(entity);
+       /* E entity = attributeWrapper.update(id, convertToActiveDto(mainEntityId, requestDto));
+        return serviceConverter.toDto(entity);*/
+        return null;
     }
+
 
     @Override
     public RS delete(Long mainEntityId, Long id) {
@@ -80,7 +88,8 @@ public abstract class AbstractAttributeService<
 
         Optional<E> optionalEntity = attributeWrapper.findById(id);
         if (optionalEntity.isPresent()) {
-            attributeWrapper.delete(id);
+            //this.delete(serviceConverter.toActive(optionalEntity.get()));
+            attributeWrapper.delete(mainEntityId, optionalEntity.get());
             return serviceConverter.toDto(optionalEntity.get());
         } else {
             throw new DeletionEntityByIdNotFoundException(String.valueOf(id));
@@ -88,18 +97,19 @@ public abstract class AbstractAttributeService<
 
     }
 
+
     @Override
-    public List<RS> deleteAllByCompanyId(Long mainEntityId) {
+    public List<RS> deleteAllByMainEntityId(Long mainEntityId) {
         if (!isMainEntityExists(mainEntityId)) {
             throw new MainEntityNotFoundException(mainEntityId.toString());
         }
 
         additionalCheck(mainEntityId);
 
-        List<E> allByCompanyId = attributeWrapper.findAllByCompanyId(mainEntityId);
-        if (!allByCompanyId.isEmpty()) {
-            attributeWrapper.deleteAllByCompanyId(mainEntityId);
-            return convert(allByCompanyId);
+        List<E> companyFields = attributeWrapper.findAllByMainEntityId(mainEntityId);
+        if (!companyFields.isEmpty()) {
+            attributeWrapper.deleteAllByMainEntityId(mainEntityId);
+            return convert(companyFields);
         } else {
             throw new DeletionByIdMainEntityNotFoundException(String.valueOf(mainEntityId));
         }
@@ -124,14 +134,14 @@ public abstract class AbstractAttributeService<
     }
 
     @Override
-    public List<RS> findAllByCompanyId(Long mainEntityId) {
+    public List<RS> findAllByMainEntityId(Long mainEntityId) {
         if (!isMainEntityExists(mainEntityId)) {
             throw new MainEntityNotFoundException(mainEntityId.toString());
         }
 
         additionalCheck(mainEntityId);
 
-        return convert(attributeWrapper.findAllByCompanyId(mainEntityId));
+        return convert(attributeWrapper.findAllByMainEntityId(mainEntityId));
     }
 
     @Override
@@ -146,7 +156,6 @@ public abstract class AbstractAttributeService<
     }
 
 
-    protected abstract A convertToActiveDto(Long companyId, RQ requestDto);
 
     protected abstract boolean entityAlreadyExists(Long companyId, RQ requestDto);
 
@@ -157,6 +166,7 @@ public abstract class AbstractAttributeService<
         Optional<?> optionalCompany = mainEntityWrapper.findById(mainEntityId);
         return optionalCompany.isPresent();
     }
+
 
     protected List<RS> convert(List<E> entityList) {
         return entityList.stream()

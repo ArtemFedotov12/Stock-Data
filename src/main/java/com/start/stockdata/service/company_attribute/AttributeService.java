@@ -14,11 +14,11 @@ public interface AttributeService<
 
     RS delete(final ID mainEntityId, final ID id);
 
-    List<RS> deleteAllByCompanyId(final ID mainEntityId);
+    List<RS> deleteAllByMainEntityId(final ID mainEntityId);
 
     RS findById(final ID mainEntityId, final ID id);
 
-    List<RS> findAllByCompanyId(final ID mainEntityId);
+    List<RS> findAllByMainEntityId(final ID mainEntityId);
 
     ID count(final ID mainEntityId, boolean includeDeleted);
 

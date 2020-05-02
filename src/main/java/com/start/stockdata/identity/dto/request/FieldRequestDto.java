@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class CompanyFieldRequestDto extends AbstractRequestDto {
+public class FieldRequestDto extends AbstractRequestDto {
 
     private static final long serialVersionUID = 7856897212698563490L;
 

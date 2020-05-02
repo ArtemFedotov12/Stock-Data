@@ -14,5 +14,6 @@ public interface CompanyRepo extends AbstractRemovableEntityRepo<Company>, JpaSp
 
     //@Query(value = "select name from company where user_id = :userId", nativeQuery = true)
     List<CompanyName> findByUserId(Long userId);
-    List<Company> deleteByUserId(Long id);
+    void deleteByUserId(Long id);
+    Long countByUserId(Long userId);
 }

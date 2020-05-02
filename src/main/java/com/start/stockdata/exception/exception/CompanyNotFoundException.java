@@ -13,7 +13,7 @@ public class CompanyNotFoundException extends StockException{
 
     @Override
     public StockExceptionType getType() {
-        return StockExceptionType.COMPANY_NOT_EXISTS;
+        return StockExceptionType.USER_DOES_NOT_HAVE_ANY_COMPANY;
     }
 
 }

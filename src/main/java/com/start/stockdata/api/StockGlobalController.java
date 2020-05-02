@@ -19,21 +19,18 @@ public interface StockGlobalController<
             @Valid @RequestBody RQ requestDto
     );
 
-    ResponseEntity<RS> saveOrUpdate(
+    ResponseEntity<RS> update(
              @PathVariable("id") Long id,
              @Valid @RequestBody RQ requestDto
     );
 
-/*    ResponseEntity<RS> update(
-            @PathVariable("id") Long id,
-            @Valid @RequestBody RQ requestDto
-    );*/
-
-    ResponseEntity<RS> delete(
+    ResponseEntity<RS> deleteById(
             @PathVariable("id") final Long id
     );
 
-    ResponseEntity<RS> getById(
+    ResponseEntity<List<RS>> findAll();
+
+    ResponseEntity<RS> findById(
             @PathVariable("id") final Long id
     );
 
@@ -49,7 +46,7 @@ public interface StockGlobalController<
             final int limit
     );*/
 
-    ResponseEntity<List<RS>> findAll();
+
 
 
     ResponseEntity<LongResponse> count(

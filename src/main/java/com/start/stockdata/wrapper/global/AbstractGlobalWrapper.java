@@ -1,36 +1,29 @@
 package com.start.stockdata.wrapper.global;
 
-import com.start.stockdata.identity.converter.request.RequestConverter;
-import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.model.AbstractEntity;
 import com.start.stockdata.repository.AbstractEntityRepo;
 
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractEntityDtoWrapper<
+public abstract class AbstractGlobalWrapper<
         E extends AbstractEntity,
-        RQ extends AbstractRequestDto,
         R extends AbstractEntityRepo<E>
-        > implements StockWrapper<E, RQ, R, Long> {
+        > implements GlobalWrapper<E, Long> {
 
-    protected final RequestConverter<E, RQ> requestConverter;
     protected final R repository;
 
-    public AbstractEntityDtoWrapper(RequestConverter<E, RQ> requestConverter, R repository) {
-        this.requestConverter = requestConverter;
+    public AbstractGlobalWrapper(R repository) {
         this.repository = repository;
     }
 
     @Override
-    public E save(RQ dto) {
-        return repository.save(requestConverter.toEntity(dto));
+    public E save(E entity) {
+        return repository.save(entity);
     }
 
     @Override
-    public E update(final Long id, RQ dto) {
-        E entity = requestConverter.toEntity(dto);
-        entity.setId(id);
+    public E update(E entity) {
         return repository.save(entity);
     }
 
@@ -45,8 +38,13 @@ public abstract class AbstractEntityDtoWrapper<
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
     }
 
     @Override

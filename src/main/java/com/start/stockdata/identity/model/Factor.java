@@ -5,17 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "company_factor")
+@Table//(name = "company_factor")
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
-public class CompanyFactor extends AbstractAttributeEntity {
+public class Factor extends AbstractAttributeEntity {
 
     @Column(name = "short_name")
     String shortName;
@@ -25,5 +23,9 @@ public class CompanyFactor extends AbstractAttributeEntity {
 
     @Column(name = "display_name")
     String displayName;
+
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(fetch = FetchType.LAZY/*, cascade = CascadeType.ALL*/)
+    private Company company;
 
 }

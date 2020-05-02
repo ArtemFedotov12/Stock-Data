@@ -1,25 +1,26 @@
 package com.start.stockdata.identity.converter.request;
 
-import com.start.stockdata.identity.dto.request.CompanyFieldRequestDto;
-import com.start.stockdata.identity.model.CompanyField;
+import com.start.stockdata.identity.dto.request.FieldRequestDto;
+import com.start.stockdata.identity.model.Field;
 import org.springframework.stereotype.Component;
 
 import static java.util.Optional.ofNullable;
 
 @Component
-public class CompanyFieldRequestConverter implements RequestConverter<CompanyField, CompanyFieldRequestDto> {
+public class CompanyFieldRequestConverter implements RequestConverter<Field, FieldRequestDto> {
 
     @Override
-    public CompanyField toEntity(CompanyFieldRequestDto requestDto) {
+    public Field toEntity(FieldRequestDto requestDto) {
         return ofNullable(requestDto)
                 .map(item -> {
-                    CompanyField companyField = new CompanyField();
-                    companyField.setAsset(item.getAsset());
-                    companyField.setDisplayName(item.getAsset());
-                    return companyField;
+                    Field field = new Field();
+                    field.setAsset(item.getAsset());
+                    field.setDisplayName(item.getDisplayName());
+                    return field;
                 })
                 .orElse(null);
     }
+
 }
 
 

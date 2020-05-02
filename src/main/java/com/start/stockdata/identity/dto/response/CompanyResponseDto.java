@@ -17,7 +17,7 @@ public class CompanyResponseDto extends AbstractResponseDto {
 
     private String name;
     private Set<CompanyTypeResponseDto> types;
-    private Set<CompanyFieldResponseDto> fields;
+    private Set<FieldResponseDto> fields;
     private Set<CompanyFactorResponseDto> factors;
     private Long userId;
 

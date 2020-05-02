@@ -20,22 +20,33 @@ public class Company extends AbstractRemovableEntity {
     private String name;
 
     //@Convert(converter = CompanyTypeAttributeConverter.class)
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "company_company_type",
             joinColumns = { @JoinColumn(name = "company_id") },
             inverseJoinColumns = { @JoinColumn(name = "company_type_id") })
     private Set<CompanyType> companyTypes;
 
     // Nothing must be deleted from db. Just set removal_date
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "company")
-    private Set<CompanyField> companyFields;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="company_id")
+    private Set<Field> fields;
 
     // Nothing must be deleted from db. Just set removal_date
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="company_id")
-    private Set<CompanyFactor> companyFactors;
+    private Set<Factor> factors;
 
     @Column(name = "user_id")
     private Long userId;
+
+    public void addField(Field field) {
+        fields.add(field);
+        field.setCompany(this);
+    }
+
+    public void removeField(Field field) {
+        fields.remove(field);
+        //field.setCompany(null);
+    }
 
 }

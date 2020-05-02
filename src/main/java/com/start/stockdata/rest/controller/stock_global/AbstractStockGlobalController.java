@@ -4,7 +4,7 @@ import com.start.stockdata.api.StockGlobalController;
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.rest.response.LongResponse;
-import com.start.stockdata.service.stock_global.AbstractService;
+import com.start.stockdata.service.stock_global.GlobalService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +23,7 @@ import java.util.List;
 public abstract class AbstractStockGlobalController<
         RQ extends AbstractRequestDto,
         RS extends AbstractResponseDto,
-        S extends AbstractService<?, RQ, RS, ?>
+        S extends GlobalService<RQ, RS, Long>
         > implements StockGlobalController<RQ, RS> {
 
     protected final S service;
@@ -47,8 +47,8 @@ public abstract class AbstractStockGlobalController<
             notes = "Method allows only changing the entity"
     )
     @PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RS> saveOrUpdate(@PathVariable("id") final Long id,
-                                           @Valid @RequestBody final RQ requestDto) {
+    public ResponseEntity<RS> update(@PathVariable("id") final Long id,
+                                     @Valid @RequestBody final RQ requestDto) {
         return new ResponseEntity<>(service.update(id, requestDto), HttpStatus.OK);
     }
 
@@ -58,8 +58,8 @@ public abstract class AbstractStockGlobalController<
             notes = "Removing an entity by a given unique identifier"
     )
     @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RS> delete(@PathVariable("id") final Long id) {
-        return new ResponseEntity<>(service.delete(id), HttpStatus.OK);
+    public ResponseEntity<RS> deleteById(@PathVariable("id") final Long id) {
+        return new ResponseEntity<>(service.deleteById(id), HttpStatus.OK);
     }
 
 
@@ -68,7 +68,7 @@ public abstract class AbstractStockGlobalController<
             notes = "The method allows to search for an entity by a unique identifier"
     )
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RS> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<RS> findById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
 

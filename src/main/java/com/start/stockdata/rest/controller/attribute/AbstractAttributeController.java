@@ -1,4 +1,4 @@
-package com.start.stockdata.rest.controller.company_attribute;
+package com.start.stockdata.rest.controller.attribute;
 
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-public abstract class AbstractCompanyAttributeController<
+public abstract class AbstractAttributeController<
         RQ extends AbstractRequestDto,
         RS extends AbstractResponseDto,
         S extends AttributeService<RQ, RS, Long>
         >
-        implements CompanyAttributeController<RQ, RS, Long> {
+        implements AttributeController<RQ, RS, Long> {
 
     protected final S service;
 
-    public AbstractCompanyAttributeController(S service) {
+    public AbstractAttributeController(S service) {
         this.service = service;
     }
 
@@ -62,7 +62,7 @@ public abstract class AbstractCompanyAttributeController<
     )
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RS>> deleteAllByCompanyId(@PathVariable("mainEntityId") Long mainEntityId) {
-        return new ResponseEntity<>(service.deleteAllByCompanyId(mainEntityId), HttpStatus.OK);
+        return new ResponseEntity<>(service.deleteAllByMainEntityId(mainEntityId), HttpStatus.OK);
     }
 
     @ApiOperation(
@@ -81,7 +81,7 @@ public abstract class AbstractCompanyAttributeController<
     )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RS>> findAllByCompanyId(@PathVariable("mainEntityId") Long mainEntityId) {
-        return new ResponseEntity<>(service.findAllByCompanyId(mainEntityId), HttpStatus.OK);
+        return new ResponseEntity<>(service.findAllByMainEntityId(mainEntityId), HttpStatus.OK);
     }
 
     @ApiOperation(

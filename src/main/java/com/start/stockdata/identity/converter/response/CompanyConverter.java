@@ -39,12 +39,12 @@ public class CompanyConverter implements ResponseConverter<Company, CompanyRespo
                                 return companyType;
                             })
                             .collect(Collectors.toSet()));
-                    company.setCompanyFields(item
+                    company.setFields(item
                             .getFields()
                             .stream()
                             .map(companyFieldConverter::toEntity)
                             .collect(Collectors.toSet()));
-                    company.setCompanyFactors(item
+                    company.setFactors(item
                             .getFactors()
                             .stream()
                             .map(companyFactorConverter::toEntity)
@@ -68,12 +68,12 @@ public class CompanyConverter implements ResponseConverter<Company, CompanyRespo
                             .map(companyTypeConverter::toDto)
                             .collect(Collectors.toSet()));
                     companyResponseDto.setFields(item
-                            .getCompanyFields()
+                            .getFields()
                             .stream()
                             .map(companyFieldConverter::toDto)
                             .collect(Collectors.toSet()));
                     companyResponseDto.setFactors(item
-                            .getCompanyFactors()
+                            .getFactors()
                             .stream()
                             .map(companyFactorConverter::toDto)
                             .collect(Collectors.toSet()));

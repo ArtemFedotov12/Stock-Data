@@ -1,52 +1,26 @@
 package com.start.stockdata.identity.converter.active;
 
-import com.start.stockdata.identity.dto.active.CompanyFieldActiveDto;
-import com.start.stockdata.identity.dto.request.CompanyFieldRequestDto;
-import com.start.stockdata.identity.dto.response.CompanyFieldResponseDto;
-import com.start.stockdata.identity.model.CompanyField;
+import com.start.stockdata.identity.dto.request.FieldRequestDto;
+import com.start.stockdata.identity.dto.response.FieldResponseDto;
+import com.start.stockdata.identity.model.Field;
 import org.springframework.stereotype.Component;
 
 import static java.util.Optional.ofNullable;
 
 @Component
 public class CompanyFieldServiceConverter implements ServiceConverter<
-        CompanyFieldActiveDto,
-        CompanyField,
-        CompanyFieldRequestDto,
-        CompanyFieldResponseDto
+        Field,
+        FieldRequestDto,
+        FieldResponseDto
         > {
 
-    @Override
-    public CompanyFieldActiveDto toActive(CompanyFieldRequestDto requestDto) {
-        return ofNullable(requestDto)
-                .map(item -> {
-                    CompanyFieldActiveDto companyFieldActiveDto = new CompanyFieldActiveDto();
-                    companyFieldActiveDto.setDisplayName(item.getDisplayName());
-                    companyFieldActiveDto.setAsset(item.getAsset());
-                    return companyFieldActiveDto;
-                })
-                .orElse(null);
-    }
+
 
     @Override
-    public CompanyField toEntity(CompanyFieldActiveDto activeDto) {
-        return ofNullable(activeDto)
-                .map(item -> {
-                    CompanyField companyField = new CompanyField();
-                    companyField.setDisplayName(item.getDisplayName());
-                    companyField.setAsset(item.getAsset());
-                    companyField.setShortName(item.getShortName());
-                    companyField.setCompany(item.getCompany());
-                    return companyField;
-                })
-                .orElse(null);
-    }
-
-    @Override
-    public CompanyField toEntity(CompanyFieldRequestDto requestDto) {
+    public Field toEntity(FieldRequestDto requestDto) {
         return ofNullable(requestDto)
                 .map(item -> {
-                    CompanyField companyField = new CompanyField();
+                    Field companyField = new Field();
                     companyField.setDisplayName(item.getDisplayName());
                     companyField.setAsset(item.getAsset());
                     companyField.setShortName(convert(item.getDisplayName()));
@@ -56,10 +30,10 @@ public class CompanyFieldServiceConverter implements ServiceConverter<
     }
 
     @Override
-    public CompanyFieldResponseDto toDto(CompanyField entity) {
+    public FieldResponseDto toDto(Field entity) {
         return ofNullable(entity)
                 .map(item -> {
-                    CompanyFieldResponseDto responseDto = new CompanyFieldResponseDto();
+                    FieldResponseDto responseDto = new FieldResponseDto();
                     responseDto.setId(entity.getId());
                     responseDto.setDisplayName(item.getDisplayName());
                     responseDto.setAsset(item.getAsset());

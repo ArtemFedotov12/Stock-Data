@@ -1,13 +1,15 @@
 package com.start.stockdata.service.stock_global;
 
+import com.start.stockdata.exception.exception.DeletionAllNotFoundException;
 import com.start.stockdata.exception.exception.DeletionEntityByIdNotFoundException;
 import com.start.stockdata.exception.exception.EntityAlreadyExistsException;
 import com.start.stockdata.exception.exception.EntityByIdNotFoundException;
+import com.start.stockdata.identity.converter.request.RequestConverter;
 import com.start.stockdata.identity.converter.response.ResponseConverter;
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.identity.model.AbstractEntity;
-import com.start.stockdata.wrapper.global.AbstractEntityDtoWrapper;
+import com.start.stockdata.wrapper.global.GlobalWrapper;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,31 +19,35 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Transactional
-public abstract class AbstractService<
+public abstract class AbstractGlobalService<
         E extends AbstractEntity,
         RQ extends AbstractRequestDto,
         RS extends AbstractResponseDto,
-        WR extends AbstractEntityDtoWrapper<E, RQ, ?>> {
+        WR extends GlobalWrapper<E, Long>
+        >
+        implements GlobalService<RQ, RS, Long> {
 
     protected final WR wrapper;
-    protected final ResponseConverter<E, RS> converter;
+    protected final ResponseConverter<E, RS> responseConverter;
+    protected final RequestConverter<E, RQ> requestConverter;
 
-    public AbstractService(WR wrapper, ResponseConverter<E, RS> converter) {
+    public AbstractGlobalService(WR wrapper, ResponseConverter<E, RS> responseConverter, RequestConverter<E, RQ> requestConverter) {
         this.wrapper = wrapper;
-        this.converter = converter;
+        this.responseConverter = responseConverter;
+        this.requestConverter = requestConverter;
     }
 
     public RS save(RQ requestDto) {
         if (entityAlreadyExistsSave(requestDto)) {
             throw new EntityAlreadyExistsException(requestDto);
         }
-        E entity = wrapper.save(requestDto);
-        return converter.toDto(entity);
+        E entity = wrapper.save(requestConverter.toEntity(requestDto));
+        return responseConverter.toDto(entity);
     }
 
     public RS update(final Long id, RQ requestDto) {
-        Optional<E> companyTypeByIdOptional = wrapper.findById(id);
-        if (!companyTypeByIdOptional.isPresent()) {
+        Optional<E> entityOptional = wrapper.findById(id);
+        if (!entityOptional.isPresent()) {
             throw new EntityByIdNotFoundException(id);
         }
 
@@ -49,18 +55,31 @@ public abstract class AbstractService<
             throw new EntityAlreadyExistsException(requestDto);
         }
 
-        E entity = wrapper.update(id, requestDto);
-        return converter.toDto(entity);
+        E entity = requestConverter.toEntity(requestDto);
+        entity.setId(id);
+        return responseConverter.toDto(wrapper.update(entity));
     }
 
-    public RS delete(Long id) {
+    public RS deleteById(Long id) {
         Optional<E> optional = wrapper.findById(id);
         if (optional.isPresent()) {
-            wrapper.delete(id);
-            return converter.toDto(optional.get());
+            wrapper.deleteById(id);
+            return responseConverter.toDto(optional.get());
         } else {
             throw new DeletionEntityByIdNotFoundException(String.valueOf(id));
         }
+    }
+
+    @Override
+    public List<RS> deleteAll() {
+        List<RS> responseEntityList = this.findAll();
+        if (responseEntityList.isEmpty()) {
+            throw new DeletionAllNotFoundException();
+        } else {
+            wrapper.deleteAll();
+            return responseEntityList;
+        }
+
     }
 
     public List<RS> findAll() {
@@ -70,7 +89,7 @@ public abstract class AbstractService<
     public RS findById(final Long id) {
         Optional<E> entityOptional = wrapper.findById(id);
         if (entityOptional.isPresent()) {
-            return converter.toDto(entityOptional.get());
+            return responseConverter.toDto(entityOptional.get());
         } else {
             throw new EntityByIdNotFoundException(id);
         }
@@ -94,18 +113,18 @@ public abstract class AbstractService<
 
     protected Set<RS> convert(Set<E> entitySet) {
         return entitySet.stream()
-                .map(converter::toDto)
+                .map(responseConverter::toDto)
                 .collect(Collectors.toSet());
     }
 
     protected Page<RS> convert(Page<E> entitySet) {
         return entitySet
-                .map(converter::toDto);
+                .map(responseConverter::toDto);
     }
 
     protected List<RS> convert(List<E> entityList) {
         return entityList.stream()
-                .map(converter::toDto)
+                .map(responseConverter::toDto)
                 .collect(Collectors.toList());
     }
 

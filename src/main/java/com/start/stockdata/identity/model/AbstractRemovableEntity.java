@@ -7,7 +7,7 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 // 'callSuper = false' --- means dont't take into consideration parent fields
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
 @MappedSuperclass

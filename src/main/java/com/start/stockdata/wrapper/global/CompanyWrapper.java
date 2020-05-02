@@ -1,12 +1,8 @@
 package com.start.stockdata.wrapper.global;
 
-import com.start.stockdata.exception.exception.UserByIdNotFoundException;
-import com.start.stockdata.identity.converter.request.RequestConverter;
-import com.start.stockdata.identity.dto.request.CompanyFieldRequestDto;
-import com.start.stockdata.identity.dto.request.CompanyRequestDto;
+import com.start.stockdata.exception.exception.UserIdFromSecurityContextNotFoundException;
 import com.start.stockdata.identity.model.Company;
-import com.start.stockdata.identity.model.CompanyField;
-import com.start.stockdata.repository.AbstractEntityRepo;
+import com.start.stockdata.identity.model.Field;
 import com.start.stockdata.repository.CompanyRepo;
 import com.start.stockdata.repository.projection.CompanyName;
 import org.springframework.stereotype.Component;
@@ -19,73 +15,97 @@ import java.util.stream.Collectors;
 import static com.start.stockdata.util.SecurityContextUtil.getUserIdFromSecurityContext;
 
 /**
- * Pay attention we can call repository.findAllByUserId(id)
+ * Pay attention we can call companyRepo.findAllByUserId(id)
  * because of CompanyRepo last parameter
  */
 @Component
-public class CompanyWrapper extends AbstractEntityDtoWrapper<
+public class CompanyWrapper implements GlobalWrapper<
         Company,
-        CompanyRequestDto,
-        CompanyRepo
-        >  {
+        Long
+        > {
 
-    public CompanyWrapper(RequestConverter<Company, CompanyRequestDto> requestConverter, CompanyRepo repository) {
-        super(requestConverter, repository);
+    private final CompanyRepo companyRepo;
+
+    public CompanyWrapper(CompanyRepo companyRepo) {
+        this.companyRepo = companyRepo;
     }
 
-    public List<Company> findAllByUserId() {
-        Optional<Long> optionalUserId = getUserIdFromSecurityContext();
-
-        if (!optionalUserId.isPresent()) {
-            throw new UserByIdNotFoundException();
-        } else {
-            return repository.findAllByUserId(optionalUserId.get());
-        }
-
+    @Override
+    public Company save(Company entity) {
+        return companyRepo.save(entity);
     }
 
-    public List<Company> deleteAllCompanies() {
-        Optional<Long> optionalUserId = getUserIdFromSecurityContext();
-
-        if (!optionalUserId.isPresent()) {
-            throw new UserByIdNotFoundException();
-        } else {
-            return repository.deleteByUserId(optionalUserId.get());
-        }
-
+    @Override
+    public Company update(Company entity) {
+        return companyRepo.save(entity);
     }
 
-    /**
-     *
-     * @return set of company's names for specific user(user's id will be taken from token)
-     */
-    public Set<String> findAllNameByUserId() {
-        Optional<Long> optionalUserId = getUserIdFromSecurityContext();
+    @Override
+    public Optional<Company> findById(Long id) {
+        return companyRepo.findById(id);
+    }
 
-        if (!optionalUserId.isPresent()) {
-            throw new UserByIdNotFoundException();
+    @Override
+    public List<Company> findAll() {
+
+        Optional<Long> userIdFromSecurityContext = getUserIdFromSecurityContext();
+        if (userIdFromSecurityContext.isPresent()) {
+            return companyRepo.findAllByUserId(userIdFromSecurityContext.get());
         } else {
-            List<CompanyName> companyNames = repository.findByUserId(optionalUserId.get());
-            return companyNames
-                    .stream()
-                    .map(CompanyName::getName)
-                    .collect(Collectors.toSet());
+            throw new UserIdFromSecurityContextNotFoundException();
         }
 
     }
 
     @Override
-    public Company save(CompanyRequestDto companyRequestDto) {
+    public void deleteById(Long id) {
+        companyRepo.deleteById(id);
+    }
 
-        Optional<Long> optionalUserId = getUserIdFromSecurityContext();
-        if (!optionalUserId.isPresent()) {
-            throw new UserByIdNotFoundException();
+    @Override
+    public void deleteAll() {
+
+        Optional<Long> userIdFromSecurityContext = getUserIdFromSecurityContext();
+
+        if (userIdFromSecurityContext.isPresent()) {
+            companyRepo.deleteByUserId(userIdFromSecurityContext.get());
         } else {
-            Company company = requestConverter.toEntity(companyRequestDto);
-            company.setUserId(optionalUserId.get());
-            return repository.save(company);
+            throw new UserIdFromSecurityContextNotFoundException();
         }
 
     }
+
+    @Override
+    public Long count(boolean includeDeleted) {
+
+        Optional<Long> userIdFromSecurityContext = getUserIdFromSecurityContext();
+        if (userIdFromSecurityContext.isPresent()) {
+            return companyRepo.countByUserId(userIdFromSecurityContext.get());
+        } else {
+            throw new UserIdFromSecurityContextNotFoundException();
+        }
+
+    }
+
+
+    public void removeField(Company company, Field field) {
+        company.removeField(field);
+        companyRepo.save(company);
+    }
+
+
+    /**
+     * @return set of company's names for specific user(user's id will be taken from token)
+     */
+    public Set<String> findAllNamesByUserId(Long userId) {
+
+        List<CompanyName> companyNames = companyRepo.findByUserId(userId);
+        return companyNames
+                .stream()
+                .map(CompanyName::getName)
+                .collect(Collectors.toSet());
+
+    }
+
 
 }
