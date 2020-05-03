@@ -1,6 +1,6 @@
 package com.start.stockdata.wrapper.attributes;
 
-import com.start.stockdata.identity.converter.active.ServiceConverter;
+import com.start.stockdata.identity.converter.active.Converter;
 import com.start.stockdata.identity.model.AbstractEntity;
 import com.start.stockdata.repository.AbstractEntityRepo;
 
@@ -13,11 +13,11 @@ public abstract class AbstractAttributeWrapper<
         > implements AttributeWrapper<E, Long> {
 
 
-    protected final ServiceConverter<E, ?, ?> serviceConverter;
+    protected final Converter<E, ?, ?> converter;
     protected final R repository;
 
-    public AbstractAttributeWrapper(ServiceConverter<E, ?, ?> serviceConverter, R repository) {
-        this.serviceConverter = serviceConverter;
+    public AbstractAttributeWrapper(Converter<E, ?, ?> converter, R repository) {
+        this.converter = converter;
         this.repository = repository;
     }
 

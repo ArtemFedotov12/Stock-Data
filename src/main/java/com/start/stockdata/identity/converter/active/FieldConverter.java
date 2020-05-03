@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import static java.util.Optional.ofNullable;
 
 @Component
-public class CompanyFieldServiceConverter implements ServiceConverter<
+public class FieldConverter implements Converter<
         Field,
         FieldRequestDto,
         FieldResponseDto

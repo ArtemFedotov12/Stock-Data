@@ -1,7 +1,7 @@
 package com.start.stockdata.service.company_attribute;
 
 import com.start.stockdata.exception.exception.*;
-import com.start.stockdata.identity.converter.active.ServiceConverter;
+import com.start.stockdata.identity.converter.active.Converter;
 import com.start.stockdata.identity.converter.response.ResponseConverter;
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
@@ -27,16 +27,16 @@ public abstract class AbstractAttributeService<
     protected final WR attributeWrapper;
     protected final M mainEntityWrapper;
     protected final ResponseConverter<E, RS> responseConverter;
-    protected final ServiceConverter<E, RQ, RS> serviceConverter;
+    protected final Converter<E, RQ, RS> converter;
 
     public AbstractAttributeService(WR attributeWrapper,
                                     M mainEntityWrapper,
                                     ResponseConverter<E, RS> responseConverter,
-                                    ServiceConverter<E, RQ, RS> serviceConverter) {
+                                    Converter<E, RQ, RS> converter) {
         this.attributeWrapper = attributeWrapper;
         this.mainEntityWrapper = mainEntityWrapper;
         this.responseConverter = responseConverter;
-        this.serviceConverter = serviceConverter;
+        this.converter = converter;
     }
 
     @Override
@@ -52,11 +52,8 @@ public abstract class AbstractAttributeService<
             throw new EntityWithinMainEntityAlreadyExistException(String.valueOf(mainEntityId), requestDto);
         }
 
-        E entity = attributeWrapper.save(mainEntityId, serviceConverter.toEntity(requestDto));
-
-      /*  E entity = attributeWrapper.save(convertToActiveDto(mainEntityId, requestDto));
-        return serviceConverter.toDto(entity);*/
-        return serviceConverter.toDto(entity);
+        E entity = attributeWrapper.save(mainEntityId, converter.toEntity(requestDto));
+        return converter.toDto(entity);
     }
 
 
@@ -71,11 +68,11 @@ public abstract class AbstractAttributeService<
         if (entityAlreadyExistsUpdate(mainEntityId, id, requestDto)) {
             throw new EntityWithinMainEntityAlreadyExistException(String.valueOf(mainEntityId), requestDto);
         }
-        E toEntity = serviceConverter.toEntity(requestDto);
+        E toEntity = converter.toEntity(requestDto);
         toEntity.setId(id);
 
         E entity = attributeWrapper.update(mainEntityId, id, toEntity);
-        return serviceConverter.toDto(entity);
+        return converter.toDto(entity);
     }
 
 
@@ -91,7 +88,7 @@ public abstract class AbstractAttributeService<
         if (optionalEntity.isPresent()) {
             //this.delete(serviceConverter.toActive(optionalEntity.get()));
             attributeWrapper.delete(mainEntityId, optionalEntity.get());
-            return serviceConverter.toDto(optionalEntity.get());
+            return converter.toDto(optionalEntity.get());
         } else {
             throw new DeletionEntityByIdNotFoundException(String.valueOf(id));
         }
@@ -128,7 +125,7 @@ public abstract class AbstractAttributeService<
 
         Optional<E> entityOptional = attributeWrapper.findById(id);
         if (entityOptional.isPresent()) {
-            return serviceConverter.toDto(entityOptional.get());
+            return converter.toDto(entityOptional.get());
         } else {
             throw new EntityByIdNotFoundException(id);
         }
@@ -170,7 +167,7 @@ public abstract class AbstractAttributeService<
 
     protected List<RS> convert(List<E> entityList) {
         return entityList.stream()
-                .map(serviceConverter::toDto)
+                .map(converter::toDto)
                 .collect(Collectors.toList());
     }
 

@@ -1,7 +1,7 @@
 package com.start.stockdata.service.company_attribute;
 
 import com.start.stockdata.exception.exception.*;
-import com.start.stockdata.identity.converter.active.ServiceConverter;
+import com.start.stockdata.identity.converter.active.Converter;
 import com.start.stockdata.identity.converter.response.ResponseConverter;
 import com.start.stockdata.identity.dto.request.FieldRequestDto;
 import com.start.stockdata.identity.dto.response.FieldResponseDto;
@@ -28,8 +28,8 @@ public class FieldService extends AbstractAttributeService<
         CompanyWrapper
         > {
 
-    public FieldService(FieldWrapper attributeWrapper, CompanyWrapper mainEntityWrapper, ResponseConverter<Field, FieldResponseDto> responseConverter, ServiceConverter<Field, FieldRequestDto, FieldResponseDto> serviceConverter) {
-        super(attributeWrapper, mainEntityWrapper, responseConverter, serviceConverter);
+    public FieldService(FieldWrapper attributeWrapper, CompanyWrapper mainEntityWrapper, ResponseConverter<Field, FieldResponseDto> responseConverter, Converter<Field, FieldRequestDto, FieldResponseDto> converter) {
+        super(attributeWrapper, mainEntityWrapper, responseConverter, converter);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class FieldService extends AbstractAttributeService<
         } else {
             Set<Field> fieldSet = optionalCompany.get().getFields();
 
-            Field field = serviceConverter.toEntity(requestDto);
+            Field field = converter.toEntity(requestDto);
 
             return fieldSet
                     .stream()
@@ -114,7 +114,7 @@ public class FieldService extends AbstractAttributeService<
         } else {
             Set<Field> fieldSet = optionalCompany.get().getFields();
 
-            Field field = serviceConverter.toEntity(requestDto);
+            Field field = converter.toEntity(requestDto);
 
             return fieldSet
                     .stream()

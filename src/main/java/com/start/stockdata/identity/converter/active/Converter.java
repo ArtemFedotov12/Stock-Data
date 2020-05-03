@@ -4,7 +4,7 @@ import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.identity.model.AbstractEntity;
 
-public interface ServiceConverter<
+public interface Converter<
         E extends AbstractEntity,
         RQ extends AbstractRequestDto,
         RS extends AbstractResponseDto
