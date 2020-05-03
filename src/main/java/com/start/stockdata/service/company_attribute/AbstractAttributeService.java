@@ -56,7 +56,7 @@ public abstract class AbstractAttributeService<
 
       /*  E entity = attributeWrapper.save(convertToActiveDto(mainEntityId, requestDto));
         return serviceConverter.toDto(entity);*/
-      return serviceConverter.toDto(entity);
+        return serviceConverter.toDto(entity);
     }
 
 
@@ -71,10 +71,11 @@ public abstract class AbstractAttributeService<
         if (entityAlreadyExistsUpdate(mainEntityId, id, requestDto)) {
             throw new EntityWithinMainEntityAlreadyExistException(String.valueOf(mainEntityId), requestDto);
         }
+        E toEntity = serviceConverter.toEntity(requestDto);
+        toEntity.setId(id);
 
-       /* E entity = attributeWrapper.update(id, convertToActiveDto(mainEntityId, requestDto));
-        return serviceConverter.toDto(entity);*/
-        return null;
+        E entity = attributeWrapper.update(mainEntityId, id, toEntity);
+        return serviceConverter.toDto(entity);
     }
 
 
@@ -154,7 +155,6 @@ public abstract class AbstractAttributeService<
 
         return attributeWrapper.count(mainEntityId, includeDeleted);
     }
-
 
 
     protected abstract boolean entityAlreadyExists(Long companyId, RQ requestDto);

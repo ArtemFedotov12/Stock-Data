@@ -19,7 +19,6 @@ public class FieldWrapper implements AttributeWrapper<Field, Long> {
         this.companyFieldWrapper = companyFieldWrapper;
     }
 
-
     @Override
     public Field save(Long mainEntityId, Field field) {
         return companyFieldWrapper.saveField(mainEntityId, field);

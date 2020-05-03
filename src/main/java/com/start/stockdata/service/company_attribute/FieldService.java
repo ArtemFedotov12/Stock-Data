@@ -125,18 +125,5 @@ public class FieldService extends AbstractAttributeService<
         }
     }
 
-/*    @Override
-    protected CompanyFieldActiveDto convertToActiveDto(Long companyId, CompanyFieldRequestDto requestDto) {
-        CompanyFieldActiveDto companyFieldActiveDto = serviceConverter.toActive(requestDto);
-        Optional<Company> optionalCompany = mainEntityWrapper.findById(companyId);
-
-        if (!optionalCompany.isPresent()) {
-            throw new CompanyByIdNotFoundException(companyId);
-        } else {
-            companyFieldActiveDto.setCompany(optionalCompany.get());
-            return companyFieldActiveDto;
-        }
-    }*/
-
 
 }

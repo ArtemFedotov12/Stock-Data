@@ -27,7 +27,7 @@ import static com.start.stockdata.util.constants.UriPath.COMPANIES_PATH;
                         in = ApiKeyAuthDefinition.ApiKeyLocation.HEADER,
                         description = "Bearer Authentication")}))*/
 public class CompanyController extends AbstractStockGlobalController<CompanyRequestDto, CompanyResponseDto, CompanyService> {
-
+    
 
     public CompanyController(CompanyService service) {
         super(service);

@@ -13,28 +13,28 @@ public interface FieldRepo extends AbstractRemovableEntityRepo<Field>, JpaSpecif
 
     @Query(value =
             "select * " +
-                    "from company_field" +
+                    "from field" +
                     " where company_id=:mainEntityId",
             nativeQuery = true)
     List<Field> findAllByCompanyId(@Param("mainEntityId") Long mainEntityId);
 
     @Query(value =
             "delete " +
-                    "from company_field" +
+                    "from field" +
                     " where company_id=:mainEntityId",
             nativeQuery = true)
     void deleteAllByCompanyId(@Param("mainEntityId") Long mainEntityId);
 
     @Query(value =
             "delete " +
-                    "from company_field" +
+                    "from field" +
                     " where id=:id",
             nativeQuery = true)
     void deleteById(@Param("id") Long id);
 
     @Query(value =
             "select count(*)" +
-                    " from company_field" +
+                    " from field" +
                     " where company_id = :mainEntityId",
             nativeQuery = true)
     Long count(@Param("mainEntityId") Long mainEntityId);

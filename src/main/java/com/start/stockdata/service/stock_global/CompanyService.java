@@ -11,6 +11,8 @@ import com.start.stockdata.validations.FieldValueExists;
 import com.start.stockdata.wrapper.global.CompanyWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -169,6 +171,15 @@ public class CompanyService implements GlobalService<
     public boolean isFieldValueExist(Object value, String fieldName) throws UnsupportedOperationException {
         if (!fieldName.equals("name")) {
             throw new UnsupportedFieldException(value.toString());
+        }
+
+        String httpMethod = Optional.ofNullable(RequestContextHolder.getRequestAttributes())
+                .filter(requestAttributes -> ServletRequestAttributes.class.isAssignableFrom(requestAttributes.getClass()))
+                .map(requestAttributes -> ((ServletRequestAttributes) requestAttributes))
+                .map(ServletRequestAttributes::getRequest).get().getMethod();
+
+        if (httpMethod.equals("PUT")) {
+            return false;
         }
 
         if (value == null) {
