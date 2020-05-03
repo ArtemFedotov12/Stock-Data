@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@SwaggerDefinition(securityDefinition = @SecurityDefinition(
+/*@SwaggerDefinition(securityDefinition = @SecurityDefinition(
         apiKeyAuthDefinitions = {
                 @ApiKeyAuthDefinition(key = "custom",
                         name = "Authorization",
                         in = ApiKeyAuthDefinition.ApiKeyLocation.HEADER,
-                        description = "Bearer Authentication")}))
+                        description = "Bearer Authentication")}))*/
 public abstract class AbstractStockGlobalController<
         RQ extends AbstractRequestDto,
         RS extends AbstractResponseDto,

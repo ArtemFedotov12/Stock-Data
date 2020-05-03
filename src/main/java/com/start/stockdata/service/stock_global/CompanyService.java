@@ -6,7 +6,6 @@ import com.start.stockdata.identity.converter.response.ResponseConverter;
 import com.start.stockdata.identity.dto.request.company.CompanyRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyResponseDto;
 import com.start.stockdata.identity.model.Company;
-import com.start.stockdata.identity.model.Field;
 import com.start.stockdata.validations.FieldValueExists;
 import com.start.stockdata.wrapper.global.CompanyWrapper;
 import org.springframework.stereotype.Service;
@@ -14,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -119,42 +119,6 @@ public class CompanyService implements GlobalService<
         return responseDtoList;
     }
 
-    public void deleteField(Long companyId, Field field) {
-        Company company = getCompanyById(companyId);
-        company.removeField(field);
-        wrapper.save(company);
-    }
-
-    public void deleteAllFields(Long companyId) {
-        Company company = getCompanyById(companyId);
-        company.getFields().clear();
-        wrapper.save(company);
-    }
-
-    public Field saveField(Long companyId, Field field) {
-        Company company = getCompanyById(companyId);
-        company.addField(field);
-
-        Optional<Field> fieldOptional = wrapper.save(company)
-                .getFields()
-                .stream()
-                .filter(item -> item.equals(field))
-                .findFirst();
-
-        if (fieldOptional.isPresent()) {
-            return fieldOptional.get();
-        } else {
-            throw new SaveFieldException();
-        }
-    }
-
-    public Field updateField(Long companyId, Long fieldId, Field field) {
-        Company company = getCompanyById(companyId);
-        field.setId(fieldId);
-        company.addField(field);
-        wrapper.save(company);
-        return field;
-    }
 
     @Override
     public Long count(boolean includeDeleted) {
@@ -173,14 +137,21 @@ public class CompanyService implements GlobalService<
             throw new UnsupportedFieldException(value.toString());
         }
 
-        String httpMethod = Optional.ofNullable(RequestContextHolder.getRequestAttributes())
+        Optional<HttpServletRequest> requestOptional = Optional.ofNullable(RequestContextHolder.getRequestAttributes())
                 .filter(requestAttributes -> ServletRequestAttributes.class.isAssignableFrom(requestAttributes.getClass()))
                 .map(requestAttributes -> ((ServletRequestAttributes) requestAttributes))
-                .map(ServletRequestAttributes::getRequest).get().getMethod();
+                .map(ServletRequestAttributes::getRequest);
 
-        if (httpMethod.equals("PUT")) {
-            return false;
+        if (!requestOptional.isPresent()) {
+            throw new InternalStockException("Failed to get 'HttpServletRequest' from 'RequestContextHolder'");
+        } else {
+            String httpMethod = requestOptional.get().getMethod();
+
+            if (httpMethod.equals("PUT")) {
+                return false;
+            }
         }
+
 
         if (value == null) {
             return false;
@@ -219,11 +190,11 @@ public class CompanyService implements GlobalService<
     }
 
 
-    protected boolean entityAlreadyExistsSave(CompanyRequestDto requestDto) {
+    private boolean entityAlreadyExistsSave(CompanyRequestDto requestDto) {
         return false;
     }
 
-    protected boolean entityAlreadyExistsUpdate(final Long id, CompanyRequestDto requestDto) {
+    private boolean entityAlreadyExistsUpdate(final Long id, CompanyRequestDto requestDto) {
         return false;
     }
 
