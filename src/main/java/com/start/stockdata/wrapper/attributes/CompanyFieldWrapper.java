@@ -38,6 +38,8 @@ public class CompanyFieldWrapper implements CompanyFieldAttributeWrapper {
     public Field updateField(Long companyId, Long fieldId, Field field) {
         Company company = getCompanyById(companyId);
         company.getFields().removeIf(item -> item.getId().equals(fieldId));
+
+        field.setId(fieldId);
         company.addField(field);
         companyWrapper.save(company);
         return field;

@@ -9,7 +9,6 @@ import com.start.stockdata.identity.model.AbstractEntity;
 import com.start.stockdata.wrapper.attributes.AttributeWrapper;
 import com.start.stockdata.wrapper.global.GlobalWrapper;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,17 +40,9 @@ public abstract class AbstractAttributeService<
 
     @Override
     public RS save(Long mainEntityId, RQ requestDto) {
-        if (!isMainEntityExists(mainEntityId)) {
-            throw new MainEntityNotFoundException(mainEntityId.toString());
-        }
-
-        additionalCheck(mainEntityId);
         // check if such entity exists within "mainEntity",
         // not in the whole DB!!
-        if (entityAlreadyExists(mainEntityId, requestDto)) {
-            throw new EntityWithinMainEntityAlreadyExistException(String.valueOf(mainEntityId), requestDto);
-        }
-
+        validate(mainEntityId, requestDto);
         E entity = attributeWrapper.save(mainEntityId, converter.toEntity(requestDto));
         return converter.toDto(entity);
     }
@@ -59,34 +50,20 @@ public abstract class AbstractAttributeService<
 
     @Override
     public RS update(Long mainEntityId, Long id, RQ requestDto) {
-        if (!isMainEntityExists(mainEntityId)) {
-            throw new MainEntityNotFoundException(mainEntityId.toString());
-        }
-
-        additionalCheck(mainEntityId, id);
-
-        if (entityAlreadyExistsUpdate(mainEntityId, id, requestDto)) {
-            throw new EntityWithinMainEntityAlreadyExistException(String.valueOf(mainEntityId), requestDto);
-        }
-        E toEntity = converter.toEntity(requestDto);
-        toEntity.setId(id);
-
-        E entity = attributeWrapper.update(mainEntityId, id, toEntity);
+        // exclude itself to check on uniqueness
+        validate(mainEntityId, id, requestDto);
+        E entity = attributeWrapper.update(mainEntityId, id, converter.toEntity(requestDto));
         return converter.toDto(entity);
     }
 
 
     @Override
     public RS delete(Long mainEntityId, Long id) {
-        if (!isMainEntityExists(mainEntityId)) {
-            throw new MainEntityNotFoundException(mainEntityId.toString());
-        }
 
-        additionalCheck(mainEntityId, id);
+        validate(mainEntityId, id);
 
         Optional<E> optionalEntity = attributeWrapper.findById(id);
         if (optionalEntity.isPresent()) {
-            //this.delete(serviceConverter.toActive(optionalEntity.get()));
             attributeWrapper.delete(mainEntityId, optionalEntity.get());
             return converter.toDto(optionalEntity.get());
         } else {
@@ -98,11 +75,8 @@ public abstract class AbstractAttributeService<
 
     @Override
     public List<RS> deleteAllByMainEntityId(Long mainEntityId) {
-        if (!isMainEntityExists(mainEntityId)) {
-            throw new MainEntityNotFoundException(mainEntityId.toString());
-        }
 
-        additionalCheck(mainEntityId);
+        validate(mainEntityId);
 
         List<E> companyFields = attributeWrapper.findAllByMainEntityId(mainEntityId);
         if (!companyFields.isEmpty()) {
@@ -112,16 +86,12 @@ public abstract class AbstractAttributeService<
             throw new DeletionByIdMainEntityNotFoundException(String.valueOf(mainEntityId));
         }
 
-
     }
 
     @Override
     public RS findById(Long mainEntityId, Long id) {
-        if (!isMainEntityExists(mainEntityId)) {
-            throw new MainEntityNotFoundException(mainEntityId.toString());
-        }
 
-        additionalCheck(mainEntityId, id);
+        validate(mainEntityId, id);
 
         Optional<E> entityOptional = attributeWrapper.findById(id);
         if (entityOptional.isPresent()) {
@@ -133,35 +103,14 @@ public abstract class AbstractAttributeService<
 
     @Override
     public List<RS> findAllByMainEntityId(Long mainEntityId) {
-        if (!isMainEntityExists(mainEntityId)) {
-            throw new MainEntityNotFoundException(mainEntityId.toString());
-        }
-
-        additionalCheck(mainEntityId);
-
+        validate(mainEntityId);
         return convert(attributeWrapper.findAllByMainEntityId(mainEntityId));
     }
 
     @Override
     public Long count(Long mainEntityId, boolean includeDeleted) {
-        if (!isMainEntityExists(mainEntityId)) {
-            throw new MainEntityNotFoundException(mainEntityId.toString());
-        }
-
-        additionalCheck(mainEntityId);
-
+        validate(mainEntityId);
         return attributeWrapper.count(mainEntityId, includeDeleted);
-    }
-
-
-    protected abstract boolean entityAlreadyExists(Long companyId, RQ requestDto);
-
-    //Entity that must be updated, must be excluded from check list
-    protected abstract boolean entityAlreadyExistsUpdate(Long companyId, final Long id, RQ requestDto);
-
-    private boolean isMainEntityExists(Long mainEntityId) {
-        Optional<?> optionalCompany = mainEntityWrapper.findById(mainEntityId);
-        return optionalCompany.isPresent();
     }
 
 
@@ -171,7 +120,12 @@ public abstract class AbstractAttributeService<
                 .collect(Collectors.toList());
     }
 
-    protected abstract void additionalCheck(Long mainEntityId, Long id);
 
-    protected abstract void additionalCheck(Long mainEntityId);
+    protected abstract void validate(Long mainEntityId);
+
+    protected abstract void validate(Long mainEntityId, RQ requestDto);
+
+    protected abstract void validate(Long mainEntityId, Long id, RQ requestDto);
+
+    protected abstract void validate(Long mainEntityId, Long id);
 }
