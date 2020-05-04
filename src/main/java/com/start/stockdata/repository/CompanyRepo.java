@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CompanyRepo extends AbstractRemovableEntityRepo<Company>, JpaSpecificationExecutor<Company> {
@@ -16,4 +17,5 @@ public interface CompanyRepo extends AbstractRemovableEntityRepo<Company>, JpaSp
     List<CompanyName> findByUserId(Long userId);
     void deleteByUserId(Long id);
     Long countByUserId(Long userId);
+    Optional<Company> findByName(String name);
 }

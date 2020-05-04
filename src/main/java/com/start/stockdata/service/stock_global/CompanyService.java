@@ -42,9 +42,8 @@ public class CompanyService implements GlobalService<
 
     @Override
     public CompanyResponseDto save(CompanyRequestDto requestDto) {
-        if (entityAlreadyExistsSave(requestDto)) {
-            throw new EntityAlreadyExistsException(requestDto);
-        }
+
+        checkEntityAlreadyExistsSaveMethod(requestDto);
 
         Company company = requestConverter.toEntity(requestDto);
         company.setUserId(this.getUserIdFromContext());
@@ -63,9 +62,7 @@ public class CompanyService implements GlobalService<
             throw new CompanyNotBelongException(id);
         }
 
-        if (entityAlreadyExistsUpdate(id, requestDto)) {
-            throw new EntityAlreadyExistsException(requestDto);
-        }
+        checkEntityAlreadyExistsUpdateMethod(id, requestDto);
 
         Company company = requestConverter.toEntity(requestDto);
         company.setId(id);
@@ -190,12 +187,23 @@ public class CompanyService implements GlobalService<
     }
 
 
-    private boolean entityAlreadyExistsSave(CompanyRequestDto requestDto) {
-        return false;
+    private void checkEntityAlreadyExistsSaveMethod(CompanyRequestDto requestDto) {
+        Optional<Company> optionalCompany = wrapper.findByName(requestDto.getName());
+        if (optionalCompany.isPresent()) {
+            throw new CompanyAlreadyExistException(requestDto);
+        }
     }
 
-    private boolean entityAlreadyExistsUpdate(final Long id, CompanyRequestDto requestDto) {
-        return false;
+    private void checkEntityAlreadyExistsUpdateMethod(final Long id, CompanyRequestDto requestDto) {
+        Optional<Company> optionalCompany = wrapper.findByName(requestDto.getName());
+        if (optionalCompany.isPresent()) {
+            Company company = optionalCompany.get();
+
+            if (!company.getId().equals(id)) {
+                throw new CompanyAlreadyExistException(requestDto);
+            }
+
+        }
     }
 
 }

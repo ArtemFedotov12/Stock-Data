@@ -88,11 +88,6 @@ public class CompanyWrapper implements GlobalWrapper<
     }
 
 
-    public void removeField(Company company, Field field) {
-        company.removeField(field);
-        companyRepo.save(company);
-    }
-
 
     /**
      * @return set of company's names for specific user(user's id will be taken from token)
@@ -105,6 +100,10 @@ public class CompanyWrapper implements GlobalWrapper<
                 .map(CompanyName::getName)
                 .collect(Collectors.toSet());
 
+    }
+
+    public Optional<Company> findByName(String name) {
+        return companyRepo.findByName(name);
     }
 
 
