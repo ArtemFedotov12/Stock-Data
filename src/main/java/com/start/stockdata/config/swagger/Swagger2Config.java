@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.start.stockdata.util.constants.GlobalConstants.HEADER_STRING;
+import static com.start.stockdata.util.constants.GlobalConstants.API_TOKEN;
 
 @Configuration
 @EnableSwagger2
@@ -100,7 +100,7 @@ public class Swagger2Config implements WebMvcConfigurer {
 	}
 
 	private ApiKey apiKey() {
-		return new ApiKey("JWT", HEADER_STRING, "header");
+		return new ApiKey("JWT", API_TOKEN, "header");
 	}
 
 /*	@Bean
