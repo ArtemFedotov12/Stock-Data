@@ -31,7 +31,7 @@ public interface AttributeController<
             @PathVariable("id") final ID id
     );
 
-    ResponseEntity<List<RS>> deleteAllByCompanyId(
+    ResponseEntity<List<RS>> deleteAllByMainEntityId(
             @PathVariable("id") final ID mainEntityId
     );
 
@@ -40,7 +40,7 @@ public interface AttributeController<
             @PathVariable("id") final ID id
     );
 
-    ResponseEntity<List<RS>> findAllByCompanyId(
+    ResponseEntity<List<RS>> findAllByMainEntityId(
             @PathVariable("mainEntityId") final ID mainEntityId
     );
 

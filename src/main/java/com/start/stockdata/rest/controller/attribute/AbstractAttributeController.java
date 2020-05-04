@@ -61,7 +61,7 @@ public abstract class AbstractAttributeController<
             notes = "Removing an entity by a given unique identifier"
     )
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<RS>> deleteAllByCompanyId(@PathVariable("mainEntityId") Long mainEntityId) {
+    public ResponseEntity<List<RS>> deleteAllByMainEntityId(@PathVariable("mainEntityId") Long mainEntityId) {
         return new ResponseEntity<>(service.deleteAllByMainEntityId(mainEntityId), HttpStatus.OK);
     }
 
@@ -80,7 +80,7 @@ public abstract class AbstractAttributeController<
             notes = "Find all entities of the specified type"
     )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<RS>> findAllByCompanyId(@PathVariable("mainEntityId") Long mainEntityId) {
+    public ResponseEntity<List<RS>> findAllByMainEntityId(@PathVariable("mainEntityId") Long mainEntityId) {
         return new ResponseEntity<>(service.findAllByMainEntityId(mainEntityId), HttpStatus.OK);
     }
 
