@@ -1,8 +1,8 @@
-package com.start.stockdata.rest.controller.stock_global.admin;
+package com.start.stockdata.rest.controller.global.admin;
 
 import com.start.stockdata.identity.dto.request.CompanyTypeRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyTypeResponseDto;
-import com.start.stockdata.rest.controller.stock_global.AbstractStockGlobalController;
+import com.start.stockdata.rest.controller.global.AbstractStockGlobalController;
 import com.start.stockdata.service.stock_global.CompanyTypeService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -41,8 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = req.getHeader(API_TOKEN);
         Long userId = null;
         String authToken = null;
-        if (header != null && header.startsWith(TOKEN_PREFIX_WITH_SPACE)) {
-            authToken = header.replace(TOKEN_PREFIX_WITH_SPACE,"");
+        if (header != null && header.startsWith(BEARER_WITH_SPACE)) {
+            authToken = header.replace(BEARER_WITH_SPACE,"");
             try {
               /*   first it will be getAllClaimsFromToken() and check sign!!!!
                  then claims.getString("sub");*/

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public abstract class AbstractRemovableEntity extends AbstractEntity {
 
+    @EqualsAndHashCode.Exclude
     @Column(name = "removal_date")
     private LocalDateTime removalDate;
 

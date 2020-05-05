@@ -1,9 +1,6 @@
 package com.start.stockdata.identity.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,9 +12,11 @@ import javax.persistence.*;
 @Setter
 public class Factor extends AbstractAttributeEntity {
 
+    @EqualsAndHashCode.Exclude
     @Column(name = "short_name")
     String shortName;
 
+    @EqualsAndHashCode.Exclude
     @Column(name = "asset")
     String asset;
 
@@ -25,7 +24,9 @@ public class Factor extends AbstractAttributeEntity {
     String displayName;
 
     @EqualsAndHashCode.Exclude
-    @ManyToOne(fetch = FetchType.LAZY/*, cascade = CascadeType.ALL*/)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="company_id")
+    @NonNull
     private Company company;
 
 }

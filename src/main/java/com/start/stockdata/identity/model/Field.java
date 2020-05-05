@@ -25,6 +25,7 @@ public class Field extends AbstractAttributeEntity{
 
     @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="company_id")
     @NonNull
     private Company company;
 

@@ -19,9 +19,9 @@ import java.util.Optional;
 @Slf4j
 public class TokenGenerator {
 
-    private static final String URL = "http://auth.stocks.vladify.com/api/auth/login";
+    private static final String URL = "https://auth-service-vladify.herokuapp.com/api/auth/login";
     private static final String EMAIL = "vlad.danylovych@gmail.com";
-    private static final String PASSWORD = "password1";
+    private static final String PASSWORD = "password";
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final Gson GSON = new Gson();

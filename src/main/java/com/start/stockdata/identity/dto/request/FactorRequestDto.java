@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @ApiModel("Model, contains information for creation company's factors")
-public class CompanyFactorRequestDto extends AbstractRequestDto {
+public class FactorRequestDto extends AbstractRequestDto {
 
     private static final long serialVersionUID = 2223384917635270366L;
 

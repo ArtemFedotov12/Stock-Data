@@ -1,4 +1,4 @@
-package com.start.stockdata.rest.controller.stock_global;
+package com.start.stockdata.rest.controller.global;
 
 import com.start.stockdata.api.StockGlobalController;
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;

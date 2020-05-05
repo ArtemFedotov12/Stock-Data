@@ -14,7 +14,7 @@ public class GlobalConstants {
     // SIGNING_KEY.getBytes(StandardCharsets.UTF_8) use UTF-8
     public static final String SIGNING_KEY = "dummy_secret_key1";
     public static final String SIGNATURE_ALGORITHM = "HS256";
-    public static final String TOKEN_PREFIX_WITH_SPACE = "Bearer ";
+    public static final String BEARER_WITH_SPACE = "Bearer ";
     public static final String USER_ID = "userId";
 
 }

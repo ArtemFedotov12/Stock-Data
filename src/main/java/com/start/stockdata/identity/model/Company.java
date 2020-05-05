@@ -27,13 +27,13 @@ public class Company extends AbstractRemovableEntity {
     private Set<CompanyType> companyTypes;
 
     // Nothing must be deleted from db. Just set removal_date
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name="company_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.REMOVE},
+            orphanRemoval = true, mappedBy = "company")
     private Set<Field> fields;
 
     // Nothing must be deleted from db. Just set removal_date
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name="company_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.REMOVE},
+            orphanRemoval = true, mappedBy = "company")
     private Set<Factor> factors;
 
     @Column(name = "user_id")

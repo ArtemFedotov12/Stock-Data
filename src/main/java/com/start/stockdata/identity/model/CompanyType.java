@@ -18,6 +18,7 @@ import java.util.Objects;
 @Setter
 public class CompanyType extends AbstractRemovableEntity {
 
+    @EqualsAndHashCode.Exclude
     @Column(name = "type", unique = true)
     private String type;
 

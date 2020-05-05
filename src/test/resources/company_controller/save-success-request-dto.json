@@ -1,0 +1,33 @@
+{
+  "factors": [
+    {
+      "asset": "ss",
+      "displayName": "factor1"
+    },
+    {
+      "asset": "ss22",
+      "displayName": "factor2"
+    }
+  ],
+  "fields": [
+    {
+      "asset": "ss",
+      "displayName": "field1"
+    },
+    {
+      "asset": "ss",
+      "displayName": "field2"
+    }
+  ],
+  "name": "adminCompany4",
+  "types": [
+    {
+      "id": 1
+
+    },
+    {
+      "id": 2
+
+    }
+  ]
+}

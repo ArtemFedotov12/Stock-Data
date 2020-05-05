@@ -2,7 +2,7 @@ package com.start.stockdata.identity.dto.request.company;
 
 import com.start.stockdata.identity.dto.different.CompanyTypeIdRequestDto;
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
-import com.start.stockdata.identity.dto.request.CompanyFactorRequestDto;
+import com.start.stockdata.identity.dto.request.FactorRequestDto;
 import com.start.stockdata.identity.dto.request.FieldRequestDto;
 import com.start.stockdata.service.stock_global.CompanyService;
 import com.start.stockdata.validations.Unique;
@@ -44,6 +44,6 @@ public class CompanyRequestDto extends AbstractRequestDto {
     @NotEmpty
     @ApiModelProperty(value = "Company's factors. Constraints: @NotEmpty", required = true)
     @Valid
-    private Set<CompanyFactorRequestDto> factors;
+    private Set<FactorRequestDto> factors;
 
 }

@@ -1,0 +1,39 @@
+{
+  "id": 2,
+  "name": "adminCompany4",
+  "types": [
+    {
+      "id": 2,
+      "type": "Milk"
+    },
+    {
+      "id": 1,
+      "type": "Intel"
+    }
+  ],
+  "fields": [
+    {
+      "id": 4,
+      "asset": "ss",
+      "displayName": "field1"
+    },
+    {
+      "id": 3,
+      "asset": "ss",
+      "displayName": "field2"
+    }
+  ],
+  "factors": [
+    {
+      "id": 3,
+      "asset": "ss22",
+      "displayName": "factor2"
+    },
+    {
+      "id": 4,
+      "asset": "ss",
+      "displayName": "factor1"
+    }
+  ],
+  "userId": 1
+}

@@ -1,8 +1,7 @@
 package com.start.stockdata.identity.converter.request;
 
-import com.start.stockdata.identity.dto.request.CompanyFactorRequestDto;
+import com.start.stockdata.identity.dto.request.FactorRequestDto;
 import com.start.stockdata.identity.dto.request.FieldRequestDto;
-import com.start.stockdata.identity.dto.request.company.CompanyRequestDto;
 import com.start.stockdata.identity.dto.request.company.CompanyRequestUpdateDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.identity.model.CompanyType;
@@ -18,10 +17,10 @@ import static java.util.Optional.ofNullable;
 @Component
 public class CompanyRequestUpdateConverter implements RequestConverter<Company, CompanyRequestUpdateDto>  {
 
-    private final RequestConverter<Factor, CompanyFactorRequestDto> factorConverter;
+    private final RequestConverter<Factor, FactorRequestDto> factorConverter;
     private  final RequestConverter<Field, FieldRequestDto> fieldConverter;
 
-    public CompanyRequestUpdateConverter(RequestConverter<Factor, CompanyFactorRequestDto> factorConverter,
+    public CompanyRequestUpdateConverter(RequestConverter<Factor, FactorRequestDto> factorConverter,
                                    RequestConverter<Field, FieldRequestDto> fieldConverter) {
         this.factorConverter = factorConverter;
         this.fieldConverter = fieldConverter;
