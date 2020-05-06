@@ -2,8 +2,6 @@ package com.start.stockdata.config;
 
 import com.start.stockdata.config.jwt.JWTConfigurer;
 import com.start.stockdata.config.jwt.JwtAuthenticationEntryPoint;
-import com.start.stockdata.config.jwt.JwtTokekUtil;
-import com.start.stockdata.config.notWork.MyAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -24,12 +22,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   /*  @Qualifier("userDetailsService")
     private final UserDetailsService userDetailsService;*/
-    private final JwtTokekUtil jwtTokenUtil;
+
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
 
-    public WebSecurityConfig(JwtTokekUtil jwtTokenUtil, JwtAuthenticationEntryPoint unauthorizedHandler) {
-        this.jwtTokenUtil = jwtTokenUtil;
+    public WebSecurityConfig(JwtAuthenticationEntryPoint unauthorizedHandler) {
         this.unauthorizedHandler = unauthorizedHandler;
     }
 
@@ -114,7 +111,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }*/
 
     private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(/*userDetailsService,*/jwtTokenUtil);
+        return new JWTConfigurer(/*userDetailsService,*/);
     }
 
 

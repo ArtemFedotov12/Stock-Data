@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
 
 @Slf4j
+@UtilityClass
 public class TokenGenerator {
 
     private static final String URL = "https://auth-service-vladify.herokuapp.com/api/auth/login";
@@ -26,7 +28,7 @@ public class TokenGenerator {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final Gson GSON = new Gson();
 
-    public static String getToken()  {
+    public static String getToken(String email, String password)  {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         RestTemplate restTemplate = new RestTemplate();

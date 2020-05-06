@@ -34,7 +34,7 @@ public class FieldConverter implements Converter<
         return ofNullable(entity)
                 .map(item -> {
                     FieldResponseDto responseDto = new FieldResponseDto();
-                    responseDto.setId(entity.getId());
+                    responseDto.setId(item.getId());
                     responseDto.setDisplayName(item.getDisplayName());
                     responseDto.setAsset(item.getAsset());
                     return responseDto;

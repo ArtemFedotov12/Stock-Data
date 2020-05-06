@@ -25,15 +25,15 @@ import static com.start.stockdata.util.constants.GlobalConstants.*;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     //private final UserDetailsService userDetailsService;
-    private final JwtTokekUtil jwtTokenUtil;
+
 
  /*   public JwtAuthenticationFilter(UserDetailsService userDetailsService, JwtTokekUtil jwtTokenUtil) {
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
     }*/
 
-    public JwtAuthenticationFilter(JwtTokekUtil jwtTokenUtil) {
-        this.jwtTokenUtil = jwtTokenUtil;
+    public JwtAuthenticationFilter() {
+
     }
 
     @Override
@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
               /*   first it will be getAllClaimsFromToken() and check sign!!!!
                  then claims.getString("sub");*/
-                userId = jwtTokenUtil.getUserIdFromToken(authToken);
+                userId = JwtTokenUtil.getUserIdFromToken(authToken);
             } catch (IllegalArgumentException e) {
                 logger.error("an error occurred during getting userId from token", e);
             } catch (ExpiredJwtException e) {
@@ -62,8 +62,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // load user from db(bad approach)
             UserDetails userDetails = this.getUserByToken(authToken);
 
-            if (jwtTokenUtil.isTokenNotExpired(authToken)) {
-                UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthentication(authToken,  userDetails);
+            if (JwtTokenUtil.isTokenNotExpired(authToken)) {
+                UsernamePasswordAuthenticationToken authentication = JwtTokenUtil.getAuthentication(authToken,  userDetails);
                 /**
                  * Stores additional details about the authentication request. These might be an IP
                  * address, certificate serial number etc.
@@ -81,9 +81,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private User getUserByToken(String authToken) {
-        Long userIdFromToken = jwtTokenUtil.getUserIdFromToken(authToken);
-        String userEmailFromToken = jwtTokenUtil.getUserEmailFromToken(authToken);
-        Collection<GrantedAuthority> authorities = jwtTokenUtil.getAuthoritiesFromToken(authToken);
+        Long userIdFromToken = JwtTokenUtil.getUserIdFromToken(authToken);
+        String userEmailFromToken = JwtTokenUtil.getUserEmailFromToken(authToken);
+        Collection<GrantedAuthority> authorities = JwtTokenUtil.getAuthoritiesFromToken(authToken);
        return new StockUserInfo(userIdFromToken, userEmailFromToken, authorities);
     }
 }

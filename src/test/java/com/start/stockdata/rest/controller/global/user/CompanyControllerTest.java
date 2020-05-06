@@ -1,13 +1,11 @@
 package com.start.stockdata.rest.controller.global.user;
 
-import com.start.stockdata.config.jwt.JwtTokekUtil;
 import com.start.stockdata.identity.converter.request.CompanyRequestConverter;
 import com.start.stockdata.identity.converter.response.CompanyConverter;
 import com.start.stockdata.identity.dto.request.company.CompanyRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyResponseDto;
 import com.start.stockdata.rest.controller.AbstractIntegrationTest;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FileUtils.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,12 +17,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 import static com.start.stockdata.util.constants.GlobalConstants.API_TOKEN;
 import static com.start.stockdata.util.constants.GlobalConstants.BEARER_WITH_SPACE;
@@ -42,21 +40,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 public class CompanyControllerTest extends AbstractIntegrationTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    CompanyRequestConverter companyRequestConverter;
-    @Autowired
-    CompanyConverter companyConverter;
-    @Autowired
-    JwtTokekUtil jwtTokekUtil;
+    private static final String EMAIL = "vlad.danylovych@gmail.com";
+    private static final String PASSWORD = "password";
 
-    @Sql(value = {"/sql/company_types/insert-company-types.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(value = {"/sql/company_types/delete-company-types.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+
+    @Sql(value = {"/sql/company_controller/save_success/insert-company-types.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = {"/sql/company_controller/save_success/clear-db.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @Test
     public void save_success() throws Exception {
 
-        final String TOKEN = getToken();
+        final String TOKEN = getToken(EMAIL, PASSWORD);
         CompanyRequestDto companyRequestDto = getCompanyRequestDto();
         CompanyResponseDto expectedResponseDto = getCompanyResponseDto();
 
@@ -72,7 +65,26 @@ public class CompanyControllerTest extends AbstractIntegrationTest {
         CompanyResponseDto mvcResultResponseDto =
                 gson.fromJson(mvcResult.getResponse().getContentAsString(), CompanyResponseDto.class);
 
+        // id, removalDate excluded from (equals and hashcode)
         Assert.assertEquals(expectedResponseDto, mvcResultResponseDto);
+
+        Assert.assertNotNull(expectedResponseDto.getId());
+
+        Assert.assertTrue(expectedResponseDto
+                .getFields()
+                .stream()
+                .allMatch(item -> Objects.nonNull(item.getId())));
+
+        Assert.assertTrue(expectedResponseDto
+                .getFactors()
+                .stream()
+                .allMatch(item -> Objects.nonNull(item.getId())));
+
+        Assert.assertTrue(expectedResponseDto
+                .getTypes()
+                .stream()
+                .allMatch(item -> Objects.nonNull(item.getId())));
+
     }
 
     private CompanyRequestDto getCompanyRequestDto() throws IOException {

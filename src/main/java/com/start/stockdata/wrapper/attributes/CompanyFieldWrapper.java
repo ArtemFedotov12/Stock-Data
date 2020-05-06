@@ -22,6 +22,8 @@ public class CompanyFieldWrapper implements CompanyFieldAttributeWrapper {
         Company company = getCompanyById(companyId);
         company.addField(field);
 
+        // Here company in detached state,
+        // so we specified CascadeType.MERGE to overcome this
         Optional<Field> fieldOptional = companyWrapper.save(company)
                 .getFields()
                 .stream()

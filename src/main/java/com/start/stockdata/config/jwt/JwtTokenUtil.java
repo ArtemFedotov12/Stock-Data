@@ -2,6 +2,7 @@ package com.start.stockdata.config.jwt;
 
 import com.start.stockdata.util.constants.GlobalConstants;
 import io.jsonwebtoken.*;
+import lombok.experimental.UtilityClass;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,8 +16,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import static com.start.stockdata.util.constants.GlobalConstants.*;
 
-@Component
-public class JwtTokekUtil {
+@UtilityClass
+public class JwtTokenUtil {
 
     public Long getUserIdFromToken(String token) {
         Optional<Long> optionalUserId = Optional.ofNullable(getClaimFromToken(token, x->x.get(USER_ID,Long.class)));

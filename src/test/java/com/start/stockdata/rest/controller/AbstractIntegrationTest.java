@@ -23,16 +23,26 @@ import org.springframework.test.web.servlet.MockMvc;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StockDataApplication.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+// for "MockMvc mockMvc"  to be injected
 @AutoConfigureMockMvc
 @NoArgsConstructor
+//We use migration in this profile, in dev profile NOT
 @ActiveProfiles("test")
+// clean the whole data before test class (flyway.clean();)
 @TestExecutionListeners(
         value = DbRecreationTestListener.class,
         mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS
 )
+/*
+In this test(means with MockMvc mockMvc), the full Spring application context is started
+ but without the server. We can narrow the tests to only the web layer by using @WebMvcTest
+ @WebMvcTest doesn't work!!!!
+ With @WebMvcTest Spring Boot instantiates only the web layer rather than the whole context.
+ */
 public abstract class AbstractIntegrationTest {
 
    @Autowired
+   // not start the server at all but to test only the layer below
    protected MockMvc mockMvc;
    @Autowired
    protected Gson gson;
