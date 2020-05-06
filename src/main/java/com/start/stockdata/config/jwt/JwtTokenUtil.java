@@ -86,7 +86,7 @@ public class JwtTokenUtil {
 
         Collection<GrantedAuthority> authorities = getAuthoritiesFromToken(token);
 
-        return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
+        return new UsernamePasswordAuthenticationToken(userDetails, "", /*authorities*/userDetails.getAuthorities());
     }
 
     public Collection<GrantedAuthority> getAuthoritiesFromToken(String token) {

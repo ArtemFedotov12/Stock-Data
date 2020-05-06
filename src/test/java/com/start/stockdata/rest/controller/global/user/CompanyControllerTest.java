@@ -1,7 +1,5 @@
 package com.start.stockdata.rest.controller.global.user;
 
-import com.start.stockdata.identity.converter.request.CompanyRequestConverter;
-import com.start.stockdata.identity.converter.response.CompanyConverter;
 import com.start.stockdata.identity.dto.request.company.CompanyRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyResponseDto;
 import com.start.stockdata.rest.controller.AbstractIntegrationTest;
@@ -9,7 +7,6 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
@@ -44,14 +41,14 @@ public class CompanyControllerTest extends AbstractIntegrationTest {
     private static final String PASSWORD = "password";
 
 
-    @Sql(value = {"/sql/company_controller/save_success/insert-company-types.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = {"/sql/company_controller/save_success/init-db.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = {"/sql/company_controller/save_success/clear-db.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @Test
     public void save_success() throws Exception {
 
         final String TOKEN = getToken(EMAIL, PASSWORD);
-        CompanyRequestDto companyRequestDto = getCompanyRequestDto();
-        CompanyResponseDto expectedResponseDto = getCompanyResponseDto();
+        CompanyRequestDto companyRequestDto = getCompanyRequestDto("src/test/resources/controller-json/company_controller/save-success-request-dto.json");
+        CompanyResponseDto expectedResponseDto = getCompanyResponseDto("src/test/resources/controller-json/company_controller/save-success-response-dto.json");
 
         final MvcResult mvcResult = this.mockMvc
                 .perform(post(COMPANIES_PATH)
@@ -87,14 +84,14 @@ public class CompanyControllerTest extends AbstractIntegrationTest {
 
     }
 
-    private CompanyRequestDto getCompanyRequestDto() throws IOException {
-        File file = new File(SAVE_SUCCESS_REQUEST_DTO_JSON);
+    private CompanyRequestDto getCompanyRequestDto(String path) throws IOException {
+        File file = new File(path);
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, CompanyRequestDto.class);
     }
 
-    private CompanyResponseDto getCompanyResponseDto() throws IOException {
-        File file = new File(SAVE_SUCCESS_RESPONSE_DTO_JSON);
+    private CompanyResponseDto getCompanyResponseDto(String path) throws IOException {
+        File file = new File(path);
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, CompanyResponseDto.class);
     }

@@ -16,8 +16,24 @@ public class CompanyFactorRequestConverter implements RequestConverter<Factor, F
                     Factor factor =new Factor();
                     factor.setAsset(item.getAsset());
                     factor.setDisplayName(item.getDisplayName());
+                    factor.setShortName(convert(item.getDisplayName()));
                     return factor;
                 })
                 .orElse(null);
     }
+
+    private String convert(String userLine) {
+        StringBuilder result = new StringBuilder();
+        String[] arr = userLine.trim().replaceAll(" +", " ").split(" ");
+        result.append(arr[0].toLowerCase());
+        for (int i = 1; i < arr.length-1; i++) {
+            result.append(Character.toString(arr[i].charAt(0)).toUpperCase());
+            if(arr[i].length()>1) {
+                result.append(arr[i].substring(1).toLowerCase());
+            }
+        }
+
+        return result.toString();
+    }
+
 }

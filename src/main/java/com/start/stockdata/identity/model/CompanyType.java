@@ -19,7 +19,7 @@ import java.util.Objects;
 public class CompanyType extends AbstractRemovableEntity {
 
     @EqualsAndHashCode.Exclude
-    @Column(name = "type", unique = true)
+    @Column(name = "type", unique = true, nullable = false)
     private String type;
 
 }

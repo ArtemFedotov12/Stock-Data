@@ -3,6 +3,7 @@ package com.start.stockdata.identity.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table
@@ -13,19 +14,18 @@ import javax.persistence.*;
 public class Field extends AbstractAttributeEntity{
 
     @EqualsAndHashCode.Exclude
-    @Column(name = "short_name")
+    @Column(name = "short_name",nullable = false)
     private String shortName;
 
     @EqualsAndHashCode.Exclude
-    @Column(name = "asset")
+    @Column(name = "asset",nullable = false)
     private String asset;
 
-    @Column(name = "display_name")
+    @Column(name = "display_name", nullable = false)
     private String displayName;
 
     @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @NonNull
     private Company company;
 
 

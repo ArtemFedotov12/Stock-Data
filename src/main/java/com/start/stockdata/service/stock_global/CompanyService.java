@@ -46,6 +46,8 @@ public class CompanyService implements GlobalService<
         checkEntityAlreadyExistsSaveMethod(requestDto);
 
         Company company = requestConverter.toEntity(requestDto);
+        company.getFactors().forEach(item->item.setCompany(company));
+        company.getFields().forEach(item->item.setCompany(company));
         company.setUserId(this.getUserIdFromContext());
         wrapper.save(company);
         return responseConverter.toDto(wrapper.save(company));

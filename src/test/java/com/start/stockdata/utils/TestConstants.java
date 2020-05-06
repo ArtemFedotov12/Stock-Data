@@ -5,6 +5,11 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class TestConstants {
 
-    public static final String SAVE_SUCCESS_REQUEST_DTO_JSON = "src/test/resources/controller-json/company_controller/save-success-request-dto.json";
-    public static final String SAVE_SUCCESS_RESPONSE_DTO_JSON = "src/test/resources/controller-json/company_controller/save-success-response-dto.json";
+
+    public static final String EMAIL_ADMIN = "vlad.danylovych@gmail.com";
+    public static final String PASSWORD_ADMIN = "password";
+
+    public static final String EMAIL_USER = "justuser@gmail.com";
+    public static final String PASSWORD_USER = "password";
+
 }
