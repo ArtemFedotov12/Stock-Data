@@ -2,6 +2,7 @@ package com.start.stockdata.service.company_attribute;
 
 import com.start.stockdata.exception.exception.*;
 import com.start.stockdata.identity.converter.active.Converter;
+import com.start.stockdata.identity.converter.request.RequestConverter;
 import com.start.stockdata.identity.converter.response.ResponseConverter;
 import com.start.stockdata.identity.dto.request.FieldRequestDto;
 import com.start.stockdata.identity.dto.response.FieldResponseDto;
@@ -28,8 +29,8 @@ public class FieldService extends AbstractAttributeService<
         CompanyWrapper
         > {
 
-    public FieldService(FieldWrapper attributeWrapper, CompanyWrapper mainEntityWrapper, ResponseConverter<Field, FieldResponseDto> responseConverter, Converter<Field, FieldRequestDto, FieldResponseDto> converter) {
-        super(attributeWrapper, mainEntityWrapper, responseConverter, converter);
+    public FieldService(FieldWrapper attributeWrapper, CompanyWrapper mainEntityWrapper, ResponseConverter<Field, FieldResponseDto> responseConverter, RequestConverter<Field, FieldRequestDto> requestConverter) {
+        super(attributeWrapper, mainEntityWrapper, responseConverter, requestConverter);
     }
 
     @Override
@@ -95,7 +96,7 @@ public class FieldService extends AbstractAttributeService<
 
     private void checkIfFieldAlreadyExist(Long mainEntityId, FieldRequestDto requestDto, Company company) {
         Set<Field> fieldSet = company.getFields();
-        Field field = converter.toEntity(requestDto);
+        Field field = requestConverter.toEntity(requestDto);
         boolean isFieldAlreadyExists = fieldSet
                 .stream()
                 .anyMatch(item -> Comparator
@@ -109,7 +110,7 @@ public class FieldService extends AbstractAttributeService<
 
 
     private void checkIfFieldAlreadyExistUpdateMethod(Long mainEntityId, Long id, FieldRequestDto dto, Company company) {
-        Field field = converter.toEntity(dto);
+        Field field = requestConverter.toEntity(dto);
 
         boolean isFieldAlreadyExists = company.getFields()
                 .stream()

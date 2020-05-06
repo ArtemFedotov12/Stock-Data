@@ -1,27 +1,26 @@
 package com.start.stockdata.identity.converter.request;
 
-import com.start.stockdata.identity.dto.request.FactorRequestDto;
-import com.start.stockdata.identity.model.Factor;
+import com.start.stockdata.identity.dto.request.FieldRequestDto;
+import com.start.stockdata.identity.model.Field;
 import org.springframework.stereotype.Component;
 
 import static java.util.Optional.ofNullable;
 
 @Component
-public class CompanyFactorRequestConverter implements RequestConverter<Factor, FactorRequestDto> {
+public class FieldRequestConverter implements RequestConverter<Field, FieldRequestDto> {
 
     @Override
-    public Factor toEntity(FactorRequestDto requestDto) {
+    public Field toEntity(FieldRequestDto requestDto) {
         return ofNullable(requestDto)
                 .map(item -> {
-                    Factor factor =new Factor();
-                    factor.setAsset(item.getAsset());
-                    factor.setDisplayName(item.getDisplayName());
-                    factor.setShortName(convert(item.getDisplayName()));
-                    return factor;
+                    Field field = new Field();
+                    field.setAsset(item.getAsset());
+                    field.setDisplayName(item.getDisplayName());
+                    field.setShortName(convert(item.getDisplayName()));
+                    return field;
                 })
                 .orElse(null);
     }
-
     private String convert(String userLine) {
         StringBuilder result = new StringBuilder();
         String[] arr = userLine.trim().replaceAll(" +", " ").split(" ");
@@ -36,4 +35,8 @@ public class CompanyFactorRequestConverter implements RequestConverter<Factor, F
         return result.toString();
     }
 
+
+
 }
+
+

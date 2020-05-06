@@ -7,22 +7,7 @@ import org.springframework.stereotype.Component;
 import static java.util.Optional.ofNullable;
 
 @Component
-public class CompanyFieldConverter implements ResponseConverter<Field, FieldResponseDto> {
-
-    @Override
-    public Field toEntity(FieldResponseDto dto) {
-        return ofNullable(dto)
-                .map(item -> {
-                   Field field = new Field();
-                   field.setId(item.getId());
-                   field.setShortName(item.getDisplayName());
-                   field.setDisplayName(item.getDisplayName());
-                   field.setAsset(item.getAsset());
-                    return field;
-                })
-                .orElse(null);
-    }
-
+public class FieldResponseConverter implements ResponseConverter<Field, FieldResponseDto> {
 
     @Override
     public FieldResponseDto toDto(Field entity) {

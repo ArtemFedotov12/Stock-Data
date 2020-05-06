@@ -1,9 +1,10 @@
 package com.start.stockdata.identity.converter.response;
 
-public interface ResponseConverter<E, D> {
+import com.start.stockdata.identity.dto.response.AbstractResponseDto;
+import com.start.stockdata.identity.model.AbstractEntity;
 
-    E toEntity(D dto);
+public interface ResponseConverter<E extends AbstractEntity, RS extends AbstractResponseDto> {
 
-    D toDto(E entity);
+    RS toDto(E entity);
 
 }

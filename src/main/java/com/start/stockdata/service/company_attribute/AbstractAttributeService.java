@@ -1,7 +1,9 @@
 package com.start.stockdata.service.company_attribute;
 
-import com.start.stockdata.exception.exception.*;
-import com.start.stockdata.identity.converter.active.Converter;
+import com.start.stockdata.exception.exception.DeletionByIdMainEntityNotFoundException;
+import com.start.stockdata.exception.exception.DeletionEntityByIdNotFoundException;
+import com.start.stockdata.exception.exception.EntityByIdNotFoundException;
+import com.start.stockdata.identity.converter.request.RequestConverter;
 import com.start.stockdata.identity.converter.response.ResponseConverter;
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
@@ -9,6 +11,7 @@ import com.start.stockdata.identity.model.AbstractEntity;
 import com.start.stockdata.wrapper.attributes.AttributeWrapper;
 import com.start.stockdata.wrapper.global.GlobalWrapper;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,16 +29,16 @@ public abstract class AbstractAttributeService<
     protected final WR attributeWrapper;
     protected final M mainEntityWrapper;
     protected final ResponseConverter<E, RS> responseConverter;
-    protected final Converter<E, RQ, RS> converter;
+    protected final RequestConverter<E, RQ> requestConverter;
 
     public AbstractAttributeService(WR attributeWrapper,
                                     M mainEntityWrapper,
                                     ResponseConverter<E, RS> responseConverter,
-                                    Converter<E, RQ, RS> converter) {
+                                    RequestConverter<E, RQ> requestConverter) {
         this.attributeWrapper = attributeWrapper;
         this.mainEntityWrapper = mainEntityWrapper;
         this.responseConverter = responseConverter;
-        this.converter = converter;
+        this.requestConverter = requestConverter;
     }
 
     @Override
@@ -43,8 +46,8 @@ public abstract class AbstractAttributeService<
         // check if such entity exists within "mainEntity",
         // not in the whole DB!!
         validate(mainEntityId, requestDto);
-        E entity = attributeWrapper.save(mainEntityId, converter.toEntity(requestDto));
-        return converter.toDto(entity);
+        E entity = attributeWrapper.save(mainEntityId, requestConverter.toEntity(requestDto));
+        return responseConverter.toDto(entity);
     }
 
 
@@ -52,8 +55,8 @@ public abstract class AbstractAttributeService<
     public RS update(Long mainEntityId, Long id, RQ requestDto) {
         // exclude itself to check on uniqueness
         validate(mainEntityId, id, requestDto);
-        E entity = attributeWrapper.update(mainEntityId, id, converter.toEntity(requestDto));
-        return converter.toDto(entity);
+        E entity = attributeWrapper.update(mainEntityId, id, requestConverter.toEntity(requestDto));
+        return responseConverter.toDto(entity);
     }
 
 
@@ -65,7 +68,7 @@ public abstract class AbstractAttributeService<
         Optional<E> optionalEntity = attributeWrapper.findById(id);
         if (optionalEntity.isPresent()) {
             attributeWrapper.delete(mainEntityId, optionalEntity.get());
-            return converter.toDto(optionalEntity.get());
+            return responseConverter.toDto(optionalEntity.get());
         } else {
             throw new DeletionEntityByIdNotFoundException(String.valueOf(id));
         }
@@ -95,7 +98,7 @@ public abstract class AbstractAttributeService<
 
         Optional<E> entityOptional = attributeWrapper.findById(id);
         if (entityOptional.isPresent()) {
-            return converter.toDto(entityOptional.get());
+            return responseConverter.toDto(entityOptional.get());
         } else {
             throw new EntityByIdNotFoundException(id);
         }
@@ -116,7 +119,7 @@ public abstract class AbstractAttributeService<
 
     protected List<RS> convert(List<E> entityList) {
         return entityList.stream()
-                .map(converter::toDto)
+                .map(responseConverter::toDto)
                 .collect(Collectors.toList());
     }
 

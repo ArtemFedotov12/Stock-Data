@@ -1,6 +1,8 @@
 package com.start.stockdata.rest.controller.attribute;
 
 import com.start.stockdata.identity.converter.active.Converter;
+import com.start.stockdata.identity.converter.request.FieldRequestConverter;
+import com.start.stockdata.identity.converter.response.FieldResponseConverter;
 import com.start.stockdata.identity.dto.request.FieldRequestDto;
 import com.start.stockdata.identity.dto.response.FieldResponseDto;
 import com.start.stockdata.identity.model.Field;
@@ -34,7 +36,10 @@ class FieldControllerTest extends AbstractIntegrationTest {
     @Autowired
     FieldWrapper fieldWrapper;
     @Autowired
-    Converter<Field, FieldRequestDto, FieldResponseDto> converter;
+    FieldRequestConverter fieldRequestConverter;
+    @Autowired
+    FieldResponseConverter fieldResponseConverter;
+
 
 
     @Sql(value = {"/sql/field_controller/save_success/init-db.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -70,7 +75,7 @@ class FieldControllerTest extends AbstractIntegrationTest {
         Field fieldFormDb = fieldWrapper.findById(mvcResultResponseDto.getId()).get();
 
         // check response with actual entity in db(if it really has been saved to db)
-        Assert.assertEquals(converter.toDto(fieldFormDb), mvcResultResponseDto);
+        Assert.assertEquals(fieldResponseConverter.toDto(fieldFormDb), mvcResultResponseDto);
         // id, removalDate excluded from (equals and hashcode)
         Assert.assertEquals(expectedResponseDto, mvcResultResponseDto);
         // id must be generated for new Field
@@ -116,6 +121,7 @@ class FieldControllerTest extends AbstractIntegrationTest {
         Assert.assertEquals(expectedResponseDto, mcvResultResponseDto);
     }
 
+    @Disabled
     @Sql(value = {"/sql/field_controller/save_duplicated_field/init-db.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = {"/sql/field_controller/save_duplicated_field/clear-db.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @Test
