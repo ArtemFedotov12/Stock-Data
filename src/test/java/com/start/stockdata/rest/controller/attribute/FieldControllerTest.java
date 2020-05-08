@@ -121,35 +121,66 @@ class FieldControllerTest extends AbstractIntegrationTest {
         Assert.assertEquals(expectedResponseDto, mcvResultResponseDto);
     }
 
-    @Disabled
+
+    //userId =1 , companyId = 7
     @Sql(value = {"/sql/field_controller/save_duplicated_field/init-db.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = {"/sql/field_controller/save_duplicated_field/clear-db.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @Test
-    void saveDuplicatedField400() {
+    void saveDuplicatedField400() throws Exception {
+        final FieldRequestDto requestDto = getFieldDuplicateRequestDto();
+        final ErrorDto expectedResponseDto = getFieldDuplicateErrorResponseDto();
+
+        final MvcResult mvcResult = this.mockMvc
+                .perform(post("/companies/7/fields")
+                                .content(gson.toJson(requestDto))
+                                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                                .with(initSecurityContext(getAdmin()))
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        final ErrorDto mcvResultResponseDto
+                = gson.fromJson(mvcResult.getResponse().getContentAsString(), ErrorDto.class);
+
+        Assert.assertEquals(expectedResponseDto, mcvResultResponseDto);
 
     }
 
 
+
+    private FieldRequestDto getFieldDuplicateRequestDto() throws IOException {
+        File file = new File("src/test/resources/json/field_controller/save_duplicated_field/save-duplicated-field-request-dto.json");
+        String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
+        return gson.fromJson(json, FieldRequestDto.class);
+    }
+
+    private ErrorDto getFieldDuplicateErrorResponseDto() throws IOException {
+        File file = new File("src/test/resources/json/field_controller/save_duplicated_field/save-duplicated-field-response-dto.json");
+        String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
+        return gson.fromJson(json, ErrorDto.class);
+    }
+
     private FieldRequestDto getFieldSuccessRequestDto() throws IOException {
-        File file = new File("src/test/resources/controller-json/field_controller/save_success/save-success-request-dto.json");
+        File file = new File("src/test/resources/json/field_controller/save_success/save-success-request-dto.json");
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, FieldRequestDto.class);
     }
 
     private FieldResponseDto getFieldSuccessResponseDto() throws IOException {
-        File file = new File("src/test/resources/controller-json/field_controller/save_success/save-success-response-dto.json");
+        File file = new File("src/test/resources/json/field_controller/save_success/save-success-response-dto.json");
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, FieldResponseDto.class);
     }
 
     private FieldRequestDto getFieldNotBelongRequestDto() throws IOException {
-        File file = new File("src/test/resources/controller-json/field_controller/save_not_belong/save-not-belong-request-dto.json");
+        File file = new File("src/test/resources/json/field_controller/save_not_belong/save-not-belong-request-dto.json");
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, FieldRequestDto.class);
     }
 
     private ErrorDto getFieldErrorResponseDto() throws IOException {
-        File file = new File("src/test/resources/controller-json/field_controller/save_not_belong/save-not-belong-response-dto.json");
+        File file = new File("src/test/resources/json/field_controller/save_not_belong/save-not-belong-response-dto.json");
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, ErrorDto.class);
     }
