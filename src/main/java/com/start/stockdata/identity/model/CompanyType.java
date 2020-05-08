@@ -22,4 +22,5 @@ public class CompanyType extends AbstractRemovableEntity {
     @Column(name = "type", unique = true, nullable = false)
     private String type;
 
+
 }

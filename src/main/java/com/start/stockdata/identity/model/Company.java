@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "Company")
@@ -22,8 +23,8 @@ public class Company extends AbstractRemovableEntity {
     //@Convert(converter = CompanyTypeAttributeConverter.class)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "company_company_type",
-            joinColumns = {@JoinColumn(name = "company_id")},
-            inverseJoinColumns = {@JoinColumn(name = "company_type_id")})
+            joinColumns = {@JoinColumn(name = "company_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "company_type_id", referencedColumnName = "id")})
     private Set<CompanyType> companyTypes;
 
     /*
@@ -49,14 +50,52 @@ public class Company extends AbstractRemovableEntity {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
+    //unchecked NullPointer
     public void addField(Field field) {
-        fields.add(field);
+        this.getFields().add(field);
         field.setCompany(this);
     }
 
+    //unchecked NullPointer
     public void removeField(Field field) {
-        fields.remove(field);
-        //field.setCompany(null);
+        field.setCompany(null);
+        this.getFields().remove(field);
+    }
+
+    //unchecked NullPointer
+    public void addFactor(Factor factor) {
+        factor.setCompany(this);
+        this.getFactors().add(factor);
+    }
+
+    //unchecked NullPointer
+    public void removeFactor(Factor factor) {
+        factor.setCompany(null);
+        this.getFactors().remove(factor);
+    }
+
+    public void addCompanyType(CompanyType companyType) {
+        this.getCompanyTypes().add(companyType);
+    }
+
+    public void removeCompanyType(CompanyType companyType) {
+        this.getCompanyTypes().remove(companyType);
+    }
+
+    public void removeAllCompanyTypes() {
+        this.getCompanyTypes().clear();
+    }
+
+    public Set<CompanyType> getCompanyTypes() {
+       return this.companyTypes == null ? new HashSet<>() : this.companyTypes;
+    }
+
+    public Set<Field> getFields() {
+        return this.fields == null ? new HashSet<>() : this.fields;
+    }
+
+    public Set<Factor> getFactors() {
+        return this.factors == null ? new HashSet<>() : this.factors;
     }
 
 }
