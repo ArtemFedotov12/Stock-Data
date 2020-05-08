@@ -6,6 +6,7 @@ import lombok.*;
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 public class ErrorDto {
     @EqualsAndHashCode.Exclude
     private String timestamp;

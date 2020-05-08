@@ -55,7 +55,7 @@ public class CompanyFieldWrapper implements CompanyFieldAttributeWrapper {
 
     public void deleteAllFields(Long companyId) {
         Company company = getCompanyById(companyId);
-        company.getFields().clear();
+        company.removeAllFields();
         companyWrapper.save(company);
     }
 

@@ -5,8 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table
+@Entity(name = "Field")
+@Table(name = "field")
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -26,6 +26,7 @@ public class Field extends AbstractAttributeEntity{
 
     @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
     private Company company;
 
 

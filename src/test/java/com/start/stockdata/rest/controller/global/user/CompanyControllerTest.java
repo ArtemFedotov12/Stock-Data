@@ -47,8 +47,8 @@ public class CompanyControllerTest extends AbstractIntegrationTest {
     public void save_success() throws Exception {
 
         final String TOKEN = getToken(EMAIL, PASSWORD);
-        CompanyRequestDto companyRequestDto = getCompanyRequestDto("src/test/resources/controller-json/company_controller/save-success-request-dto.json");
-        CompanyResponseDto expectedResponseDto = getCompanyResponseDto("src/test/resources/controller-json/company_controller/save-success-response-dto.json");
+        CompanyRequestDto companyRequestDto = getCompanyRequestDto("src/test/resources/json/company_controller/success-request-dto.json");
+        CompanyResponseDto expectedResponseDto = getCompanyResponseDto("src/test/resources/json/company_controller/success-response-dto.json");
 
         final MvcResult mvcResult = this.mockMvc
                 .perform(post(COMPANIES_PATH)

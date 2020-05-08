@@ -1,14 +1,11 @@
 package com.start.stockdata.identity.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity(name = "CompanyType")
 @Table(name = "company_type")
@@ -18,9 +15,16 @@ import java.util.Objects;
 @Setter
 public class CompanyType extends AbstractRemovableEntity {
 
-    @EqualsAndHashCode.Exclude
     @Column(name = "type", unique = true, nullable = false)
     private String type;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "companyTypes")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Company> companies;
+
+    public Set<Company> getCompanies() {
+        return this.companies == null ? new HashSet<>() : this.companies;
+    }
 
 }
