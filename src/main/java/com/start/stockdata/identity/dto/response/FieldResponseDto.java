@@ -1,14 +1,12 @@
 package com.start.stockdata.identity.dto.response;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@ToString
 public class FieldResponseDto extends AbstractResponseDto {
 
     private static final long serialVersionUID = 854976592269661261L;

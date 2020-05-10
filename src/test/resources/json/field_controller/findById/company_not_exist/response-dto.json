@@ -1,0 +1,7 @@
+{
+  "timestamp": "2020-05-09 16:10:39",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Company with id=367 doesn't exist",
+  "code": "STOCK-001"
+}

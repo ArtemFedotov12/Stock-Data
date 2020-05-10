@@ -11,7 +11,7 @@
     <groupId>com.example</groupId>
     <artifactId>stock-data</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>stock-data</name>
     <description>Microservice for stock application</description>
 

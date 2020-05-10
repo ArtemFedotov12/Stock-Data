@@ -28,13 +28,11 @@ import static com.start.stockdata.utils.TestConstants.*;
 import static com.start.stockdata.utils.TokenGenerator.getToken;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
+
 public class CompanyControllerTest extends AbstractIntegrationTest {
 
     private static final String EMAIL = "vlad.danylovych@gmail.com";
@@ -47,8 +45,8 @@ public class CompanyControllerTest extends AbstractIntegrationTest {
     public void save_success() throws Exception {
 
         final String TOKEN = getToken(EMAIL, PASSWORD);
-        CompanyRequestDto companyRequestDto = getCompanyRequestDto("src/test/resources/json/company_controller/success-request-dto.json");
-        CompanyResponseDto expectedResponseDto = getCompanyResponseDto("src/test/resources/json/company_controller/success-response-dto.json");
+        CompanyRequestDto companyRequestDto = getCompanyRequestDto("src/test/resources/json/company_controller/save/success/request-dto.json");
+        CompanyResponseDto expectedResponseDto = getCompanyResponseDto("src/test/resources/json/company_controller/save/success/response-dto.json");
 
         final MvcResult mvcResult = this.mockMvc
                 .perform(post(COMPANIES_PATH)
@@ -57,6 +55,7 @@ public class CompanyControllerTest extends AbstractIntegrationTest {
                         .header(API_TOKEN, BEARER_WITH_SPACE + TOKEN))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         CompanyResponseDto mvcResultResponseDto =

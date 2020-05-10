@@ -1,4 +1,4 @@
-package com.start.stockdata.rest.controller.attribute;
+package com.start.stockdata.rest.controller.attribute.field_controller;
 
 import com.start.stockdata.identity.converter.request.FieldRequestConverter;
 import com.start.stockdata.identity.converter.response.FieldResponseConverter;
@@ -10,9 +10,8 @@ import com.start.stockdata.rest.controller.dto.ErrorDto;
 import com.start.stockdata.wrapper.attributes.FieldWrapper;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -23,13 +22,13 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import static com.start.stockdata.utils.SecurityTestUtils.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@SpringBootTest
-class FieldControllerTest extends AbstractIntegrationTest {
+public class FieldControllerSaveTest extends AbstractIntegrationTest {
 
     @Autowired
     FieldWrapper fieldWrapper;
@@ -39,9 +38,8 @@ class FieldControllerTest extends AbstractIntegrationTest {
     FieldResponseConverter fieldResponseConverter;
 
 
-
-    @Sql(value = {"/sql/field_controller/save_success/init-db.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(value = {"/sql/field_controller/save_success/clear-db.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(value = {"/sql/field_controller/save/success/init-db.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = {"/sql/field_controller/save/success/clear-db.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @Test
     public void saveSuccess200() throws Exception {
 
@@ -51,7 +49,8 @@ class FieldControllerTest extends AbstractIntegrationTest {
 
 
         final MvcResult mvcResult = this.mockMvc
-                .perform(post("/companies/1/fields")
+                .perform(
+                        post("/companies/1/fields")
                                 .content(gson.toJson(requestDto))
                                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                                 /* instead of getting real token and then parse it ,
@@ -65,6 +64,8 @@ class FieldControllerTest extends AbstractIntegrationTest {
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         FieldResponseDto mvcResultResponseDto =
@@ -94,8 +95,8 @@ class FieldControllerTest extends AbstractIntegrationTest {
     }
 
     //company with id=1 belong to user with also id=1
-    @Sql(value = {"/sql/field_controller/save_not_belong/init-db.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(value = {"/sql/field_controller/save_not_belong/clear-db.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(value = {"/sql/field_controller/save/not_belong/init-db.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = {"/sql/field_controller/save/not_belong/clear-db.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @Test
     public void saveCompanyNotBelongException400() throws Exception {
         final FieldRequestDto requestDto = getFieldNotBelongRequestDto();
@@ -111,6 +112,7 @@ class FieldControllerTest extends AbstractIntegrationTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         final ErrorDto mcvResultResponseDto
@@ -121,8 +123,8 @@ class FieldControllerTest extends AbstractIntegrationTest {
 
 
     //userId =1 , companyId = 7
-    @Sql(value = {"/sql/field_controller/save_duplicated_field/init-db.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(value = {"/sql/field_controller/save_duplicated_field/clear-db.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(value = {"/sql/field_controller/save/duplicated_field/init-db.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = {"/sql/field_controller/save/duplicated_field/clear-db.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @Test
     public void saveDuplicatedField400() throws Exception {
         final FieldRequestDto requestDto = getFieldDuplicateRequestDto();
@@ -130,12 +132,13 @@ class FieldControllerTest extends AbstractIntegrationTest {
 
         final MvcResult mvcResult = this.mockMvc
                 .perform(post("/companies/7/fields")
-                                .content(gson.toJson(requestDto))
-                                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                                .with(initSecurityContext(getAdmin()))
+                        .content(gson.toJson(requestDto))
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                        .with(initSecurityContext(getAdmin()))
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         final ErrorDto mcvResultResponseDto
@@ -158,6 +161,7 @@ class FieldControllerTest extends AbstractIntegrationTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         final ErrorDto mcvResultResponseDto
@@ -166,51 +170,51 @@ class FieldControllerTest extends AbstractIntegrationTest {
         Assert.assertEquals(expectedResponseDto, mcvResultResponseDto);
     }
 
-    private ErrorDto getFieldCompanyNotExistResponseDto() throws IOException {
-        File file = new File("src/test/resources/json/field_controller/save/company_not_exist/company-not-exist-response-dto.json");
-        String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
-        return gson.fromJson(json, ErrorDto.class);
-    }
-
     private FieldRequestDto getFieldCompanyNotExistRequestDto() throws IOException {
-        File file = new File("src/test/resources/json/field_controller/save/company_not_exist/company-not-exist-request-dto.json");
+        File file = new File("src/test/resources/json/field_controller/save/company_not_exist/request-dto.json");
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, FieldRequestDto.class);
     }
 
+    private ErrorDto getFieldCompanyNotExistResponseDto() throws IOException {
+        File file = new File("src/test/resources/json/field_controller/save/company_not_exist/response-dto.json");
+        String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
+        return gson.fromJson(json, ErrorDto.class);
+    }
+
 
     private FieldRequestDto getFieldDuplicateRequestDto() throws IOException {
-        File file = new File("src/test/resources/json/field_controller/save/duplicated_field/duplicated-field-request-dto.json");
+        File file = new File("src/test/resources/json/field_controller/save/duplicated_field/request-dto.json");
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, FieldRequestDto.class);
     }
 
     private ErrorDto getFieldDuplicateErrorResponseDto() throws IOException {
-        File file = new File("src/test/resources/json/field_controller/save/duplicated_field/duplicated-field-response-dto.json");
+        File file = new File("src/test/resources/json/field_controller/save/duplicated_field/response-dto.json");
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, ErrorDto.class);
     }
 
     private FieldRequestDto getFieldSuccessRequestDto() throws IOException {
-        File file = new File("src/test/resources/json/field_controller/save/success/success-request-dto.json");
+        File file = new File("src/test/resources/json/field_controller/save/success/request-dto.json");
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, FieldRequestDto.class);
     }
 
     private FieldResponseDto getFieldSuccessResponseDto() throws IOException {
-        File file = new File("src/test/resources/json/field_controller/save/success/success-response-dto.json");
+        File file = new File("src/test/resources/json/field_controller/save/success/response-dto.json");
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, FieldResponseDto.class);
     }
 
     private FieldRequestDto getFieldNotBelongRequestDto() throws IOException {
-        File file = new File("src/test/resources/json/field_controller/save/not_belong/not-belong-request-dto.json");
+        File file = new File("src/test/resources/json/field_controller/save/not_belong/request-dto.json");
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, FieldRequestDto.class);
     }
 
     private ErrorDto getFieldErrorResponseDto() throws IOException {
-        File file = new File("src/test/resources/json/field_controller/save/not_belong/not-belong-response-dto.json");
+        File file = new File("src/test/resources/json/field_controller/save/not_belong/response-dto.json");
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, ErrorDto.class);
     }
