@@ -7,6 +7,7 @@ import com.start.stockdata.identity.dto.request.FieldRequestDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.identity.model.Field;
 import com.start.stockdata.wrapper.global.CompanyWrapper;
+import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 import static com.start.stockdata.util.SecurityContextUtil.getUserIdFromSecurityContext;
 
+@Component
 public class DefaultFieldValidator implements FieldValidator<FieldRequestDto> {
 
     private final CompanyWrapper companyWrapper;

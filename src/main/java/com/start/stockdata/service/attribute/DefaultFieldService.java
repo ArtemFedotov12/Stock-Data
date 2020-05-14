@@ -1,22 +1,16 @@
 package com.start.stockdata.service.attribute;
 
-import com.start.stockdata.exception.exception.*;
 import com.start.stockdata.identity.converter.request.RequestConverter;
 import com.start.stockdata.identity.converter.response.ResponseConverter;
 import com.start.stockdata.identity.dto.request.FieldRequestDto;
 import com.start.stockdata.identity.dto.response.FieldResponseDto;
-import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.identity.model.Field;
+import com.start.stockdata.validator.attribute.AttributeValidator;
+import com.start.stockdata.validator.attribute.FieldValidator;
 import com.start.stockdata.wrapper.attributes.FieldWrapper;
 import com.start.stockdata.wrapper.global.CompanyWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.Set;
-
-import static com.start.stockdata.util.SecurityContextUtil.getUserIdFromSecurityContext;
 
 @Transactional
 @Service
@@ -28,11 +22,14 @@ public class DefaultFieldService extends AbstractAttributeService<
         CompanyWrapper
         > implements FieldService<FieldRequestDto, FieldResponseDto, Long> {
 
-    public DefaultFieldService(FieldWrapper attributeWrapper, CompanyWrapper mainEntityWrapper, ResponseConverter<Field, FieldResponseDto> responseConverter, RequestConverter<Field, FieldRequestDto> requestConverter) {
-        super(attributeWrapper, mainEntityWrapper, responseConverter, requestConverter);
+    private final FieldValidator<FieldRequestDto> fieldValidator;
+
+    public DefaultFieldService(FieldWrapper attributeWrapper, CompanyWrapper mainEntityWrapper, ResponseConverter<Field, FieldResponseDto> responseConverter, RequestConverter<Field, FieldRequestDto> requestConverter, AttributeValidator<FieldRequestDto, Long> attributeValidator, FieldValidator<FieldRequestDto> fieldValidator) {
+        super(attributeWrapper, mainEntityWrapper, responseConverter, requestConverter, attributeValidator);
+        this.fieldValidator = fieldValidator;
     }
 
-    @Override
+ /*@Override
     protected void validate(Long mainEntityId) {
         Optional<Company> optionalCompany = mainEntityWrapper.findById(mainEntityId);
 
@@ -152,6 +149,6 @@ public class DefaultFieldService extends AbstractAttributeService<
         } else {
             return optionalUserId.get();
         }
-    }
+    }*/
 
 }

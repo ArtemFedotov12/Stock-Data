@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.xml.stream.events.Comment;
 
-@Entity
+@Entity(name = "Factor")
 @Table(name = "factor")
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
