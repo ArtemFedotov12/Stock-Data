@@ -1,7 +1,7 @@
 package com.start.stockdata.rest.controller.global.admin;
 
 import com.start.stockdata.identity.dto.response.CompanyFullResponseDto;
-import com.start.stockdata.service.stock_global.AdminService;
+import com.start.stockdata.service.global.AdminService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

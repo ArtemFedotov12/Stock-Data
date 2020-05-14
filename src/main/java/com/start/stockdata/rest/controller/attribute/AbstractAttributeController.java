@@ -2,7 +2,7 @@ package com.start.stockdata.rest.controller.attribute;
 
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
-import com.start.stockdata.service.company_attribute.AttributeService;
+import com.start.stockdata.service.attribute.AttributeService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -1,0 +1,17 @@
+[
+  {
+    "id": 10,
+    "asset": "asset1",
+    "displayName": "disp1"
+  },
+  {
+    "id": 11,
+    "asset": "asset2",
+    "displayName": "disp2"
+  },
+  {
+    "id": 12,
+    "asset": "asset3",
+    "displayName": "disp3"
+  }
+]

@@ -1,4 +1,4 @@
-package com.start.stockdata.service.company_attribute;
+package com.start.stockdata.service.attribute;
 
 import java.util.List;
 

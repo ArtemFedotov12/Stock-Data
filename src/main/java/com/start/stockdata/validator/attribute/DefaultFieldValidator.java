@@ -1,17 +1,12 @@
-package com.start.stockdata.service.company_attribute;
+package com.start.stockdata.validator.attribute;
+
 
 import com.start.stockdata.exception.exception.*;
-import com.start.stockdata.identity.converter.active.Converter;
-import com.start.stockdata.identity.converter.request.RequestConverter;
-import com.start.stockdata.identity.converter.response.ResponseConverter;
+import com.start.stockdata.identity.converter.request.FieldRequestConverter;
 import com.start.stockdata.identity.dto.request.FieldRequestDto;
-import com.start.stockdata.identity.dto.response.FieldResponseDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.identity.model.Field;
-import com.start.stockdata.wrapper.attributes.FieldWrapper;
 import com.start.stockdata.wrapper.global.CompanyWrapper;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.Optional;
@@ -19,23 +14,19 @@ import java.util.Set;
 
 import static com.start.stockdata.util.SecurityContextUtil.getUserIdFromSecurityContext;
 
-@Transactional
-@Service
-public class FieldService extends AbstractAttributeService<
-        Field,
-        FieldRequestDto,
-        FieldResponseDto,
-        FieldWrapper,
-        CompanyWrapper
-        > {
+public class DefaultFieldValidator implements FieldValidator<FieldRequestDto> {
 
-    public FieldService(FieldWrapper attributeWrapper, CompanyWrapper mainEntityWrapper, ResponseConverter<Field, FieldResponseDto> responseConverter, RequestConverter<Field, FieldRequestDto> requestConverter) {
-        super(attributeWrapper, mainEntityWrapper, responseConverter, requestConverter);
+    private final CompanyWrapper companyWrapper;
+    private final FieldRequestConverter requestConverter;
+
+    public DefaultFieldValidator(CompanyWrapper companyWrapper, FieldRequestConverter requestConverter) {
+        this.companyWrapper = companyWrapper;
+        this.requestConverter = requestConverter;
     }
 
     @Override
-    protected void validate(Long mainEntityId) {
-        Optional<Company> optionalCompany = mainEntityWrapper.findById(mainEntityId);
+    public void validate(Long mainEntityId) {
+        Optional<Company> optionalCompany = companyWrapper.findById(mainEntityId);
 
         if (!optionalCompany.isPresent()) {
             throw new CompanyByIdNotFoundException(mainEntityId);
@@ -48,8 +39,8 @@ public class FieldService extends AbstractAttributeService<
 
 
     @Override
-    protected void validate(Long mainEntityId, Long id) {
-        Optional<Company> optionalCompany = mainEntityWrapper.findById(mainEntityId);
+    public void validate(Long mainEntityId, Long id) {
+        Optional<Company> optionalCompany = companyWrapper.findById(mainEntityId);
         if (!optionalCompany.isPresent()) {
             throw new CompanyByIdNotFoundException(mainEntityId);
         } else {
@@ -62,9 +53,9 @@ public class FieldService extends AbstractAttributeService<
     }
 
     @Override
-    protected void validate(Long mainEntityId, FieldRequestDto requestDto) {
+    public void validate(Long mainEntityId, FieldRequestDto requestDto) {
 
-        Optional<Company> optionalCompany = mainEntityWrapper.findById(mainEntityId);
+        Optional<Company> optionalCompany = companyWrapper.findById(mainEntityId);
         if (!optionalCompany.isPresent()) {
             throw new CompanyByIdNotFoundException(mainEntityId);
         } else {
@@ -77,8 +68,8 @@ public class FieldService extends AbstractAttributeService<
     }
 
     @Override
-    protected void validate(Long mainEntityId, Long id, FieldRequestDto dto) {
-        Optional<Company> optionalCompany = mainEntityWrapper.findById(mainEntityId);
+    public void validate(Long mainEntityId, Long id, FieldRequestDto dto) {
+        Optional<Company> optionalCompany = companyWrapper.findById(mainEntityId);
         if (!optionalCompany.isPresent()) {
             throw new CompanyByIdNotFoundException(mainEntityId);
         } else {
@@ -134,7 +125,7 @@ public class FieldService extends AbstractAttributeService<
         if (!isFieldWithinCompanyExist) {
             throw new FieldWithinCompanyNotFoundException(String.valueOf(mainEntityId), String.valueOf(id));
         }
-       
+
     }
 
     private void checkUserPossession(Long mainEntityId, Company company) {

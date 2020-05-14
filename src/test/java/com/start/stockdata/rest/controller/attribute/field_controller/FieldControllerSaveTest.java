@@ -65,12 +65,12 @@ public class FieldControllerSaveTest extends AbstractIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         FieldResponseDto mvcResultResponseDto =
                 gson.fromJson(mvcResult.getResponse().getContentAsString(), FieldResponseDto.class);
 
+        // Maybe it is redundant. For integration tests
         Field fieldFormDb = fieldWrapper.findById(mvcResultResponseDto.getId()).get();
 
         // check response with actual entity in db(if it really has been saved to db)

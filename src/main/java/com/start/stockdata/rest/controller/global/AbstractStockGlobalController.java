@@ -4,7 +4,7 @@ import com.start.stockdata.api.StockGlobalController;
 import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.rest.response.LongResponse;
-import com.start.stockdata.service.stock_global.GlobalService;
+import com.start.stockdata.service.global.GlobalService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

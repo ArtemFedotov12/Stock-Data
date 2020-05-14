@@ -3,7 +3,7 @@ package com.start.stockdata.rest.controller.global.user;
 import com.start.stockdata.identity.dto.request.company.CompanyRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyResponseDto;
 import com.start.stockdata.rest.controller.global.AbstractStockGlobalController;
-import com.start.stockdata.service.stock_global.CompanyService;
+import com.start.stockdata.service.global.CompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;

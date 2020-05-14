@@ -1,4 +1,4 @@
-package com.start.stockdata.service.company_attribute;
+package com.start.stockdata.service.attribute;
 
 import com.start.stockdata.exception.exception.DeletionByIdMainEntityNotFoundException;
 import com.start.stockdata.exception.exception.DeletionEntityByIdNotFoundException;

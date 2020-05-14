@@ -1,4 +1,4 @@
-package com.start.stockdata.service.stock_global;
+package com.start.stockdata.service.global;
 
 import java.util.List;
 

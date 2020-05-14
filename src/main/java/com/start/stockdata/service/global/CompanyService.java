@@ -1,4 +1,4 @@
-package com.start.stockdata.service.stock_global;
+package com.start.stockdata.service.global;
 
 import com.start.stockdata.exception.exception.*;
 import com.start.stockdata.identity.converter.request.RequestConverter;

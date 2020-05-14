@@ -1,0 +1,7 @@
+{
+  "timestamp": "2020-05-11 19:38:40",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Such field already exists within the company entity with id=10",
+  "code": "STOCK-014"
+}
