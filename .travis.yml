@@ -3,6 +3,7 @@ dist: xenial
 sudo: true
 before_script:
   - cp config/database.yml.travis config/database.yml
+  - mysql -e "CREATE DATABASE stock;"
   - mysql -e "CREATE DATABASE stock_test;"
   - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('root') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
   - sudo mysql_upgrade -uroot -proot
