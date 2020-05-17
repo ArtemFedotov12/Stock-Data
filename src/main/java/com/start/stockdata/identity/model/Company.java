@@ -58,6 +58,7 @@ public class Company extends AbstractRemovableEntity {
      10 fields -> 10 deletion queries.
 
      CascadeType.DETACH I think we need here too, if parent is detached, children also will be.
+
      */
     @OneToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.DETACH},
