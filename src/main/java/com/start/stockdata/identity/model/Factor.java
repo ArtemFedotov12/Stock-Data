@@ -1,17 +1,14 @@
 package com.start.stockdata.identity.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import javax.xml.stream.events.Comment;
 
 @Entity(name = "Factor")
 @Table(name = "factor")
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@ToString
 @Getter
 @Setter
 public class Factor extends AbstractAttributeEntity {
@@ -28,6 +25,7 @@ public class Factor extends AbstractAttributeEntity {
     String displayName;
 
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;

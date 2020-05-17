@@ -29,26 +29,41 @@ public class Company extends AbstractRemovableEntity {
     @JoinTable(name = "company_company_type",
             joinColumns = {@JoinColumn(name = "company_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "company_type_id", referencedColumnName = "id")})
-    private Set<CompanyType> companyTypes;
+    private Set<CompanyType> companyTypes = new HashSet<>();
 
 
-    /* We need CascadeType.MERGE, for CompanyFieldWrapper.saveField()
+    /*
+     We need CascadeType.MERGE, for CompanyFieldWrapper.saveField()
      There 'company' in detached state(it has id from db) and we add new field to company
      An entity that passed through such serialization/deserialization will appear in a detached state.
 
      CascadeType.REMOVE is allowed here.But will be a lot of queries. One query for one field.
      10 fields -> 10 deletion queries.
+
+     CascadeType.DETACH I think we need here too, if parent is detached, children also will be.
      */
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE},
-            orphanRemoval = true, mappedBy = "company")
-    private Set<Field> fields;
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.DETACH},
+            orphanRemoval = true,
+            mappedBy = "company")
+    private Set<Field> fields = new HashSet<>();
 
 
-    /*  CascadeType.REMOVE is allowed here.But will be a lot of queries. One query for one factor.
-              10 factor -> 10 deletion queries.*/
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE},
-            orphanRemoval = true, mappedBy = "company")
-    private Set<Factor> factors;
+    /*
+     We need CascadeType.MERGE, for CompanyFieldWrapper.saveField()
+     There 'company' in detached state(it has id from db) and we add new field to company
+     An entity that passed through such serialization/deserialization will appear in a detached state.
+
+     CascadeType.REMOVE is allowed here.But will be a lot of queries. One query for one field.
+     10 fields -> 10 deletion queries.
+
+     CascadeType.DETACH I think we need here too, if parent is detached, children also will be.
+     */
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.DETACH},
+            orphanRemoval = true,
+            mappedBy = "company")
+    private Set<Factor> factors = new HashSet<>();
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
@@ -102,16 +117,5 @@ public class Company extends AbstractRemovableEntity {
         this.getCompanyTypes().clear();
     }
 
-    public Set<CompanyType> getCompanyTypes() {
-        return this.companyTypes == null ? new HashSet<>() : this.companyTypes;
-    }
-
-    public Set<Field> getFields() {
-        return this.fields == null ? new HashSet<>() : this.fields;
-    }
-
-    public Set<Factor> getFactors() {
-        return this.factors == null ? new HashSet<>() : this.factors;
-    }
 
 }

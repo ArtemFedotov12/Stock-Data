@@ -3,12 +3,12 @@ package com.start.stockdata.identity.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity(name = "Field")
 @Table(name = "field")
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@ToString
 @Getter
 @Setter
 public class Field extends AbstractAttributeEntity{
@@ -25,6 +25,7 @@ public class Field extends AbstractAttributeEntity{
     private String displayName;
 
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
