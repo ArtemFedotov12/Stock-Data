@@ -5,29 +5,29 @@
  */
 create table company
 (
-    id           bigint       not null auto_increment,
-    removal_date datetime(6),
+    id           bigserial       not null ,
+    removal_date timestamp,
     name         varchar(255) not null,
-    user_id      bigint       not null,
+    user_id      int8 not null,
     primary key (id)
 
-) engine = InnoDB;
+) ;
 
 
 create table company_type
 (
-    id           bigint       not null auto_increment,
-    removal_date datetime(6),
+    id           bigserial       not null ,
+    removal_date timestamp,
     type         varchar(255) not null,
     primary key (id),
     CONSTRAINT UQ_companyType_type UNIQUE (type)
-) engine = InnoDB;
+) ;
 
 
 create table company_company_type
 (
-    company_id      bigint not null,
-    company_type_id bigint not null,
+    company_id      int8 not null,
+    company_type_id int8 not null,
     primary key (company_id, company_type_id),
 
     CONSTRAINT FK_companyCompanyType_companyId
@@ -38,37 +38,36 @@ create table company_company_type
         foreign key (company_type_id)
             references company_type (id)
 
-) engine = InnoDB;
+) ;
 
 
 create table factor
 (
-    id           bigint       not null auto_increment,
-    removal_date datetime(6),
+    id           bigserial       not null ,
+    removal_date timestamp,
     asset        varchar(255) not null,
     display_name varchar(255) not null,
     short_name   varchar(255),
-    company_id   bigint       not null,
+    company_id   bigserial       not null,
     primary key (id),
 
     CONSTRAINT FK_factor_company
         foreign key (company_id)
             references company (id)
-) engine = InnoDB;
+) ;
 
 
 create table field
 (
-    id           bigint       not null auto_increment,
-    removal_date datetime(6),
+    id           bigserial       not null ,
+    removal_date timestamp,
     asset        varchar(255) not null,
-    display_name varchar(255),
+    display_name varchar(255) not null,
     short_name   varchar(255) not null,
-    company_id   bigint       not null,
+    company_id   bigserial       not null,
     primary key (id),
 
     CONSTRAINT FK_field_company
         foreign key (company_id)
             references company (id)
-) engine = InnoDB;
-
+) ;
