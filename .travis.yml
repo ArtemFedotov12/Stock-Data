@@ -2,32 +2,25 @@ language: java
 dist: xenial
 sudo: true
 before_script:
-  #- cp config/database.yml.travis config/database.yml
-  - psql -c "create database stock;" -U postgres
-  - psql -c "create database stock_test;" -U postgres
-
-
+- psql -c "create database stock;" -U postgres
+- psql -c "create database stock_test;" -U postgres
 before_install:
-  - chmod +x mvnw
-
-
+- chmod +x mvnw
 services:
-  - postgresql
+- postgresql
 jdk:
-  - openjdk8
+- openjdk8
 script: mvn clean install
-
 addons:
-  postgresql: "10"
+  postgresql: '10'
   apt:
     packages:
-      - postgresql-10
-      - postgresql-client-10
-
+    - postgresql-10
+    - postgresql-client-10
 deploy:
   provider: heroku
   api_key:
-    secure: gDnpVt/VrsNHrl0PUnaSRcx+bB/s06w1rw/abS22Y9jOECzA7NvPMRSSjjlmq8dQVovYzW1xHRKCJIUT2acl52uisLwEuT/8BJCXmI41vdW1CTN5rv4YxCQiaZnoID23+CD4OuL7ZYvxbuumeHuBqYSAzvVKW1zPGy2THQf6jnYyH6G7w3LGwT6+0JGu/n12tblX0AMq9B9O2XbR/O/OF9RWB0vFVQwsQdKs6p/HnbVgYk/CkcAo8PpdZcIsIGSt3xXAKVc61FmK+KgSDZ/V4rQ59SAgTKTb1JO8qng19CpqTUubvqTXZO1pDG+1vcYRGmL7fRSvKe/9mgilQMdhOnPvMRFj4PS0ePQ8H3eO00zYeruxG1o0WnOo0gejsaggAH/aVxwkSOkxI8l/asSGPOGlvwxZ6GDn2KPiCnSwZgTrcMKkVQlZSL4zU9n2fpxXomvmHT7LOLKTqKDp4zxySAPFz/kzup74fEm4z/1GTLP1MbUHni9b/6PTOQZs+ENAn5VQAe3Bup5jVFXGU8RPTLPwQQiu2168SfcpOhaxqNQA0pov9RZJ3TkYd6fLS5nVU5HbONNSyS3ynVlq0VujgDEkq+BmIStZQIEfnEAcD5s4ObnLLoAUAPbvfWBpBv+BdUvkk3U32ThtkFIdEgd4DjxSBDt1FRonWgWXo1WMUKc=
+    secure: FJAkTxUOq7Dr+wbuFLDYQIuLXpOYJegw0OjRDzzSSiKajuxKaxBLHLz7LxYJ4P4yUhYWURf9oAs+vGnXfA6GNWG4Qr18ywg8S8ahWlj6o+y3+bAYm3Wuoj/GkjHJhqAoAsRU1xhZIHJ3qV9LoUEdo0xURp/B52YgT4eO5quvfHaCD7K5xZ23YWyULcW4wp0MiJTDdJkLlLS8w+AtkWQWOyLhwD5uPNua67AxEwrQm9BdacNS2L8mWrVj7X0nSGGpxWDGAlooB8dhpts4pNH+OTnhqHWabzAfFKA/cXPuip/nJESbqxNpe3cGF1eDkXxVJn/dM9XdMzbF4tf4BsbWUDeb4aX6rui1idV1C24FHZxhq37VVhJrGcVHC0Ppf1aABwOCb0gBi2/grlrfOHqVC8+NetExMQl4nf8N5uyHysF4Du5hTK+8sifeyzBpGPS6HEoVQeAWlYNZsvD3v4yXb3bO/LF3XYg+n0tBHmpKttLdUQj68cQPQ+j+9A9drC6+IZeuTTMi833yQeH50VAzG0H7U1oUgpySIBvJW9oNWvtTTWomy9atlCSMH09bnY3unLikH6BV0+TCOIhVKA8diZrCbm+IPzi9PuPcAefV5aVZr07O9a9cdh2AZGVWRjfPNABEwhfEWQkrFBhh6nFjelhKPfhzyUhIU4cK0xhTQX4=
   app: stock-data-o
   on:
     branch: just
