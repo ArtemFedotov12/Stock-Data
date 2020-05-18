@@ -1,6 +1,4 @@
 test:
   adapter: postgresql
   database: stock_test
-  username: postgres
-  password: postgres
   encoding: utf8
