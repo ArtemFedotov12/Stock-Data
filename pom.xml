@@ -161,7 +161,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <profiles>
-                        <profile>dev</profile>
+                        <profile>preprod</profile>
                     </profiles>
                 </configuration>
             </plugin>
