@@ -5,8 +5,10 @@ services:
     container_name: postgres-db
     ports:
       - 5432:5432
+    command: --init-file /data/application/init.sql
     volumes:
           - ./pg_data:/var/lib/postgresql/data/pgdata
+          - ./init.sql:/data/application/init.sql
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
