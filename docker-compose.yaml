@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    image: postgres:12.3-alpine
+    container_name: postgres-db
+    ports:
+      - 5432:5432
+    volumes:
+          - ./pg_data:/var/lib/postgresql/data/pgdata
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POTGRES_DB: stock
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: always
+
+  web-stock:
+    image: bannes/stock-data:1.01
+    container_name: stock-app
+    ports:
+      - 3000:3000
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/stock
+    restart: always
+    depends_on:
+      - db
