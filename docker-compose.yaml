@@ -22,7 +22,7 @@ services:
     expose:
       - 8070
     ports:
-      - "8070:8070"
+      - 8070:8070
     #environment:
       #SPRING_DATASOURCE_URL: db
     restart: no
