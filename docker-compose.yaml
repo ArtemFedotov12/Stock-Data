@@ -7,12 +7,11 @@ services:
       - 5432:5432
     command: --init-file /data/application/init.sql
     volumes:
-          - ./pg_data:/var/lib/postgresql/data/pgdata
           - ./init.sql:/data/application/init.sql
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POTGRES_DB: stock
+      POSTGRES_DB: stock
       PGDATA: /var/lib/postgresql/data/pgdata
     restart: always
 
@@ -20,9 +19,9 @@ services:
     image: bannes/stock-data:1.01
     container_name: stock-app
     ports:
-      - 3000:3000
+      - 8070:8070
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/stock
     restart: always
-    depends_on:
+    links:
       - db
