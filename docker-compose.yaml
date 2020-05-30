@@ -3,8 +3,6 @@ services:
   db:
     image: postgres:12.3-alpine
     container_name: postgres-db
-    expose:
-      - 5432
     ports:
       - 5432:5432
     environment:
@@ -12,18 +10,16 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: stock
       PGDATA: /var/lib/postgresql/data/pgdata
-    restart: no
+    restart: always
 
   web-stock:
     image: bannes/stock-data:1.01
     container_name: stock-app
-    expose:
-      - 8070
     ports:
       - 8070:8070
     environment:
       SPRING_DATASOURCE_URL: db
-    restart: no
+    restart: always
     links:
       - db
     depends_on:
