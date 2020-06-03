@@ -12,7 +12,7 @@ services:
     restart: always
 
   web-stock:
-    image: bannes/stock-data:1.01
+    image: bannes/stock-data:latest
     container_name: stock-app
     ports:
       - 8070:8070
