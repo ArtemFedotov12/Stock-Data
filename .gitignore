@@ -16,6 +16,7 @@ out/
 *.jar
 *.war
 
+
 ## Maven
 target/
 pom.xml.tag
