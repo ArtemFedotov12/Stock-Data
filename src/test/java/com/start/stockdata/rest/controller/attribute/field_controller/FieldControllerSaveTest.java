@@ -7,7 +7,7 @@ import com.start.stockdata.identity.dto.response.FieldResponseDto;
 import com.start.stockdata.identity.model.Field;
 import com.start.stockdata.rest.controller.AbstractIntegrationTest;
 import com.start.stockdata.rest.controller.dto.ErrorDto;
-import com.start.stockdata.wrapper.attributes.FieldWrapper;
+import com.start.stockdata.wrapper.attributes.field.DefaultFieldWrapper;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class FieldControllerSaveTest extends AbstractIntegrationTest {
 
     @Autowired
-    FieldWrapper fieldWrapper;
+    DefaultFieldWrapper defaultFieldWrapper;
     @Autowired
     FieldRequestConverter fieldRequestConverter;
     @Autowired
@@ -67,16 +67,16 @@ public class FieldControllerSaveTest extends AbstractIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
-        FieldResponseDto mvcResultResponseDto =
+        FieldResponseDto actualResponseDto =
                 gson.fromJson(mvcResult.getResponse().getContentAsString(), FieldResponseDto.class);
 
         // Maybe it is redundant. For integration tests
-        Field fieldFormDb = fieldWrapper.findById(mvcResultResponseDto.getId()).get();
+        Field fieldFormDb = defaultFieldWrapper.findById(actualResponseDto.getId()).get();
 
         // check response with actual entity in db(if it really has been saved to db)
-        Assert.assertEquals(fieldResponseConverter.toDto(fieldFormDb), mvcResultResponseDto);
+        Assert.assertEquals(fieldResponseConverter.toDto(fieldFormDb), actualResponseDto);
         // id, removalDate excluded from (equals and hashcode)
-        Assert.assertEquals(expectedResponseDto, mvcResultResponseDto);
+        Assert.assertEquals(expectedResponseDto, actualResponseDto);
         // id must be generated for new Field
         Assert.assertNotNull(expectedResponseDto.getId());
     }
@@ -115,10 +115,10 @@ public class FieldControllerSaveTest extends AbstractIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
-        final ErrorDto mcvResultResponseDto
+        final ErrorDto actualResponseDto
                 = gson.fromJson(mvcResult.getResponse().getContentAsString(), ErrorDto.class);
 
-        Assert.assertEquals(expectedResponseDto, mcvResultResponseDto);
+        Assert.assertEquals(expectedResponseDto, actualResponseDto);
     }
 
 
@@ -141,10 +141,10 @@ public class FieldControllerSaveTest extends AbstractIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
-        final ErrorDto mcvResultResponseDto
+        final ErrorDto actualResponseDto
                 = gson.fromJson(mvcResult.getResponse().getContentAsString(), ErrorDto.class);
 
-        Assert.assertEquals(expectedResponseDto, mcvResultResponseDto);
+        Assert.assertEquals(expectedResponseDto, actualResponseDto);
 
     }
 

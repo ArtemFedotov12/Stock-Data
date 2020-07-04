@@ -1,20 +1,22 @@
-package com.start.stockdata.wrapper.attributes;
+package com.start.stockdata.wrapper.attributes.field;
 
 import com.start.stockdata.identity.model.Field;
 import com.start.stockdata.repository.FieldRepo;
+import com.start.stockdata.wrapper.attributes.AttributeWrapper;
+import com.start.stockdata.wrapper.attributes.CompanyFieldAttributeWrapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
 @Component
-public class FieldWrapper implements AttributeWrapper<Field, Long> {
+public class DefaultFieldWrapper implements FieldWrapper {
 
     private final FieldRepo fieldRepo;
     private final CompanyFieldAttributeWrapper companyFieldWrapper;
 
-    public FieldWrapper(FieldRepo fieldRepo,
-                        CompanyFieldAttributeWrapper companyFieldWrapper) {
+    public DefaultFieldWrapper(FieldRepo fieldRepo,
+                               CompanyFieldAttributeWrapper companyFieldWrapper) {
         this.fieldRepo = fieldRepo;
         this.companyFieldWrapper = companyFieldWrapper;
     }

@@ -68,8 +68,8 @@ public class FieldControllerFindByIdTest extends AbstractIntegrationTest {
     @Sql(value = {"/sql/field_controller/find_by_id/field_not_belong_to_company/init-db.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = {"/sql/field_controller/find_by_id/field_not_belong_to_company/clear-db.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @Test
-    public void findByIdFieldNotBelongToSpecifiedCompany400() throws Exception {
-       final ErrorDto expectedResponseDto = getFieldNotBelongToSpecifiedCompanyResponseDto();
+    public void findByIdFieldNotBelongToCompany400() throws Exception {
+       final ErrorDto expectedResponseDto = getFieldNotBelongToCompanyResponseDto();
 
         final MvcResult mvcResult = this.mockMvc
                 //field with id=6, belongs to userId=2 and companyId=8
@@ -192,7 +192,7 @@ public class FieldControllerFindByIdTest extends AbstractIntegrationTest {
         return gson.fromJson(json, ErrorDto.class);
     }
 
-    private ErrorDto getFieldNotBelongToSpecifiedCompanyResponseDto() throws IOException {
+    private ErrorDto getFieldNotBelongToCompanyResponseDto() throws IOException {
         File file = new File("src/test/resources/json/field_controller/findById/field_not_belong_to_company/response-dto.json");
         String json = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         return gson.fromJson(json, ErrorDto.class);

@@ -7,7 +7,7 @@ import com.start.stockdata.identity.dto.response.FieldResponseDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.identity.model.Field;
 import com.start.stockdata.validator.attribute.FieldValidator;
-import com.start.stockdata.wrapper.attributes.FieldWrapper;
+import com.start.stockdata.wrapper.attributes.field.DefaultFieldWrapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,7 +22,7 @@ public class FieldServiceTest extends AbstractServiceTest {
     @SpyBean
     private FieldService<FieldRequestDto, FieldResponseDto, Long> fieldService;
     @MockBean
-    private FieldWrapper fieldWrapper;
+    private DefaultFieldWrapper defaultFieldWrapper;
     @MockBean
     private FieldResponseConverter responseConverter;
     @MockBean
@@ -37,14 +37,14 @@ public class FieldServiceTest extends AbstractServiceTest {
         Field field = getField(company);
         FieldResponseDto expectedResponseDto = getFieldResponseDto();
 
-        when(fieldWrapper.findById(8L)).thenReturn(Optional.of(field));
+        when(defaultFieldWrapper.findById(8L)).thenReturn(Optional.of(field));
         when(responseConverter.toDto(field)).thenReturn(expectedResponseDto);
 
         FieldResponseDto actualResponseDto = fieldService.findById(5L, 8L);
 
         Assert.assertEquals(expectedResponseDto, actualResponseDto);
         verify(fieldValidator,times(1)).validate(5L,8L);
-        verify(fieldWrapper,times(1)).findById(8L);
+        verify(defaultFieldWrapper,times(1)).findById(8L);
         verify(responseConverter,times(1)).toDto(field);
     }
 
@@ -56,7 +56,7 @@ public class FieldServiceTest extends AbstractServiceTest {
         FieldResponseDto expectedResponseDto = getFieldResponseDtoSave();
 
         when(requestConverter.toEntity(fieldRequestDto)).thenReturn(field);
-        when(fieldWrapper.save(2L,field)).thenReturn(field);
+        when(defaultFieldWrapper.save(2L,field)).thenReturn(field);
         when(responseConverter.toDto(field)).thenReturn(expectedResponseDto);
 
         FieldResponseDto actualResponseDto = fieldService.save(2L, fieldRequestDto);

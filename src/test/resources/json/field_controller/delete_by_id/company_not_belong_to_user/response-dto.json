@@ -1,0 +1,7 @@
+{
+  "timestamp": "2020-05-08 22:22:49",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Company with id=25 doesn't belong to current user ",
+  "code": "STOCK-009"
+}
