@@ -6,7 +6,7 @@ import com.start.stockdata.identity.converter.request.FieldRequestConverter;
 import com.start.stockdata.identity.dto.request.FieldRequestDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.identity.model.Field;
-import com.start.stockdata.wrapper.global.CompanyWrapper;
+import com.start.stockdata.wrapper.global.company.DefaultCompanyWrapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -18,17 +18,17 @@ import static com.start.stockdata.util.SecurityContextUtil.getUserIdFromSecurity
 @Component
 public class DefaultFieldValidator implements FieldValidator<FieldRequestDto> {
 
-    private final CompanyWrapper companyWrapper;
+    private final DefaultCompanyWrapper defaultCompanyWrapper;
     private final FieldRequestConverter requestConverter;
 
-    public DefaultFieldValidator(CompanyWrapper companyWrapper, FieldRequestConverter requestConverter) {
-        this.companyWrapper = companyWrapper;
+    public DefaultFieldValidator(DefaultCompanyWrapper defaultCompanyWrapper, FieldRequestConverter requestConverter) {
+        this.defaultCompanyWrapper = defaultCompanyWrapper;
         this.requestConverter = requestConverter;
     }
 
     @Override
     public void validate(Long mainEntityId) {
-        Optional<Company> optionalCompany = companyWrapper.findById(mainEntityId);
+        Optional<Company> optionalCompany = defaultCompanyWrapper.findById(mainEntityId);
 
         if (!optionalCompany.isPresent()) {
             throw new CompanyByIdNotFoundException(mainEntityId);
@@ -42,7 +42,7 @@ public class DefaultFieldValidator implements FieldValidator<FieldRequestDto> {
 
     @Override
     public void validate(Long mainEntityId, Long id) {
-        Optional<Company> optionalCompany = companyWrapper.findById(mainEntityId);
+        Optional<Company> optionalCompany = defaultCompanyWrapper.findById(mainEntityId);
         if (!optionalCompany.isPresent()) {
             throw new CompanyByIdNotFoundException(mainEntityId);
         } else {
@@ -57,7 +57,7 @@ public class DefaultFieldValidator implements FieldValidator<FieldRequestDto> {
     @Override
     public void validate(Long mainEntityId, FieldRequestDto requestDto) {
 
-        Optional<Company> optionalCompany = companyWrapper.findById(mainEntityId);
+        Optional<Company> optionalCompany = defaultCompanyWrapper.findById(mainEntityId);
         if (!optionalCompany.isPresent()) {
             throw new CompanyByIdNotFoundException(mainEntityId);
         } else {
@@ -71,7 +71,7 @@ public class DefaultFieldValidator implements FieldValidator<FieldRequestDto> {
 
     @Override
     public void validate(Long mainEntityId, Long id, FieldRequestDto dto) {
-        Optional<Company> optionalCompany = companyWrapper.findById(mainEntityId);
+        Optional<Company> optionalCompany = defaultCompanyWrapper.findById(mainEntityId);
         if (!optionalCompany.isPresent()) {
             throw new CompanyByIdNotFoundException(mainEntityId);
         } else {

@@ -8,7 +8,7 @@ import com.start.stockdata.identity.dto.request.CompanyTypeRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyTypeResponseDto;
 import com.start.stockdata.identity.model.CompanyType;
 import com.start.stockdata.validations.FieldValueExists;
-import com.start.stockdata.wrapper.global.CompanyTypeWrapper;
+import com.start.stockdata.wrapper.global.companyType.DefaultCompanyTypeWrapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -18,9 +18,9 @@ public class CompanyTypeService extends AbstractGlobalService<
         CompanyType,
         CompanyTypeRequestDto,
         CompanyTypeResponseDto,
-        CompanyTypeWrapper> implements FieldValueExists {
+        DefaultCompanyTypeWrapper> implements FieldValueExists {
 
-    public CompanyTypeService(CompanyTypeWrapper wrapper, ResponseConverter<CompanyType, CompanyTypeResponseDto> responseConverter, RequestConverter<CompanyType, CompanyTypeRequestDto> requestConverter) {
+    public CompanyTypeService(DefaultCompanyTypeWrapper wrapper, ResponseConverter<CompanyType, CompanyTypeResponseDto> responseConverter, RequestConverter<CompanyType, CompanyTypeRequestDto> requestConverter) {
         super(wrapper, responseConverter, requestConverter);
     }
 

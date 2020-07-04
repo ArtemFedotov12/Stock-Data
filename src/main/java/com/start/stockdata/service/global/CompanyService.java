@@ -7,7 +7,7 @@ import com.start.stockdata.identity.dto.request.company.CompanyRequestDto;
 import com.start.stockdata.identity.dto.response.CompanyResponseDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.validations.FieldValueExists;
-import com.start.stockdata.wrapper.global.CompanyWrapper;
+import com.start.stockdata.wrapper.global.company.DefaultCompanyWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -29,11 +29,11 @@ public class CompanyService implements GlobalService<
         Long>,
         FieldValueExists {
 
-    private final CompanyWrapper wrapper;
+    private final DefaultCompanyWrapper wrapper;
     private final ResponseConverter<Company, CompanyResponseDto> responseConverter;
     private final RequestConverter<Company, CompanyRequestDto> requestConverter;
 
-    public CompanyService(CompanyWrapper wrapper, ResponseConverter<Company, CompanyResponseDto> responseConverter, RequestConverter<Company, CompanyRequestDto> requestConverter) {
+    public CompanyService(DefaultCompanyWrapper wrapper, ResponseConverter<Company, CompanyResponseDto> responseConverter, RequestConverter<Company, CompanyRequestDto> requestConverter) {
         this.wrapper = wrapper;
         this.responseConverter = responseConverter;
         this.requestConverter = requestConverter;

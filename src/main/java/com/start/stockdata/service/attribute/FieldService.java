@@ -1,4 +1,7 @@
 package com.start.stockdata.service.attribute;
 
-public interface FieldService<RQ, RS, ID> extends AttributeService<RQ, RS, ID> {
+import com.start.stockdata.identity.dto.request.FieldRequestDto;
+import com.start.stockdata.identity.dto.response.FieldResponseDto;
+
+public interface FieldService extends AttributeService<FieldRequestDto, FieldResponseDto, Long> {
 }

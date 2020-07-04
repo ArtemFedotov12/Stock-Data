@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 public class FieldServiceTest extends AbstractServiceTest {
 
     @SpyBean
-    private FieldService<FieldRequestDto, FieldResponseDto, Long> fieldService;
+    private FieldService fieldService;
     @MockBean
     private DefaultFieldWrapper defaultFieldWrapper;
     @MockBean

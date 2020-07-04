@@ -1,10 +1,11 @@
-package com.start.stockdata.wrapper.global;
+package com.start.stockdata.wrapper.global.company;
 
 import com.start.stockdata.exception.exception.UserIdFromSecurityContextNotFoundException;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.identity.model.Field;
 import com.start.stockdata.repository.CompanyRepo;
 import com.start.stockdata.repository.projection.CompanyName;
+import com.start.stockdata.wrapper.global.GlobalWrapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,14 +20,11 @@ import static com.start.stockdata.util.SecurityContextUtil.getUserIdFromSecurity
  * because of CompanyRepo last parameter
  */
 @Component
-public class CompanyWrapper implements GlobalWrapper<
-        Company,
-        Long
-        > {
+public class DefaultCompanyWrapper implements CompanyWrapper {
 
     private final CompanyRepo companyRepo;
 
-    public CompanyWrapper(CompanyRepo companyRepo) {
+    public DefaultCompanyWrapper(CompanyRepo companyRepo) {
         this.companyRepo = companyRepo;
     }
 

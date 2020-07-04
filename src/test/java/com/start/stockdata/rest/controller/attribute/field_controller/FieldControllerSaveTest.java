@@ -7,7 +7,7 @@ import com.start.stockdata.identity.dto.response.FieldResponseDto;
 import com.start.stockdata.identity.model.Field;
 import com.start.stockdata.rest.controller.AbstractIntegrationTest;
 import com.start.stockdata.rest.controller.dto.ErrorDto;
-import com.start.stockdata.wrapper.attributes.field.DefaultFieldWrapper;
+import com.start.stockdata.wrapper.attributes.field.FieldWrapper;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import static com.start.stockdata.utils.SecurityTestUtils.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class FieldControllerSaveTest extends AbstractIntegrationTest {
 
     @Autowired
-    DefaultFieldWrapper defaultFieldWrapper;
+    FieldWrapper fieldWrapper;
     @Autowired
     FieldRequestConverter fieldRequestConverter;
     @Autowired
@@ -71,7 +71,7 @@ public class FieldControllerSaveTest extends AbstractIntegrationTest {
                 gson.fromJson(mvcResult.getResponse().getContentAsString(), FieldResponseDto.class);
 
         // Maybe it is redundant. For integration tests
-        Field fieldFormDb = defaultFieldWrapper.findById(actualResponseDto.getId()).get();
+        Field fieldFormDb = fieldWrapper.findById(actualResponseDto.getId()).get();
 
         // check response with actual entity in db(if it really has been saved to db)
         Assert.assertEquals(fieldResponseConverter.toDto(fieldFormDb), actualResponseDto);
