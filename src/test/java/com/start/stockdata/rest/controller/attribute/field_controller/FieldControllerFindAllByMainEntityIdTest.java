@@ -41,25 +41,26 @@ public class FieldControllerFindAllByMainEntityIdTest extends AbstractIntegratio
                 .andExpect(status().isOk())
                 .andReturn();
 
-        Set<FieldResponseDto> mvcResultResponseDtos = new HashSet<>(Arrays.asList(gson
+        //get data from response
+        Set<FieldResponseDto> actualResponseDtos = new HashSet<>(Arrays.asList(gson
                 .fromJson(mvcResult
                         .getResponse()
                         .getContentAsString(), FieldResponseDto[].class)
         ));
 
-        Assert.assertEquals(expectedResponseDtos, mvcResultResponseDtos);
+        Assert.assertEquals(expectedResponseDtos, actualResponseDtos);
 
-        Assert.assertEquals(1, mvcResultResponseDtos
+        Assert.assertEquals(1, actualResponseDtos
                 .stream()
                 .filter(item -> item.getId().equals(new Long(5)))
                 .count());
 
-        Assert.assertEquals(1, mvcResultResponseDtos
+        Assert.assertEquals(1, actualResponseDtos
                 .stream()
                 .filter(item -> item.getId().equals(new Long(6)))
                 .count());
 
-        Assert.assertEquals(1, mvcResultResponseDtos
+        Assert.assertEquals(1, actualResponseDtos
                 .stream()
                 .filter(item -> item.getId().equals(new Long(7)))
                 .count());

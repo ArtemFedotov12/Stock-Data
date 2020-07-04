@@ -46,7 +46,8 @@ public abstract class AbstractAttributeService<
         // check if such entity exists within "mainEntity",
         // not in the whole DB!!
         attributeValidator.validate(mainEntityId, requestDto);
-        E entity = attributeWrapper.save(mainEntityId, requestConverter.toEntity(requestDto));
+        E convertedEntity = requestConverter.toEntity(requestDto);
+        E entity = attributeWrapper.save(mainEntityId, convertedEntity);
         return responseConverter.toDto(entity);
     }
 

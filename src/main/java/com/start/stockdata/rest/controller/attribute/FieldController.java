@@ -16,7 +16,6 @@ public class FieldController extends AbstractAttributeController<
         FieldRequestDto,
         FieldResponseDto,
         DefaultFieldService
-        //FieldService2<CompanyFieldRequestDto, CompanyFieldResponseDto>
         > {
 
 

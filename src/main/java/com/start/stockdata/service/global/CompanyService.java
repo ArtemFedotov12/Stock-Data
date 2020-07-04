@@ -42,9 +42,7 @@ public class CompanyService implements GlobalService<
 
     @Override
     public CompanyResponseDto save(CompanyRequestDto requestDto) {
-
         checkEntityAlreadyExistsSaveMethod(requestDto);
-
         Company company = requestConverter.toEntity(requestDto);
         company.getFactors().forEach(item->item.setCompany(company));
         company.getFields().forEach(item->item.setCompany(company));
