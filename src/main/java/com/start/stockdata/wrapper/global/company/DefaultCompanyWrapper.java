@@ -6,6 +6,8 @@ import com.start.stockdata.identity.model.Field;
 import com.start.stockdata.repository.CompanyRepo;
 import com.start.stockdata.repository.projection.CompanyName;
 import com.start.stockdata.wrapper.global.GlobalWrapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -105,4 +107,12 @@ public class DefaultCompanyWrapper implements CompanyWrapper {
     }
 
 
+    public Page<Company> findAll(Pageable pageable) {
+        Optional<Long> userIdFromSecurityContext = getUserIdFromSecurityContext();
+        if (userIdFromSecurityContext.isPresent()) {
+            return companyRepo.findAllByUserId(userIdFromSecurityContext.get(), pageable);
+        } else {
+            throw new UserIdFromSecurityContextNotFoundException();
+        }
+    }
 }

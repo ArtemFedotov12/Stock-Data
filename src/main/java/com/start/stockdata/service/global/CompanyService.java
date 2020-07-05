@@ -8,6 +8,8 @@ import com.start.stockdata.identity.dto.response.CompanyResponseDto;
 import com.start.stockdata.identity.model.Company;
 import com.start.stockdata.validations.FieldValueExists;
 import com.start.stockdata.wrapper.global.company.DefaultCompanyWrapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -206,4 +208,7 @@ public class CompanyService implements GlobalService<
         }
     }
 
+    public Page<Company> findAll(Pageable pageable) {
+        return wrapper.findAll(pageable);
+    }
 }

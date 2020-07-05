@@ -5,7 +5,7 @@
  */
 create table company
 (
-    id           bigserial       not null ,
+    id BIGSERIAL,
     removal_date timestamp,
     name         varchar(255) not null,
     user_id      int8 not null,
@@ -16,7 +16,7 @@ create table company
 
 create table company_type
 (
-    id           bigserial       not null ,
+    id BIGSERIAL,
     removal_date timestamp,
     type         varchar(255) not null,
     primary key (id),
@@ -43,7 +43,7 @@ create table company_company_type
 
 create table factor
 (
-    id           bigserial       not null ,
+    id BIGSERIAL,
     removal_date timestamp,
     asset        varchar(255) not null,
     display_name varchar(255) not null,
@@ -59,7 +59,7 @@ create table factor
 
 create table field
 (
-    id           bigserial       not null ,
+    id BIGSERIAL,
     removal_date timestamp,
     asset        varchar(255) not null,
     display_name varchar(255) not null,

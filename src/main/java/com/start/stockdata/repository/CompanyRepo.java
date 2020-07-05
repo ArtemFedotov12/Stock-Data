@@ -1,12 +1,14 @@
 package com.start.stockdata.repository;
 
-import com.start.stockdata.identity.model.Company;
-import com.start.stockdata.repository.projection.CompanyName;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.stereotype.Repository;
+        import com.start.stockdata.identity.model.Company;
+        import com.start.stockdata.repository.projection.CompanyName;
+        import org.springframework.data.domain.Page;
+        import org.springframework.data.domain.Pageable;
+        import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+        import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+        import java.util.List;
+        import java.util.Optional;
 
 @Repository
 public interface CompanyRepo extends AbstractRemovableEntityRepo<Company>, JpaSpecificationExecutor<Company> {
@@ -15,7 +17,12 @@ public interface CompanyRepo extends AbstractRemovableEntityRepo<Company>, JpaSp
 
     //@Query(value = "select name from company where user_id = :userId", nativeQuery = true)
     List<CompanyName> findByUserId(Long userId);
+
+    Page<Company> findAllByUserId(Long userId, Pageable pageable);
+
     void deleteByUserId(Long id);
+
     Long countByUserId(Long userId);
+
     Optional<Company> findByName(String name);
 }

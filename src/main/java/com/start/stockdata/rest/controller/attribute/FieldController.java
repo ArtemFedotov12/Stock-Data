@@ -22,5 +22,5 @@ public class FieldController extends AbstractAttributeController<
     public FieldController(DefaultFieldService service) {
         super(service);
     }
-    
+
 }
