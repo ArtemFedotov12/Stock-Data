@@ -15,6 +15,7 @@ out/
 *.class
 *.jar
 *.war
+/src/main/java/com/start/stockdata/Main.java
 
 
 ## Maven
