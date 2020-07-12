@@ -5,14 +5,22 @@ import com.start.stockdata.identity.dto.request.AbstractRequestDto;
 import com.start.stockdata.identity.dto.response.AbstractResponseDto;
 import com.start.stockdata.rest.response.LongResponse;
 import com.start.stockdata.service.global.GlobalService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /*@SwaggerDefinition(securityDefinition = @SecurityDefinition(
         apiKeyAuthDefinitions = {
@@ -69,6 +77,21 @@ public abstract class AbstractStockGlobalController<
     )
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RS> findById(@PathVariable("id") Long id) {
+        //"src/main/java/com/start/stockdata/utils/scheme2.xml"
+        try {
+            System.out.println("111");
+            File file = ResourceUtils.getFile("classpath:xsd/bidorbuy.xsd");
+            System.out.println("222");
+           /* File temp = File.createTempFile("bidorbuy", ".xml");
+            FileUtils.copyURLToFile(
+                    new URL("https://my.mysi.app/download/tradefeed/330ecc10b65311eaa85e31d36b34d064"),
+                    temp);*/
+            String content = FileUtils.readFileToString(file, "UTF-8");
+            System.out.println(content);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
 
