@@ -16,8 +16,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +31,7 @@ public class DefaultBidOrBuyXmlValidationService implements BidOrBuyXmlValidatio
         final List<SAXParseException> saxParserExceptions = new ArrayList<>();
 
         try {
-            File xsdFile = ResourceUtils.getFile("classpath:xsd/bidorbuy.xsd");
+            File xsdFile = readXsdFile();
 
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = dbFactory.newDocumentBuilder();
@@ -65,10 +64,23 @@ public class DefaultBidOrBuyXmlValidationService implements BidOrBuyXmlValidatio
 
             System.out.println();
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            //TO DO throw custom exception
-            System.out.println();
+            System.out.println("BADDDDDDDDDDDDDDDDDDDDDDD");
+          throw new RuntimeException();
         }
         return errors;
+    }
+
+    private File readXsdFile() throws IOException {
+        File file = File.createTempFile("birorbuy", ".xsd");
+        InputStream in = getClass()
+                .getClassLoader().getResourceAsStream("xsd/bidorbuy.xsd");
+        OutputStream outStream = new FileOutputStream(file);
+            byte[] buffer = new byte[8 * 1024];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                outStream.write(buffer, 0, bytesRead);
+            }
+            return file;
     }
 
     private void checkUserIdTag(List<SAXParseException> saxParserExceptions, List<AttributeValidationError> errors, Document document) {

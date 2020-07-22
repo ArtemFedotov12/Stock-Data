@@ -7,6 +7,7 @@ import com.start.stockdata.rest.response.LongResponse;
 import com.start.stockdata.service.global.GlobalService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -80,7 +80,7 @@ public abstract class AbstractStockGlobalController<
         //"src/main/java/com/start/stockdata/utils/scheme2.xml"
         try {
             System.out.println("111");
-            File file = ResourceUtils.getFile("classpath:xsd/bidorbuy.xsd");
+            File file = readXsdFile();
             System.out.println("222");
            /* File temp = File.createTempFile("bidorbuy", ".xml");
             FileUtils.copyURLToFile(
@@ -93,6 +93,20 @@ public abstract class AbstractStockGlobalController<
             e.printStackTrace();
         }
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+    }
+
+    private File readXsdFile() throws IOException {
+        File file = File.createTempFile("birorbuy", ".xsd");
+        file.deleteOnExit();
+        InputStream in = new FileInputStream(
+                new File("src/main/resources/xsd/bidorbuy.xsd"));
+        OutputStream outStream = new FileOutputStream(file);
+            byte[] buffer = new byte[8 * 1024];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                outStream.write(buffer, 0, bytesRead);
+            }
+            return file;
     }
 
 
