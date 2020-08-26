@@ -60,4 +60,9 @@ public class TestController {
     public ResponseEntity<FieldResponseDto> greeting6() {
         return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.UNPROCESSABLE_ENTITY);
     }
+
+    @GetMapping("/hello7")
+    public ResponseEntity<FieldResponseDto> greeting7() {
+        return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.OK);
+    }
 }
