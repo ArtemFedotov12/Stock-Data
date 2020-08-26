@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.start.stockdata.identity.dto.response.FieldResponseDto;
+
 @RestController
 public class TestController {
 
@@ -40,8 +42,8 @@ public class TestController {
     }
 
     @GetMapping("/hello3")
-    public ResponseEntity<String> greeting3() {
-        return new ResponseEntity<>("Hello, World", HttpStatus.OK);
+    public ResponseEntity<FieldResponseDto> greeting3() {
+        return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.OK);
     }
 
 }
