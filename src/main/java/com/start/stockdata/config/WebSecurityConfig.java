@@ -62,6 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/hello").permitAll()
+                .antMatchers("/hello2").permitAll()
+                .antMatchers("/hello3").permitAll()
                 .antMatchers("/validation-results").permitAll()
                 .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 //swagger configuration
