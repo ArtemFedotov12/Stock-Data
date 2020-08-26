@@ -46,4 +46,18 @@ public class TestController {
         return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.OK);
     }
 
+    @GetMapping("/hello4")
+    public ResponseEntity<FieldResponseDto> greeting4() {
+        return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/hello5")
+    public ResponseEntity<FieldResponseDto> greeting5() {
+        return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.FORBIDDEN);
+    }
+
+    @GetMapping("/hello6")
+    public ResponseEntity<FieldResponseDto> greeting6() {
+        return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 }
