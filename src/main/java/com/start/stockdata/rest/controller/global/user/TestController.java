@@ -65,4 +65,14 @@ public class TestController {
     public ResponseEntity<FieldResponseDto> greeting7() {
         return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.OK);
     }
+
+    @GetMapping("/hello8")
+    public ResponseEntity<FieldResponseDto> greeting8() {
+        return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @GetMapping("/hello9")
+    public ResponseEntity<String> greeting9() {
+        return new ResponseEntity<>("lol", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
