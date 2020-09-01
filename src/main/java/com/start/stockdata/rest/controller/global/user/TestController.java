@@ -75,4 +75,29 @@ public class TestController {
     public ResponseEntity<String> greeting9() {
         return new ResponseEntity<>("lol", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @GetMapping("/hello10")
+    public ResponseEntity<FieldResponseDto> greeting10() {
+        return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.PERMANENT_REDIRECT);
+    }
+
+    @GetMapping("/hello11")
+    public ResponseEntity<FieldResponseDto> greeting11() {
+        return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.TEMPORARY_REDIRECT);
+    }
+
+    @GetMapping("/hello12")
+    public ResponseEntity<FieldResponseDto> greeting12() {
+        return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/hello13")
+    public ResponseEntity<FieldResponseDto> greeting13() {
+        return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.CONTINUE);
+    }
+
+    @GetMapping("/hello14")
+    public ResponseEntity<FieldResponseDto> greeting14() {
+        return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.PROCESSING);
+    }
 }
