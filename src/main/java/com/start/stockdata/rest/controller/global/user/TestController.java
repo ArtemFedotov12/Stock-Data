@@ -100,4 +100,9 @@ public class TestController {
     public ResponseEntity<FieldResponseDto> greeting14() {
         return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.PROCESSING);
     }
+
+    @GetMapping("/hello15")
+    public ResponseEntity<FieldResponseDto> greeting15() {
+        return new ResponseEntity<>(new FieldResponseDto("asset1", "display1"), HttpStatus.UNAUTHORIZED);
+    }
 }
